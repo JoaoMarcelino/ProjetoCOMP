@@ -14,11 +14,14 @@ escape		[\\n\\t"\\""\'""\""\\[1-7]{1,3}]
 chrlit 		{carater}|{escape}
 
 fract 		[0-9]*"."[0-9]*
-signal 		["-"|"+"|""]
-expoente 	{signal}["e"|"E"][0-9]+
+signal 		"-"|"+"|""
+expoente 	{signal}("e"|"E")[0-9]+
 reallit 	{fract}{expoente}|{intlit}{expoente}|{fract}
 
-reserved	["["|"]"|"--"|"++"]  
+words		"auto"|"break"|"case"|"const"|"continue"|"default"|"do"|"register"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"volatile"|"else"|"enum"|"extern"|"float"|"for"|"goto"
+/*SUS WORDS -> else for */
+reserved	"["|"]"|"--"|"++"|{words}  
+
 
 %{	
 	#include <string.h>
@@ -71,7 +74,7 @@ reserved	["["|"]"|"--"|"++"]
 "}"             {if(willPrint)printf("RBRACE\n");}
 ")"             {if(willPrint)printf("RPAR\n");}
 ";"             {if(willPrint)printf("SEMI\n");}
-
+{reserved}		{if(willPrint)printf("RESERVED");} 
 {reallit}		{if(willPrint)printf("REALLIT(%s)\n",&yytext[0]);}
 {id}			{if(willPrint)printf("ID(%s)\n",&yytext[0]);}
 {intlit}		{if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);}
