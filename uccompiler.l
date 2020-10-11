@@ -78,7 +78,7 @@ reserved	["["|"]"|"--"|"++"]
 {chrlit}		{if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);}
 
 .				{ncol++;}
-"\n"			{nline++;ncol=0}
+"\n"			{nline++;ncol=0;}
 
 %%
 

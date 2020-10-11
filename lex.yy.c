@@ -363,17 +363,17 @@ struct yy_trans_info
 static const flex_int16_t yy_accept[108] =
     {   0,
         0,    0,    0,    0,    0,    0,   46,   43,   44,   33,
-       39,   31,   15,   43,   28,   37,   20,   35,   21,   30,
-       42,   22,   40,   40,   38,   29,   19,   25,   39,   17,
-       39,   39,   39,   39,   39,   39,   39,   39,   39,   26,
-       16,   36,    5,    4,    5,   45,   41,   32,   39,    0,
-       39,   18,    0,   42,    1,    2,    0,   42,   40,    0,
-       40,   41,   27,   23,   24,   39,   39,   39,    9,   39,
-       39,   39,   39,   39,   34,    3,   39,    0,    0,    0,
-        0,    0,   40,   39,   39,   39,   10,   39,   39,   39,
-       39,   42,   42,    6,   39,    7,   39,   39,   14,   39,
+       40,   31,   15,   43,   28,   37,   20,   35,   21,   30,
+       39,   22,   41,   41,   38,   29,   19,   25,   40,   17,
+       40,   40,   40,   40,   40,   40,   40,   40,   40,   26,
+       16,   36,    5,    4,    5,   45,   42,   32,   40,    0,
+       40,   18,    0,   39,    1,    2,    0,   39,   41,    0,
+       41,   42,   27,   23,   24,   40,   40,   40,    9,   40,
+       40,   40,   40,   40,   34,    3,   40,    0,    0,    0,
+        0,    0,   41,   40,   40,   40,   10,   40,   40,   40,
+       40,   39,   39,    6,   40,    7,   40,   40,   14,   40,
 
-       39,   39,   11,    8,   12,   13,    0
+       40,   40,   11,    8,   12,   13,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -1038,34 +1038,34 @@ YY_RULE_SETUP
 case 39:
 YY_RULE_SETUP
 #line 75 "uccompiler.l"
-{if(willPrint)printf("ID(%s)\n",&yytext[0]);}
+{if(willPrint)printf("REALLIT(%s)\n",&yytext[0]);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 76 "uccompiler.l"
-{if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);}
+{if(willPrint)printf("ID(%s)\n",&yytext[0]);}
 	YY_BREAK
 case 41:
-/* rule 41 can match eol */
 YY_RULE_SETUP
 #line 77 "uccompiler.l"
-{if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);}
+{if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);}
 	YY_BREAK
 case 42:
+/* rule 42 can match eol */
 YY_RULE_SETUP
 #line 78 "uccompiler.l"
-{if(willPrint)printf("REALLIT(%s)\n",&yytext[0]);}
+{if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 #line 80 "uccompiler.l"
-;
+{ncol++;}
 	YY_BREAK
 case 44:
 /* rule 44 can match eol */
 YY_RULE_SETUP
 #line 81 "uccompiler.l"
-;
+{nline++;ncol=0;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
