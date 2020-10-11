@@ -18,7 +18,7 @@ signal 		"-"|"+"|""
 expoente 	{signal}("e"|"E")[0-9]+
 reallit 	{fract}{expoente}|{intlit}{expoente}|{fract}
 
-words		"auto"|"break"|"case"|"const"|"continue"|"default"|"do"|"register"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"volatile"|"else"|"enum"|"extern"|"float"|"for"|"goto"
+words		"auto"|"break"|"case"|"const"|"continue"|"default"|"do"|"register"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"volatile"|"enum"|"extern"|"float"|"for"|"goto"
 /*SUS WORDS -> else for */
 reserved	"["|"]"|"--"|"++"|{words}  
 
