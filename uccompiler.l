@@ -9,10 +9,11 @@ uc2018279700 João Marcelino
 id			[a-zA-Z_][a-zA-Z0-9_]*
 intlit 		[0-9]+
 
-carater 	(^["'"\\n])
-escape		[\\n\\t"\\""\'""\""\\[1-7]{1,3}]
-chrlit 		{carater}|{escape}
-qt			["'"|'"']	
+char 		[^"'""\n"]
+numEscape	\\[1-7]{1,3}
+escape		\n|\t|"\'"|'\"'|\\\\|{numEscape}
+chrlit 		{char}|{escape}
+qt			["'"'"']	
 
 fract 		[0-9]*"."[0-9]*
 signal 		"-"|"+"|""
@@ -20,7 +21,7 @@ expoente 	{signal}("e"|"E")[0-9]+
 reallit 	{fract}{expoente}|{intlit}{expoente}|{fract}
 
 words		"auto"|"break"|"case"|"const"|"continue"|"default"|"do"|"register"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"volatile"|"enum"|"extern"|"float"|"for"|"goto"
-/*SUS WORDS -> else for */
+
 reserved	"["|"]"|"--"|"++"|{words}  
 
 
@@ -29,62 +30,64 @@ reserved	"["|"]"|"--"|"++"|{words}
 	#include <stdio.h>
 	//sempre que for lida 1 char aumentar ncol,
 	//sempre que for encontrado \n reset ncol add nline
-	int nline=0,ncol=0; 
+	int nline=1,ncol=1; 
 	int willPrint=0;
 	int longComment=0;
 	int numChar=0;
 %}
-
+/*<CHARS>{escape}	{numChar++;if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);if(numChar>1)printf("ERROR INVALID CHAR");}
+*/
 %%
-"/*"			{longComment=1;BEGIN COMMENT;}
-"//"			{longComment=0;BEGIN COMMENT;}
+"/*"			{ncol+=yyleng;longComment=1;BEGIN COMMENT;}
+"//"			{ncol+=yyleng;longComment=0;BEGIN COMMENT;}
+<COMMENT>"*/" 	{ncol+=yyleng;if(longComment)BEGIN 0;}
+<COMMENT>"\n"	{nline++;ncol=0;if(!longComment)BEGIN 0;}
+<COMMENT><<EOF>> {printf("Line %d, col %d: unterminated comment\n",nline,ncol);BEGIN 0;}
+<COMMENT>.		{ncol+=yyleng;;}
 
-<COMMENT>"*/" 	{if(longComment)BEGIN 0;}
-<COMMENT>"\n"	{if(!longComment)BEGIN 0;}
-<COMMENT>.		;
+{qt}			{ncol+=yyleng;numChar=0;BEGIN CHARS;}
+<CHARS>{char}   {ncol+=yyleng;numChar++;if(willPrint)printf("CHRLIT('%s')\n",&yytext[0]);if(numChar>1)printf("Line %d, col %d: invalid char constant (%s)\n",nline,ncol,&yytext[0]);}
+<CHARS>{qt}		{ncol+=yyleng;BEGIN 0;}
+<CHARS><<EOF>>	{printf("Line %d, col %d: unterminated char constant\n",nline,ncol);}
+<CHARS>.		{printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);}
 
-{qt}			{numChar=0;BEGIN CHARS;}
-<CHARS>{chrlit} {numChar++;if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);if(numChar>1)printf("ERROR INVALID CHAR");}
-<CHARS>{qt}		{BEGIN 0;}
-<CHARS>.		{printf("maybe erro %s\n",&yytext[0]);}
-
-"char"          {if(willPrint)printf("CHAR\n");}
-"else"          {if(willPrint)printf("ELSE\n");}
-"while"         {if(willPrint)printf("WHILE\n");}
-"if"            {if(willPrint)printf("IF\n");}
-"int"           {if(willPrint)printf("INT\n");}
-"short"         {if(willPrint)printf("SHORT\n");}
-"double"        {if(willPrint)printf("DOUBLE\n");}
-"return"        {if(willPrint)printf("RETURN\n");}
-"void"          {if(willPrint)printf("VOID\n");}
-"&"             {if(willPrint)printf("BITWISEAND\n");}
-"|"             {if(willPrint)printf("BITEWISEOR\n");}
-"^"             {if(willPrint)printf("BITEWISEXOR\n");}
-"&&"            {if(willPrint)printf("AND\n");}
-"="             {if(willPrint)printf("ASSIGN\n");}
-"*"             {if(willPrint)printf("MUL\n");}
-","             {if(willPrint)printf("COMMA\n");}
-"/"             {if(willPrint)printf("DIV\n");}
-"=="            {if(willPrint)printf("EQ\n");}
-">="            {if(willPrint)printf("GE\n");}
-">"             {if(willPrint)printf("GT\n");}
-"{"             {if(willPrint)printf("LBRACE\n");}
-"<="            {if(willPrint)printf("LE\n");}
-"("             {if(willPrint)printf("LPAR\n");}
-"<"             {if(willPrint)printf("LT\n");}
-"-"             {if(willPrint)printf("MINUS\n");}
-"%"             {if(willPrint)printf("MOD\n");}
-"!="            {if(willPrint)printf("NE\n");}
-"!"             {if(willPrint)printf("NOT\n");}
-"||"            {if(willPrint)printf("OR\n");}
-"+"             {if(willPrint)printf("PLUS\n");}
-"}"             {if(willPrint)printf("RBRACE\n");}
-")"             {if(willPrint)printf("RPAR\n");}
-";"             {if(willPrint)printf("SEMI\n");}
-{reserved}		{if(willPrint)printf("RESERVED");} 
-{reallit}		{if(willPrint)printf("REALLIT(%s)\n",&yytext[0]);}
-{id}			{if(willPrint)printf("ID(%s)\n",&yytext[0]);}
-{intlit}		{if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);}
+"char"          {ncol+=yyleng;if(willPrint)printf("CHAR\n");}
+"else"          {ncol+=yyleng;if(willPrint)printf("ELSE\n");}
+"while"         {ncol+=yyleng;if(willPrint)printf("WHILE\n");}
+"if"            {ncol+=yyleng;if(willPrint)printf("IF\n");}
+"int"           {ncol+=yyleng;if(willPrint)printf("INT\n");}
+"short"         {ncol+=yyleng;if(willPrint)printf("SHORT\n");}
+"double"        {ncol+=yyleng;if(willPrint)printf("DOUBLE\n");}
+"return"        {ncol+=yyleng;if(willPrint)printf("RETURN\n");}
+"void"          {ncol+=yyleng;if(willPrint)printf("VOID\n");}
+"&"             {ncol+=yyleng;if(willPrint)printf("BITWISEAND\n");}
+"|"             {ncol+=yyleng;if(willPrint)printf("BITEWISEOR\n");}
+"^"             {ncol+=yyleng;if(willPrint)printf("BITEWISEXOR\n");}
+"&&"            {ncol+=yyleng;if(willPrint)printf("AND\n");}
+"="             {ncol+=yyleng;if(willPrint)printf("ASSIGN\n");}
+"*"             {ncol+=yyleng;if(willPrint)printf("MUL\n");}
+","             {ncol+=yyleng;if(willPrint)printf("COMMA\n");}
+"/"             {ncol+=yyleng;if(willPrint)printf("DIV\n");}
+"=="            {ncol+=yyleng;if(willPrint)printf("EQ\n");}
+">="            {ncol+=yyleng;if(willPrint)printf("GE\n");}
+">"             {ncol+=yyleng;if(willPrint)printf("GT\n");}
+"{"             {ncol+=yyleng;if(willPrint)printf("LBRACE\n");}
+"<="            {ncol+=yyleng;if(willPrint)printf("LE\n");}
+"("             {ncol+=yyleng;if(willPrint)printf("LPAR\n");}
+"<"             {ncol+=yyleng;if(willPrint)printf("LT\n");}
+"-"             {ncol+=yyleng;if(willPrint)printf("MINUS\n");}
+"%"             {ncol+=yyleng;if(willPrint)printf("MOD\n");}
+"!="            {ncol+=yyleng;if(willPrint)printf("NE\n");}
+"!"             {ncol+=yyleng;if(willPrint)printf("NOT\n");}
+"||"            {ncol+=yyleng;if(willPrint)printf("OR\n");}
+"+"             {ncol+=yyleng;if(willPrint)printf("PLUS\n");}
+"}"             {ncol+=yyleng;if(willPrint)printf("RBRACE\n");}
+")"             {ncol+=yyleng;if(willPrint)printf("RPAR\n");}
+";"             {ncol+=yyleng;if(willPrint)printf("SEMI\n");}
+{reserved}		{ncol+=yyleng;if(willPrint)printf("RESERVED\n");} 
+{reallit}		{ncol+=yyleng;if(willPrint)printf("REALLIT(%s)\n",&yytext[0]);}
+{intlit}		{ncol+=yyleng;if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);}
+{id}			{ncol+=yyleng;if(willPrint)printf("ID(%s)\n",&yytext[0]);}
 
 .				{ncol++;}
 "\n"			{nline++;ncol=0;}
