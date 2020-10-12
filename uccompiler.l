@@ -6,12 +6,13 @@ uc2018279700 João Marcelino
 %X COMMENT CHARS
 
 
-id			[a-zA-Z"_"][a-zA-Z0-9"_"]*
+id			[a-zA-Z_][a-zA-Z0-9_]*
 intlit 		[0-9]+
 
-carater 	[^["'"\\n]]
+carater 	(^["'"\\n])
 escape		[\\n\\t"\\""\'""\""\\[1-7]{1,3}]
 chrlit 		{carater}|{escape}
+qt			["'"|'"']	
 
 fract 		[0-9]*"."[0-9]*
 signal 		"-"|"+"|""
@@ -31,6 +32,7 @@ reserved	"["|"]"|"--"|"++"|{words}
 	int nline=0,ncol=0; 
 	int willPrint=0;
 	int longComment=0;
+	int numChar=0;
 %}
 
 %%
@@ -40,6 +42,11 @@ reserved	"["|"]"|"--"|"++"|{words}
 <COMMENT>"*/" 	{if(longComment)BEGIN 0;}
 <COMMENT>"\n"	{if(!longComment)BEGIN 0;}
 <COMMENT>.		;
+
+{qt}			{numChar=0;BEGIN CHARS;}
+<CHARS>{chrlit} {numChar++;if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);if(numChar>1)printf("ERROR INVALID CHAR");}
+<CHARS>{qt}		{BEGIN 0;}
+<CHARS>.		{printf("maybe erro %s\n",&yytext[0]);}
 
 "char"          {if(willPrint)printf("CHAR\n");}
 "else"          {if(willPrint)printf("ELSE\n");}
@@ -78,17 +85,12 @@ reserved	"["|"]"|"--"|"++"|{words}
 {reallit}		{if(willPrint)printf("REALLIT(%s)\n",&yytext[0]);}
 {id}			{if(willPrint)printf("ID(%s)\n",&yytext[0]);}
 {intlit}		{if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);}
-{chrlit}		{if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);}
 
 .				{ncol++;}
 "\n"			{nline++;ncol=0;}
 
 %%
 
-/*
-ERROS NO CODIGO!
-{reserved}		{if(willPrint)printf("RESERVED");}  
-*/
 
 int main(int argc, char *argv[ ]){
 	if (argc>=2){
