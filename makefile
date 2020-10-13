@@ -18,3 +18,4 @@ clean:
 	@echo "Cleaning up..."
 	rm uccompiler
 	rm lex.yy.c
+

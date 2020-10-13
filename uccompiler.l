@@ -15,7 +15,7 @@ intlit 		[0-9]+
 char 		[^"'"\n]
 
 numEscape	\\[0-7]{1,3}
-escape		(\\n|\\t|\\\\|{numEscape})
+escape		(\\n|\\t|\\\\|\\\'|\\\"|{numEscape})
 qt			"'"
 
 error1		[0-7]{1,2}[^"'"\n[0-7]]|[0-7]{3}{char}
@@ -111,7 +111,7 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 
 int main(int argc, char *argv[ ]){
 	if (argc>=2){
-		if (!strcmp(argv[1],"-1"))
+		if (!strcmp(argv[1],"-l"))
 			willPrint=1;
 		else if (!strcmp(argv[1],"-e1"))
 			willPrint=0;

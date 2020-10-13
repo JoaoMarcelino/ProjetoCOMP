@@ -2213,9 +2213,9 @@ void yyfree (void * ptr )
 
 int main(int argc, char *argv[ ]){
 	if (argc>=2){
-		if (!strcmp(argv[1],"-1"))
+		if (!strcmp(argv[1],"-l"))
 			willPrint=1;
-		else if (!strcmp(argv[1],"-e1"))
+		else if (!strcmp(argv[1],"-el"))
 			willPrint=0;
 	}
 	yylex();
