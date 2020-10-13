@@ -14,21 +14,21 @@ intlit 		[0-9]+
 
 char 		[^"'"\n]
 
-numEscape	\\[1-7]{1,3}
+numEscape	\\[0-7]{1,3}
 escape		(\\n|\\t|\\\\|{numEscape})
 qt			"'"
 
-error1		[1-7]{1,2}[^"'"\n[1-7]]|[1-7]{3}{char}
+error1		[0-7]{1,2}[^"'"\n[0-7]]|[0-7]{3}{char}
 error2	 	{escape}{escape}+
 error3		{char}({char}+|{escape}+)
 
-fract 		[0-9]*"."[0-9]*
+fract 		([0-9]+"."[0-9]*)|([0-9]*"."[0-9]+)
 signal 		"-"|"+"|""
-expoente 	{signal}("e"|"E")[0-9]+
+expoente 	("e"|"E"){signal}[0-9]+
 reallit 	{fract}{expoente}|{intlit}{expoente}|{fract}
 
 words		"auto"|"break"|"case"|"const"|"continue"|"default"|"do"|"register"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"volatile"|"enum"|"extern"|"float"|"for"|"goto"
-moreWords	"_Bool"|"_Complex"|"_Imaginary"|"inline"|"long"
+moreWords	"_Bool"|"_Complex"|"_Imaginary"|"inline"|"long"|"restrict"
 reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 
 
@@ -54,10 +54,10 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 <COMMENT>.		{auxcol+=yyleng;}
 
 {qt}			{ncol+=yyleng;numChar=0;BEGIN CHARS;}
-<CHARS>{error1} {numChar++;printf("Line %d, col %d: invalid char constant (%s)\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
-<CHARS>{error2} {numChar++;printf("Line %d, col %d: invalid char constant (%s)\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
+<CHARS>{error1} {numChar++;printf("Line %d, col %d: invalid char constant ('%s')\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
+<CHARS>{error2} {numChar++;printf("Line %d, col %d: invalid char constant ('%s')\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
 <CHARS>{escape}	{ncol+=yyleng;numChar++;if(willPrint)printf("CHRLIT('%s')\n",&yytext[0]);}
-<CHARS>{error3} {numChar++;printf("Line %d, col %d: invalid char constant (%s)\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
+<CHARS>{error3} {numChar++;printf("Line %d, col %d: invalid char constant ('%s')\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
 <CHARS>{char}	{ncol+=yyleng;numChar++;if(willPrint)printf("CHRLIT('%s')\n",&yytext[0]);}
 <CHARS>{qt}		{if(numChar<1)printf("Line %d, col %d: invalid char constant ('')\n",nline,ncol);BEGIN 0;ncol+=yyleng;}
 <CHARS>\n		{printf("Line %d, col %d: unterminated char constant\n",nline,ncol);BEGIN 0;}
@@ -103,9 +103,9 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 {intlit}		{ncol+=yyleng;if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);}
 {id}			{ncol+=yyleng;if(willPrint)printf("ID(%s)\n",&yytext[0]);}
 
-\n			{nline++;ncol=1;}
-\t|" "		{ncol++;}
-.				{ncol++;printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);}
+\n				{nline++;ncol=1;}
+\t|" "			{ncol++;}
+.				{printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);ncol++;}
 %%
 
 
