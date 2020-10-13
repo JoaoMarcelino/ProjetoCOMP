@@ -1,13 +1,27 @@
 //teste de charlit
 
 'a'
-"_"
-"\"
-"\n"
-"\123"
-"z"
-"Z"
-"\t"
+'_'
+'"'
+'´'
+'\\''
+'\"''
+'\1'
+'\12'
+'\1234'
+'\16asdasd'
+'\t\t'
+'\\1'
+'\118
+'\n'
+'?'
+'''
+'#'
+'\123'
+'z'
+'Z'
+'	'
+' '
 
 //teste de reallit
 
@@ -22,8 +36,9 @@
 /* este de algo simples*/
 
 int main(){
+	#
 	for
-	int a = 5;
+	int a++ = 5;
 	a = a +1;
 	return a;
 }

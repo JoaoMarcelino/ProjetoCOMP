@@ -1,7 +1,10 @@
 /*
 uc2018293871 Sofia Silva
 uc2018279700 João Marcelino
+{escape}({char}+|{escape}+)
 */
+
+/* ISTO FUNFA MAS O CODIGO FICA TERRIVELMENTE FEIO \\\'|\\\"| */
 
 %X COMMENT CHARS
 
@@ -9,11 +12,15 @@ uc2018279700 João Marcelino
 id			[a-zA-Z_][a-zA-Z0-9_]*
 intlit 		[0-9]+
 
-char 		[^"'""\n"]
+char 		[^"'"\n]
+
 numEscape	\\[1-7]{1,3}
-escape		\n|\t|"\'"|'\"'|\\\\|{numEscape}
-chrlit 		{char}|{escape}
-qt			["'"'"']	
+escape		(\\n|\\t|\\\\|{numEscape})
+qt			"'"
+
+error1		[1-7]{1,2}[^"'"\n[1-7]]|[1-7]{3}{char}
+error2	 	{escape}{escape}+
+error3		{char}({char}+|{escape}+)
 
 fract 		[0-9]*"."[0-9]*
 signal 		"-"|"+"|""
@@ -21,8 +28,8 @@ expoente 	{signal}("e"|"E")[0-9]+
 reallit 	{fract}{expoente}|{intlit}{expoente}|{fract}
 
 words		"auto"|"break"|"case"|"const"|"continue"|"default"|"do"|"register"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"volatile"|"enum"|"extern"|"float"|"for"|"goto"
-
-reserved	"["|"]"|"--"|"++"|{words}  
+moreWords	"_Bool"|"_Complex"|"_Imaginary"|"inline"|"long"
+reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 
 
 %{	
@@ -30,7 +37,8 @@ reserved	"["|"]"|"--"|"++"|{words}
 	#include <stdio.h>
 	//sempre que for lida 1 char aumentar ncol,
 	//sempre que for encontrado \n reset ncol add nline
-	int nline=1,ncol=1; 
+	int nline=1,ncol=1;
+	int auxline=0,auxcol=1; 
 	int willPrint=0;
 	int longComment=0;
 	int numChar=0;
@@ -38,18 +46,24 @@ reserved	"["|"]"|"--"|"++"|{words}
 /*<CHARS>{escape}	{numChar++;if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);if(numChar>1)printf("ERROR INVALID CHAR");}
 */
 %%
-"/*"			{ncol+=yyleng;longComment=1;BEGIN COMMENT;}
-"//"			{ncol+=yyleng;longComment=0;BEGIN COMMENT;}
-<COMMENT>"*/" 	{ncol+=yyleng;if(longComment)BEGIN 0;}
-<COMMENT>"\n"	{nline++;ncol=0;if(!longComment)BEGIN 0;}
-<COMMENT><<EOF>> {printf("Line %d, col %d: unterminated comment\n",nline,ncol);BEGIN 0;}
-<COMMENT>.		{ncol+=yyleng;;}
+"/*"			{auxcol=1;auxline=0;auxcol+=yyleng;longComment=1;BEGIN COMMENT;}
+"//"			{auxcol=1;auxline=0;auxcol+=yyleng;longComment=0;BEGIN COMMENT;}
+<COMMENT>"*/" 	{auxcol+=yyleng;if(longComment){nline+=auxline;ncol+=auxcol;BEGIN 0;}}
+<COMMENT>"\n"	{auxline++;auxcol=1;if(!longComment){nline+=auxline;ncol+=auxcol;BEGIN 0;}}
+<COMMENT><<EOF>> {printf("Line %d, col %d: unterminated comment\n",nline,ncol);nline+=auxline;ncol=auxcol;BEGIN 0;}
+<COMMENT>.		{auxcol+=yyleng;}
 
 {qt}			{ncol+=yyleng;numChar=0;BEGIN CHARS;}
-<CHARS>{char}   {ncol+=yyleng;numChar++;if(willPrint)printf("CHRLIT('%s')\n",&yytext[0]);if(numChar>1)printf("Line %d, col %d: invalid char constant (%s)\n",nline,ncol,&yytext[0]);}
-<CHARS>{qt}		{ncol+=yyleng;BEGIN 0;}
-<CHARS><<EOF>>	{printf("Line %d, col %d: unterminated char constant\n",nline,ncol);}
+<CHARS>{error1} {numChar++;printf("Line %d, col %d: invalid char constant (%s)\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
+<CHARS>{error2} {numChar++;printf("Line %d, col %d: invalid char constant (%s)\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
+<CHARS>{escape}	{ncol+=yyleng;numChar++;if(willPrint)printf("CHRLIT('%s')\n",&yytext[0]);}
+<CHARS>{error3} {numChar++;printf("Line %d, col %d: invalid char constant (%s)\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
+<CHARS>{char}	{ncol+=yyleng;numChar++;if(willPrint)printf("CHRLIT('%s')\n",&yytext[0]);}
+<CHARS>{qt}		{if(numChar<1)printf("Line %d, col %d: invalid char constant ('')\n",nline,ncol);BEGIN 0;ncol+=yyleng;}
+<CHARS>\n		{printf("Line %d, col %d: unterminated char constant\n",nline,ncol);BEGIN 0;}
+<CHARS><<EOF>>	{printf("Line %d, col %d: unterminated char constant\n",nline,ncol);BEGIN 0;}
 <CHARS>.		{printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);}
+
 
 "char"          {ncol+=yyleng;if(willPrint)printf("CHAR\n");}
 "else"          {ncol+=yyleng;if(willPrint)printf("ELSE\n");}
@@ -84,14 +98,14 @@ reserved	"["|"]"|"--"|"++"|{words}
 "}"             {ncol+=yyleng;if(willPrint)printf("RBRACE\n");}
 ")"             {ncol+=yyleng;if(willPrint)printf("RPAR\n");}
 ";"             {ncol+=yyleng;if(willPrint)printf("SEMI\n");}
-{reserved}		{ncol+=yyleng;if(willPrint)printf("RESERVED\n");} 
+{reserved}		{ncol+=yyleng;if(willPrint)printf("RESERVED(%s)\n",&yytext[0]);} 
 {reallit}		{ncol+=yyleng;if(willPrint)printf("REALLIT(%s)\n",&yytext[0]);}
 {intlit}		{ncol+=yyleng;if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);}
 {id}			{ncol+=yyleng;if(willPrint)printf("ID(%s)\n",&yytext[0]);}
 
-.				{ncol++;}
-"\n"			{nline++;ncol=0;}
-
+\n			{nline++;ncol=1;}
+\t|" "		{ncol++;}
+.				{ncol++;printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);}
 %%
 
 
