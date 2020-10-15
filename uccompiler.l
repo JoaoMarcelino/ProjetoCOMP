@@ -38,25 +38,11 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 	//sempre que for lida 1 char aumentar ncol,
 	//sempre que for encontrado \n reset ncol add nline
 	int nline=1,ncol=1;
-	int comline=0,comcol=1;
-	int charline=0, charcol=0; 
+	int comline=0,comcol=1; 
 	int willPrint=0;
 	int longComment=0;
-	int numChar=0;
 %}
 /*<CHARS>{escape}	{numChar++;if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);if(numChar>1)printf("ERROR INVALID CHAR");}
-
-{qt}			{numChar=0;charline=0;charcol= yyleng; BEGIN CHARS;}
-<CHARS>{error1} {numChar++;printf("Line %d, col %d: invalid char constant ('%s')\n",nline,ncol,&yytext[0]);charcol+=yyleng;}
-<CHARS>{error2} {numChar++;printf("Line %d, col %d: invalid char constant ('%s')\n",nline,ncol,&yytext[0]);charcol+=yyleng;}
-<CHARS>{escape}{qt}	{charcol+=yyleng;numChar++;if(willPrint)printf("CHRLIT('%s')\n",&yytext[0]);}
-<CHARS>{escape} {printf("Line %d, col %d: invalid char constant ('')\n",nline,ncol);}charcol+=yyleng; nline+=charline;ncol+=charcol;BEGIN 0;}
-<CHARS>{error3} {numChar++;printf("Line %d, col %d: invalid char constant ('%s')%d\n",nline,ncol,&yytext[0],charcol+yyleng);charcol+=yyleng;}
-<CHARS>{char}	{charcol+=yyleng;numChar++;if(willPrint)printf("CHRLIT('%s')\n",&yytext[0]);}
-<CHARS>{qt}		{if(numChar<1){printf("Line %d, col %d: invalid char constant ('')\n",nline,ncol);}charcol+=yyleng; nline+=charline;ncol+=charcol;BEGIN 0;}
-<CHARS>\n		{charline++;charcol=0;printf("Line %d, col %d: unterminated char constant\n",nline,ncol);nline+=charline;ncol=1;BEGIN 0;}
-<CHARS><<EOF>>	{printf("Line %d, col %d: unterminated char constant\n",nline,ncol);BEGIN 0;}
-<CHARS>.		{printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);charcol+=yyleng;}
 
 
 */
@@ -111,7 +97,7 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 {intlit}		{ncol+=yyleng;if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);}
 {id}			{ncol+=yyleng;if(willPrint)printf("ID(%s)\n",&yytext[0]);}
 
-\n				{nline++;ncol=1;}
+\r\n|\n			{nline++;ncol=1;}
 \t|" "			{ncol++;}
 .				{printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);ncol++;}
 %%
