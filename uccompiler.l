@@ -61,11 +61,11 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 
 */
 %%
-"/*"			{comline=0; comcol=yyleng; longComment=1; BEGIN COMMENT;}
-"//"			{comline=0; comcol=yyleng; longComment=0; BEGIN COMMENT;}
+"/*"			{comline=0;ncol++; comcol=1; longComment=1; BEGIN COMMENT;}
+"//"			{comline=0;ncol++; comcol=1; longComment=0; BEGIN COMMENT;}
 <COMMENT>"*/" 	{comcol+=yyleng; if(longComment){ nline+=comline; ncol=comcol; BEGIN 0;}}
 <COMMENT>"\n"	{comline++; comcol=1; if(!longComment){ nline+=comline; ncol=comcol; BEGIN 0;}}
-<COMMENT><<EOF>> {printf("Line %d, col %d: unterminated comment\n",nline,ncol);nline+=comline;ncol=comcol;BEGIN 0;}
+<COMMENT><<EOF>> {if(longComment){printf("Line %d, col %d: unterminated comment\n",nline,ncol);}nline+=comline;ncol=comcol;BEGIN 0;}
 <COMMENT>.		{comcol+=yyleng;}
 
 '({char}|{escape})' {if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);ncol+=yyleng;}
