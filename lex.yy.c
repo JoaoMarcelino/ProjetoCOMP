@@ -914,7 +914,7 @@ YY_RULE_SETUP
 case 3:
 YY_RULE_SETUP
 #line 66 "uccompiler.l"
-{comcol+=yyleng; if(longComment){ nline+=comline; ncol=comcol; BEGIN 0;}}
+{comcol+=yyleng; if(longComment){ nline+=comline; ncol+=comcol; BEGIN 0;}}
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
@@ -924,7 +924,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case YY_STATE_EOF(COMMENT):
 #line 68 "uccompiler.l"
-{printf("Line %d, col %d: unterminated comment\n",nline,ncol);nline+=comline;ncol=comcol;BEGIN 0;}
+{if(longComment){printf("Line %d, col %d: unterminated comment\n",nline,ncol);}nline+=comline;ncol=comcol;BEGIN 0;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP

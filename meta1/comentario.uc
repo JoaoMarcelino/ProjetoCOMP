@@ -8,5 +8,5 @@ Normal comment
 */
 
 
-12345678/*ERROR
+/**//*ERROR
 ERROR
