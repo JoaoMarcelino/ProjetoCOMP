@@ -12,7 +12,7 @@ uc2018279700 João Marcelino
 id			[a-zA-Z_][a-zA-Z0-9_]*
 intlit 		[0-9]+
 
-char 		[^"'"\n]
+char 		[^'\n\\]
 
 numEscape	\\[0-7]{1,3}
 escape		(\\n|\\t|\\\\|\\\'|\\\"|{numEscape})
@@ -32,37 +32,45 @@ moreWords	"_Bool"|"_Complex"|"_Imaginary"|"inline"|"long"|"restrict"
 reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 
 
-%{	
+%{																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														
 	#include <string.h>
 	#include <stdio.h>
 	//sempre que for lida 1 char aumentar ncol,
 	//sempre que for encontrado \n reset ncol add nline
 	int nline=1,ncol=1;
-	int auxline=0,auxcol=1; 
+	int comline=0,comcol=1;
+	int charline=0, charcol=0; 
 	int willPrint=0;
 	int longComment=0;
 	int numChar=0;
 %}
 /*<CHARS>{escape}	{numChar++;if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);if(numChar>1)printf("ERROR INVALID CHAR");}
+
+{qt}			{numChar=0;charline=0;charcol= yyleng; BEGIN CHARS;}
+<CHARS>{error1} {numChar++;printf("Line %d, col %d: invalid char constant ('%s')\n",nline,ncol,&yytext[0]);charcol+=yyleng;}
+<CHARS>{error2} {numChar++;printf("Line %d, col %d: invalid char constant ('%s')\n",nline,ncol,&yytext[0]);charcol+=yyleng;}
+<CHARS>{escape}{qt}	{charcol+=yyleng;numChar++;if(willPrint)printf("CHRLIT('%s')\n",&yytext[0]);}
+<CHARS>{escape} {printf("Line %d, col %d: invalid char constant ('')\n",nline,ncol);}charcol+=yyleng; nline+=charline;ncol+=charcol;BEGIN 0;}
+<CHARS>{error3} {numChar++;printf("Line %d, col %d: invalid char constant ('%s')%d\n",nline,ncol,&yytext[0],charcol+yyleng);charcol+=yyleng;}
+<CHARS>{char}	{charcol+=yyleng;numChar++;if(willPrint)printf("CHRLIT('%s')\n",&yytext[0]);}
+<CHARS>{qt}		{if(numChar<1){printf("Line %d, col %d: invalid char constant ('')\n",nline,ncol);}charcol+=yyleng; nline+=charline;ncol+=charcol;BEGIN 0;}
+<CHARS>\n		{charline++;charcol=0;printf("Line %d, col %d: unterminated char constant\n",nline,ncol);nline+=charline;ncol=1;BEGIN 0;}
+<CHARS><<EOF>>	{printf("Line %d, col %d: unterminated char constant\n",nline,ncol);BEGIN 0;}
+<CHARS>.		{printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);charcol+=yyleng;}
+
+
 */
 %%
-"/*"			{auxcol=1;auxline=0;auxcol+=yyleng;longComment=1;BEGIN COMMENT;}
-"//"			{auxcol=1;auxline=0;auxcol+=yyleng;longComment=0;BEGIN COMMENT;}
-<COMMENT>"*/" 	{auxcol+=yyleng;if(longComment){nline+=auxline;ncol+=auxcol;BEGIN 0;}}
-<COMMENT>"\n"	{auxline++;auxcol=1;if(!longComment){nline+=auxline;ncol+=auxcol;BEGIN 0;}}
-<COMMENT><<EOF>> {printf("Line %d, col %d: unterminated comment\n",nline,ncol);nline+=auxline;ncol=auxcol;BEGIN 0;}
-<COMMENT>.		{auxcol+=yyleng;}
+"/*"			{comline=0; comcol=yyleng; longComment=1; BEGIN COMMENT;}
+"//"			{comline=0; comcol=yyleng; longComment=0; BEGIN COMMENT;}
+<COMMENT>"*/" 	{comcol+=yyleng; if(longComment){ nline+=comline; ncol=comcol; BEGIN 0;}}
+<COMMENT>"\n"	{comline++; comcol=1; if(!longComment){ nline+=comline; ncol=comcol; BEGIN 0;}}
+<COMMENT><<EOF>> {printf("Line %d, col %d: unterminated comment\n",nline,ncol);nline+=comline;ncol=comcol;BEGIN 0;}
+<COMMENT>.		{comcol+=yyleng;}
 
-{qt}			{ncol+=yyleng;numChar=0;BEGIN CHARS;}
-<CHARS>{error1} {numChar++;printf("Line %d, col %d: invalid char constant ('%s')\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
-<CHARS>{error2} {numChar++;printf("Line %d, col %d: invalid char constant ('%s')\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
-<CHARS>{escape}	{ncol+=yyleng;numChar++;if(willPrint)printf("CHRLIT('%s')\n",&yytext[0]);}
-<CHARS>{error3} {numChar++;printf("Line %d, col %d: invalid char constant ('%s')\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
-<CHARS>{char}	{ncol+=yyleng;numChar++;if(willPrint)printf("CHRLIT('%s')\n",&yytext[0]);}
-<CHARS>{qt}		{if(numChar<1)printf("Line %d, col %d: invalid char constant ('')\n",nline,ncol);BEGIN 0;ncol+=yyleng;}
-<CHARS>\n		{printf("Line %d, col %d: unterminated char constant\n",nline,ncol);BEGIN 0;}
-<CHARS><<EOF>>	{printf("Line %d, col %d: unterminated char constant\n",nline,ncol);BEGIN 0;}
-<CHARS>.		{printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);}
+'({char}|{escape})' {if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);ncol+=yyleng;}
+'({char}|(\\.))*' {printf("Line %d, col %d: invalid char constant (%s)\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
+'({char}|(\\.))*(\\?) {printf("Line %d, col %d: unterminated char constant\n",nline,ncol);ncol+=yyleng;}
 
 
 "char"          {ncol+=yyleng;if(willPrint)printf("CHAR\n");}

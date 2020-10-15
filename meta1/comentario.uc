@@ -6,5 +6,7 @@
 Normal comment
 
 */
-/*ERROR
+
+
+12345678/*ERROR
 ERROR
