@@ -363,7 +363,7 @@ struct yy_trans_info
 static const flex_int16_t yy_accept[218] =
     {   0,
         0,    0,    0,    0,    0,    0,   50,   48,   47,   46,
-       48,   36,   34,   18,    8,   31,   40,   23,   38,   24,
+       46,   36,   34,   18,    8,   31,   40,   23,   38,   24,
        33,   48,   25,   44,   41,   32,   22,   28,   45,   42,
        20,   45,   45,   45,   45,   45,   45,   45,   45,   45,
        45,   45,   45,   45,   45,   45,   45,   29,   19,   39,
@@ -610,9 +610,8 @@ uc2018279700 João Marcelino
 	int longComment=0;
 #line 612 "lex.yy.c"
 /*<CHARS>{escape}	{numChar++;if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);if(numChar>1)printf("ERROR INVALID CHAR");}
-
 */
-#line 616 "lex.yy.c"
+#line 615 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -831,7 +830,8 @@ YY_DECL
 		}
 
 	{
-#line 49 "uccompiler.l"
+#line 48 "uccompiler.l"
+
 
 #line 837 "lex.yy.c"
 

@@ -43,14 +43,14 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 	int longComment=0;
 %}
 /*<CHARS>{escape}	{numChar++;if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);if(numChar>1)printf("ERROR INVALID CHAR");}
-
-
 */
+
 %%
+
 "/*"			{comline=0; comcol=yyleng; longComment=1; BEGIN COMMENT;}
 "//"			{comline=0; comcol=yyleng; longComment=0; BEGIN COMMENT;}
 <COMMENT>"*/" 	{comcol+=yyleng; if(longComment){ nline+=comline; ncol+=comcol; BEGIN 0;}}
-<COMMENT>"\n"	{comline++; comcol=1; if(!longComment){ nline+=comline; ncol=comcol; BEGIN 0;}}
+<COMMENT>\n		{comline++; comcol=1; if(!longComment){ nline+=comline; ncol=comcol; BEGIN 0;}}
 <COMMENT><<EOF>> {if(longComment){printf("Line %d, col %d: unterminated comment\n",nline,ncol);}nline+=comline;ncol=comcol;BEGIN 0;}
 <COMMENT>.		{comcol+=yyleng;}
 
@@ -97,7 +97,7 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 {intlit}		{ncol+=yyleng;if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);}
 {id}			{ncol+=yyleng;if(willPrint)printf("ID(%s)\n",&yytext[0]);}
 
-\r\n|\n			{nline++;ncol=1;}
+\r\n|\n|\r		{nline++;ncol=1;}
 \t|" "			{ncol++;}
 .				{printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);ncol++;}
 %%
