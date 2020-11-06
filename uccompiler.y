@@ -2,6 +2,11 @@
     #include <stdio.h>
     int yylex(void);
     void yyerror (const char *s);
+    #define NSYMS 100
+
+    symtab tab[NSYMS];
+
+    symtab *symlook(char *varname); 
 
     /*
     () normal
@@ -9,7 +14,6 @@
     {} zero ou mais repetições
     FunctionsAndDeclarations −→ (FunctionDefinition | FunctionDeclaration | Declaration) {FunctionDefinition | FunctionDeclaration | Declaration}
 
-    TypeSpecHelper −→ TypeSpec FunctionDeclarator
 
 FunctionDefinition −→ TypeSpec FunctionDeclarator FunctionBody
     
@@ -41,46 +45,193 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 
     */
 %}
+%union{
+int value;
+char *others;
+char* id;
+}
 
-%token NUMBER
-%right '='
-%left '+' '-'
-%left '*' '/'
-%right '('
+
+
+%token CHAR
+%token ELSE
+%token WHILE
+%token IF
+%token INT
+%token SHORT
+%token DOUBLE
+%token RETURN
+%token VOID
+%token BITWISEAND
+%token BITWISEOR
+%token BITWISEXOR
+%token AND
+%token ASSIGN
+%token MUL
+%token COMMA
+%token DIV
+%token EQ
+%token GE
+%token GT
+%token LBRACE
+%token LE
+%token LPAR
+%token LT
+%token MINUS
+%token MOD
+%token NE
+%token NOT
+%token OR
+%token PLUS
+%token RBRACE
+%token RPAR
+%token SEMI
+%token RESERVED
+%token <others> CHRLIT
+%token <others> REALLIT
+%token <value> INTLIT
+%token <id> ID
+
+
+%right ASSIGN
+%left PLUS MINUS
+%left MUL DIV
+%right LPAR
+
+
+symtab *symlook(char *varname)
+{
+int i;
+  
+for(i=0; i<NSYMS; i++)
+ {
+        if(tab[i].name && strcmp(varname, tab[i].name)==0)   
+                return &tab[i];
+        if(!tab[i].name)
+        {
+                tab[i].name=varname;
+                return &tab[i];
+        }
+ }
+yyerror("variaveis a mais...");
+    exit(1);
+}
+
+
+
 
 %%
-FunctiosAndDeclarations: FunctionDefinition FunctiosAndDeclarations {}
-    |  FunctionDeclaration FunctiosAndDeclarations                  {}
-    | Declaration FunctiosAndDeclarations                           {}
-    ;
-FunctionDefinition: 
-    TypeSpec FunctionDeclarator 
+FunctionsAndDec: TypeSpec FunctionDeclaration {}
     ;
 
-FunctionBody: ;
+FunctiosAndDeclarations: FunctionDeclarator FuctionsAndDecExtra  {}
+    |   Declaration FuctionsAndDecExtra                          {}
+    ;
 
-DeclarationsAndStatements: ;
+FuctionsAndDecExtra:  FunctionsAndDeclarations {}
+    |       {}
+    ;
 
-FunctionDeclaration: ;
+FunctionDeclarator: ID LPAR ParameterList RPAR FunctionHelper       {}
+    ;
 
-FunctionDeclarator: ;
+ParameterList: TypeSpec ParameterDeclaration ParameterExtra {}
+    ;
 
-ParameterList: ;
+ParameterExtra: COMMA TypeSpec ParameterDeclaration ParameterExtra {}
+    | {}
+    ;      
+ParameterDeclaration: ID {}
+    | {}
+    ;
 
-ParameterDeclaration: ;
+FunctionHelper:   LBRACE FunctionBody RBRACE    {}
+    | SEMI {}
+    ;
 
-Declaration: ;
+FunctionBody: DeclarationsAndStatements {}
+    | {}
+    ;
 
-TypeSpec: ;
+DeclarationsAndStatements: Statement DeclarationsAndStatementsRep {}
+	| TypeSpec Declaration DeclarationsAndStatementsRep {}
+    ;
 
-Declarator: ;
+DeclarationsAndStatementsRep: DeclarationsAndStatements {}
+    | {}
+    ;
 
-Statement: ;
+Declaration: ID Declarator DeclarationExtra {}
+    ;
 
-Expr: ;
+DeclarationExtra: COMMA ID Declarator DeclarationExtra {}
+    | SEMI      {}
+    ;
+
+Declarator: ASSIGN Expr {}
+    | \e  {}
+    ;
 
 
+Statement: Expr SEMI {}
+    | SEMI  {}
 
+    | LBRACE StatementBrace {}
+
+    | IF LPAR Expr RPAR Statement StatementElse {}
+
+    | WHILE LPAR Expr RPAR Statement {}
+
+    | RETURN StatementReturn {}
+    ;
+
+StatementBrace: Statement RBRACE {}
+    | RBRACE {}
+    ;
+
+StatementElse: ELSE Statement {}
+    | {}
+    ;
+
+StatementReturn: SEMI {}
+    | Expr SEMI {}
+    ;
+
+Expr: Expr ASSIGN Expr {}
+    | Expr COMMA Expr {}
+    
+    | Expr PLUS Expr    {$$ = $1 + $3;}
+    | Expr MINUS Expr   {$$ = $1 - $3;}
+    | Expr MUL Expr     {$$ = $1 * $3;}
+    | Expr DIV Expr     {$$ = $1 / $3;}
+    | Expr MOD Expr     {$$ = $1 + $3;}
+
+    | Expr OR Expr          {}
+    | Expr AND Expr         {}
+    | Expr BITWISEAND Expr  {}
+    | Expr BITWISEOR Expr   {}
+    | Expr BITWISEXOR Expr  {}
+
+    | Expr EQ Expr          {}
+    | Expr NE Expr          {}
+    | Expr LE Expr          {}
+    | Expr GE Expr          {}
+    | Expr LT Expr          {}
+    | Expr GT Expr          {}
+
+    | PLUS Expr             {}
+    | MINUS Expr            {}
+    | NOT Expr              {}
+
+    | ID PAR Expr ExprRep RPAR  {}
+    | INTLIT LPAR Expr RPAR     {}
+    | CHRLIT LPAR Expr RPAR     {}
+    | REALLIT LPAR Expr RPAR    {}
+    ;
+
+ExprRep: COMMA Expr ExprRep {}
+    | {}
+    ;
 
 %%
 

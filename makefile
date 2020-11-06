@@ -6,7 +6,9 @@ errors:generate run
 
 generate:
 	lex uccompiler.l
-	clang -o uccompiler lex.yy.c
+	yacc -d uccompiler.y
+	cc -o uccompiler y.tab.c lex.yy.c
+
 
 print:
 	./uccompiler -1 <test.txt 

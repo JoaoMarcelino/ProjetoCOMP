@@ -5,7 +5,6 @@ FuctonsAndDecExtra −→ FunctionsAndDeclarations  |\e
 
 TypeSpec −→ CHAR | INT | VOID | SHORT | DOUBLE
 
-
 FunctionDeclarator −→ ID LPAR ParameterList RPAR FunctionHelper 
 ParameterList −→ TypeSpec ParameterDeclaration ParameterExtra 
 ParameterExtra −→ COMMA TypeSpec ParameterDeclaration ParameterExtra | \e      
@@ -16,15 +15,86 @@ FunctionHelper −→ LBRACE FunctionBody RBRACE| SEMI
 
 FunctionBody −→ DeclarationsAndStatements | \e
 
-DeclarationsAndStatements -> Statement DeclarationsAndStatements 
-	| TypeSpec Declaration DeclarationsAndStatements | \e
+DeclarationsAndStatements -> Statement DeclarationsAndStatementsRep 
+	| TypeSpec Declaration DeclarationsAndStatementsRep 
+
+DeclarationsAndStatementsRep -> DeclarationsAndStatements | \e
 
 
+//Review
+Declaration −→ Declarator {COMMA Declarator} SEMI
+
+Declaration −→ ID Declarator DeclarationExtra 
+DeclarationExtra -> COMMA ID Declarator DeclarationExtra | SEMI
+Declarator −→ ASSIGN Expr | \e
 
 //ToDo
-Declaration −→ Declarator {COMMA Declarator} SEMI
-Declarator −→ ID [ASSIGN Expr]
+Statement −→ Expr SEMI | SEMI
+Statement −→ LBRACE StatementBrace  
+Statement −→ IF LPAR Expr RPAR Statement StatementElse
+Statement −→ WHILE LPAR Expr RPAR Statement
+Statement −→ RETURN StatementReturn
 
-Statement
+StatementBrace -> Statement RBRACE | RBRACE 
+StatementElse -> ELSE Statement | \e
+StatementReturn -> SEMI | Expr SEMI
 
-Expr
+
+Expr −→ Expr (ASSIGN | COMMA) Expr
+    Expr −→ Expr (PLUS | MINUS | MUL | DIV | MOD) Expr
+    Expr −→ Expr (OR | AND | BITWISEAND | BITWISEOR | BITWISEXOR) Expr
+    Expr −→ Expr (EQ | NE | LE | GE | LT | GT) Expr
+    Expr −→ (PLUS | MINUS | NOT) Expr
+    Expr −→ ID LPAR [Expr {COMMA Expr}] RPAR
+    Expr −→ ID | INTLIT | CHRLIT | REALLIT | LPAR Expr RPAR
+
+
+
+
+
+
+
+
+
+FunctionsAndDeclarations:FunctionDefinition {} 
+    | FunctionDeclaration {}
+    | Declaration {}
+    |FunctionDefinition FunctionsAndDeclarations {} 
+    | FunctionDeclaration FunctionsAndDeclarations {}
+    | Declaration FunctionsAndDeclarations {}
+    ;
+FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody        {}
+    ;
+
+FunctionBody: LBRACE DeclarationsAndStatements RBRACE               {}
+    ;
+
+DeclarationsAndStatements: Statement DeclarationsAndStatements  {}
+    | Declaration DeclarationsAndStatements     {}
+    | Statement     {}
+    | Declaration   {}
+    ;
+
+FunctionDeclaration: TypeSpec FunctionDeclarator SEMI {}
+    ;
+
+FunctionDeclarator:  ID LPAR ParameterList RPAR;
+
+ParameterList: ;
+
+ParameterDeclaration: ;
+
+Declaration: ;
+
+TypeSpec: CHAR  {}
+    | INT       {}
+    | VOID      {}
+    | SHORT     {}
+    | DOUBLE    {}
+    ;
+
+Declarator: ;
+
+Statement: ;
+
+Expr: ;
