@@ -1,8 +1,17 @@
 %{
+    #include <stdlib.h>
     #include <stdio.h>
+    #include <string.h> 
     int yylex(void);
     void yyerror (const char *s);
+    int main(void);
+
     #define NSYMS 100
+
+    typedef struct _symtab{
+    char *name;
+    int value;
+    }symtab;
 
     symtab tab[NSYMS];
 
@@ -99,37 +108,24 @@ char* id;
 %right LPAR
 
 
-symtab *symlook(char *varname)
-{
-int i;
-  
-for(i=0; i<NSYMS; i++)
- {
-        if(tab[i].name && strcmp(varname, tab[i].name)==0)   
-                return &tab[i];
-        if(!tab[i].name)
-        {
-                tab[i].name=varname;
-                return &tab[i];
-        }
- }
-yyerror("variaveis a mais...");
-    exit(1);
-}
-
-
-
 
 %%
-FunctionsAndDec: TypeSpec FunctionDeclaration {}
+FunctionsAndDec: TypeSpec FunctionsAndDeclarations {}
     ;
 
-FunctiosAndDeclarations: FunctionDeclarator FuctionsAndDecExtra  {}
+FunctionsAndDeclarations: FunctionDeclarator FuctionsAndDecExtra  {}
     |   Declaration FuctionsAndDecExtra                          {}
     ;
 
 FuctionsAndDecExtra:  FunctionsAndDeclarations {}
     |       {}
+    ;
+
+TypeSpec: CHAR      {}
+    | INT           {}
+    | VOID          {}
+    | SHORT         {}
+    | DOUBLE        {}
     ;
 
 FunctionDeclarator: ID LPAR ParameterList RPAR FunctionHelper       {}
@@ -169,7 +165,7 @@ DeclarationExtra: COMMA ID Declarator DeclarationExtra {}
     ;
 
 Declarator: ASSIGN Expr {}
-    | \e  {}
+    |   {}
     ;
 
 
@@ -200,11 +196,11 @@ StatementReturn: SEMI {}
 Expr: Expr ASSIGN Expr {}
     | Expr COMMA Expr {}
     
-    | Expr PLUS Expr    {$$ = $1 + $3;}
-    | Expr MINUS Expr   {$$ = $1 - $3;}
-    | Expr MUL Expr     {$$ = $1 * $3;}
-    | Expr DIV Expr     {$$ = $1 / $3;}
-    | Expr MOD Expr     {$$ = $1 + $3;}
+    | Expr PLUS Expr    {}
+    | Expr MINUS Expr   {}
+    | Expr MUL Expr     {}
+    | Expr DIV Expr     {}
+    | Expr MOD Expr     {}
 
     | Expr OR Expr          {}
     | Expr AND Expr         {}
@@ -223,10 +219,12 @@ Expr: Expr ASSIGN Expr {}
     | MINUS Expr            {}
     | NOT Expr              {}
 
-    | ID PAR Expr ExprRep RPAR  {}
-    | INTLIT LPAR Expr RPAR     {}
-    | CHRLIT LPAR Expr RPAR     {}
-    | REALLIT LPAR Expr RPAR    {}
+    | ID             {}
+    | INTLIT         {}
+    | CHRLIT         {}
+    | REALLIT        {}
+    | ID LPAR Expr ExprRep RPAR     {}
+    | LPAR Expr ExprRep RPAR        {}
     ;
 
 ExprRep: COMMA Expr ExprRep {}
@@ -235,7 +233,21 @@ ExprRep: COMMA Expr ExprRep {}
 
 %%
 
-int main() {
-    yyparse();
-    return 0;
+symtab *symlook(char *varname)
+{
+int i;
+  
+for(i=0; i<NSYMS; i++)
+ {
+        if(tab[i].name && strcmp(varname, tab[i].name)==0)   
+                return &tab[i];
+        if(!tab[i].name)
+        {
+                tab[i].name=varname;
+                return &tab[i];
+        }
+ }
+yyerror("variaveis a mais...");
+    exit(1);
 }
+

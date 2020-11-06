@@ -117,3 +117,7 @@ int main(int argc, char *argv[ ]){
 int yywrap() {
 	return 1;
 }
+
+void yyerror (const char *s) { 
+     printf ("%s: %s\n", s, yytext);
+}

@@ -18,6 +18,9 @@ run:
 
 clean:
 	@echo "Cleaning up..."
-	rm uccompiler
 	rm lex.yy.c
+	rm y.tab.c
+	rm y.tab.h
+	rm uccompiler
+
 
