@@ -69,8 +69,8 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 "return"        {ncol+=yyleng;if(willPrint)printf("RETURN\n");}
 "void"          {ncol+=yyleng;if(willPrint)printf("VOID\n");}
 "&"             {ncol+=yyleng;if(willPrint)printf("BITWISEAND\n");}
-"|"             {ncol+=yyleng;if(willPrint)printf("BITEWISEOR\n");}
-"^"             {ncol+=yyleng;if(willPrint)printf("BITEWISEXOR\n");}
+"|"             {ncol+=yyleng;if(willPrint)printf("BITWISEOR\n");}
+"^"             {ncol+=yyleng;if(willPrint)printf("BITWISEXOR\n");}
 "&&"            {ncol+=yyleng;if(willPrint)printf("AND\n");}
 "="             {ncol+=yyleng;if(willPrint)printf("ASSIGN\n");}
 "*"             {ncol+=yyleng;if(willPrint)printf("MUL\n");}
@@ -98,7 +98,7 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 {id}			{ncol+=yyleng;if(willPrint)printf("ID(%s)\n",&yytext[0]);}
 
 \r\n|\n|\r		{nline++;ncol=1;}
-\t|" "			{ncol++;}
+\f|\v|\t|" "	{ncol++;}
 .				{printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);ncol++;}
 %%
 

@@ -1,0 +1,30 @@
+FunctionsAndDec −→ TypeSpec FunctionsAndDeclarations
+
+FunctionsAndDeclarations −→ (FunctionDeclarator | Declaration) FuctonsAndDecExtra 
+FuctonsAndDecExtra −→ FunctionsAndDeclarations  |\e
+
+TypeSpec −→ CHAR | INT | VOID | SHORT | DOUBLE
+
+
+FunctionDeclarator −→ ID LPAR ParameterList RPAR FunctionHelper 
+ParameterList −→ TypeSpec ParameterDeclaration ParameterExtra 
+ParameterExtra −→ COMMA TypeSpec ParameterDeclaration ParameterExtra | \e      
+
+ParameterDeclaration −→ ID | \e
+
+FunctionHelper −→ LBRACE FunctionBody RBRACE| SEMI
+
+FunctionBody −→ DeclarationsAndStatements | \e
+
+DeclarationsAndStatements -> Statement DeclarationsAndStatements 
+	| TypeSpec Declaration DeclarationsAndStatements | \e
+
+
+
+//ToDo
+Declaration −→ Declarator {COMMA Declarator} SEMI
+Declarator −→ ID [ASSIGN Expr]
+
+Statement
+
+Expr
