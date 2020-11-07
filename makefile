@@ -6,7 +6,7 @@ errors:generate run
 
 generate:
 	lex uccompiler.l
-	yacc -d uccompiler.y
+	yacc -d --verbose uccompiler.y
 	cc -o uccompiler y.tab.c lex.yy.c
 
 

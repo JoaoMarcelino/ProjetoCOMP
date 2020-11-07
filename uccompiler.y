@@ -54,6 +54,7 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 
     */
 %}
+
 %union{
 int value;
 char *others;
@@ -102,11 +103,13 @@ char* id;
 %token <id> ID
 
 
-%right ASSIGN
-%left PLUS MINUS
-%left MUL DIV
-%right LPAR
-
+%right "then" ELSE
+%right ASSIGN COMMA
+%right EQ NE LE GE LT GT
+%left PLUS MINUS NOT
+%left MUL DIV MOD
+%left OR AND BITWISEAND BITWISEOR BITWISEXOR
+%right LPAR LBRACE
 
 
 %%
@@ -175,7 +178,7 @@ Statement: Expr SEMI {}
     | LBRACE StatementBrace {}
 
     | IF LPAR Expr RPAR Statement StatementElse {}
-
+    
     | WHILE LPAR Expr RPAR Statement {}
 
     | RETURN StatementReturn {}
@@ -185,8 +188,8 @@ StatementBrace: Statement RBRACE {}
     | RBRACE {}
     ;
 
-StatementElse: ELSE Statement {}
-    | {}
+StatementElse: ELSE Statement   {}
+    | %prec "then"              {}
     ;
 
 StatementReturn: SEMI {}
@@ -219,16 +222,12 @@ Expr: Expr ASSIGN Expr {}
     | MINUS Expr            {}
     | NOT Expr              {}
 
-    | ID             {}
-    | INTLIT         {}
-    | CHRLIT         {}
-    | REALLIT        {}
-    | ID LPAR Expr ExprRep RPAR     {}
-    | LPAR Expr ExprRep RPAR        {}
-    ;
-
-ExprRep: COMMA Expr ExprRep {}
-    | {}
+    | ID                {}
+    | INTLIT            {}
+    | CHRLIT            {}
+    | REALLIT           {}
+    | ID LPAR Expr RPAR {}
+    | LPAR Expr RPAR    {}
     ;
 
 %%
