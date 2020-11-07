@@ -1,7 +1,6 @@
 /*
 uc2018293871 Sofia Silva
 uc2018279700 João Marcelino
-{escape}({char}+|{escape}+)
 */
 
 /* ISTO FUNFA MAS O CODIGO FICA TERRIVELMENTE FEIO \\\'|\\\"| */
@@ -35,11 +34,16 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 %{																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																														
 	#include <string.h>
 	#include <stdio.h>
+
+	int willPrint=0;
+	int LexicalErrors=0;
+	int treePrint=0;
+	int SintaxErrors=0;
+
 	//sempre que for lida 1 char aumentar ncol,
 	//sempre que for encontrado \n reset ncol add nline
 	int nline=1,ncol=1;
 	int comline=0,comcol=1; 
-	int willPrint=0;
 	int longComment=0;
 %}
 /*<CHARS>{escape}	{numChar++;if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);if(numChar>1)printf("ERROR INVALID CHAR");}
@@ -51,12 +55,12 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 "//"			{comline=0; comcol=yyleng; longComment=0; BEGIN COMMENT;}
 <COMMENT>"*/" 	{comcol+=yyleng; if(longComment){ nline+=comline; ncol+=comcol; BEGIN 0;}}
 <COMMENT>\n		{comline++; comcol=1; if(!longComment){ nline+=comline; ncol=comcol; BEGIN 0;}}
-<COMMENT><<EOF>> {if(longComment){printf("Line %d, col %d: unterminated comment\n",nline,ncol);}nline+=comline;ncol=comcol;BEGIN 0;}
+<COMMENT><<EOF>> {if(longComment){if(LexicalErrors)printf("Line %d, col %d: unterminated comment\n",nline,ncol);}nline+=comline;ncol=comcol;BEGIN 0;}
 <COMMENT>.		{comcol+=yyleng;}
 
 '({char}|{escape})' {if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);ncol+=yyleng;}
-'({char}|(\\.))*' {printf("Line %d, col %d: invalid char constant (%s)\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
-'({char}|(\\.))*(\\?) {printf("Line %d, col %d: unterminated char constant\n",nline,ncol);ncol+=yyleng;}
+'({char}|(\\.))*' {if(LexicalErrors)printf("Line %d, col %d: invalid char constant (%s)\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
+'({char}|(\\.))*(\\?) {if(LexicalErrors)printf("Line %d, col %d: unterminated char constant\n",nline,ncol);ncol+=yyleng;}
 
 
 "char"          {ncol+=yyleng;if(willPrint)printf("CHAR\n");}
@@ -99,7 +103,7 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 
 \r\n|\n|\r		{nline++;ncol=1;}
 \f|\v|\t|" "	{ncol++;}
-.				{printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);ncol++;}
+.				{if(LexicalErrors)printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);ncol++;}
 %%
 
 
@@ -107,8 +111,18 @@ int main(int argc, char *argv[ ]){
 	if (argc>=2){
 		if (!strcmp(argv[1],"-l"))
 			willPrint=1;
+			LexicalErrors=1;
 		else if (!strcmp(argv[1],"-e1"))
-			willPrint=0;
+			printErrors=1;
+			LexicalErrors=1;
+		else if (!strcmp(argv[1],"-t"))
+			treePrint=1;
+		else if (!strcmp(argv[1],"-e2"))
+			LexicalErrors=1;
+			SintaxErrors=1;
+	}else{
+		LexicalErrors=1;
+		SintaxErrors=1;
 	}
 	yylex();
 	return 0;

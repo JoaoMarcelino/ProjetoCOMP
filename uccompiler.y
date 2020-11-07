@@ -1,3 +1,8 @@
+/*
+uc2018293871 Sofia Silva
+uc2018279700 João Marcelino
+*/
+
 %{
     #include <stdlib.h>
     #include <stdio.h>
@@ -104,7 +109,8 @@ char* id;
 
 
 %right "then" ELSE
-%right ASSIGN COMMA
+%right ASSIGN
+%left COMMA
 %right EQ NE LE GE LT GT
 %left PLUS MINUS NOT
 %left MUL DIV MOD

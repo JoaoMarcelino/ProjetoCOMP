@@ -1289,9 +1289,7 @@ State 68
     BITWISEOR   shift, and go to state 39
     BITWISEXOR  shift, and go to state 40
     AND         shift, and go to state 41
-    ASSIGN      shift, and go to state 42
     MUL         shift, and go to state 43
-    COMMA       shift, and go to state 44
     DIV         shift, and go to state 45
     EQ          shift, and go to state 46
     GE          shift, and go to state 47
