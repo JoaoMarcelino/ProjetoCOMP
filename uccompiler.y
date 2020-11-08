@@ -66,6 +66,14 @@ uc2018279700 João Marcelino
     }
 
 
+    void printTree(nodeptr node){
+        nodeptr aux = node;
+        int i=0;
+        while (aux){
+            printf("%d %s ",i++,aux->type);
+        }
+    }
+
     /*
     () normal
     [] opcional
@@ -165,7 +173,7 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 
 
 %%
-FunctionsAndDec: TypeSpec FunctionsAndDeclarations {}
+FunctionsAndDec: TypeSpec FunctionsAndDeclarations                  {}
     ;
 
 FunctionsAndDeclarations: FunctionDeclarator FuctionsAndDecExtra    {}
@@ -224,62 +232,62 @@ Declarator: ASSIGN Expr                                             {}
     ;
 
 
-Statement: Expr SEMI {}
-    | SEMI  {}
+Statement: Expr SEMI                                                {}
+    | SEMI                                                          {}
 
-    | LBRACE StatementBrace {}
+    | LBRACE StatementBrace                                         {}
 
-    | IF LPAR Expr RPAR Statement StatementElse {}
+    | IF LPAR Expr RPAR Statement StatementElse                     {}
     
-    | WHILE LPAR Expr RPAR Statement {}
+    | WHILE LPAR Expr RPAR Statement                                {}
 
-    | RETURN StatementReturn {}
+    | RETURN StatementReturn                                        {}
     ;
 
-StatementBrace: Statement RBRACE {}
-    | RBRACE {}
+StatementBrace: Statement RBRACE                                    {}
+    | RBRACE                                                        {}
     ;
 
-StatementElse: ELSE Statement   {}
-    | %prec "then"              {}
+StatementElse: ELSE Statement                                       {}
+    | %prec "then"                                                  {}
     ;
 
-StatementReturn: SEMI {}
-    | Expr SEMI {}
+StatementReturn: SEMI                                               {}
+    | Expr SEMI                                                     {}
     ;
 
-Expr: Expr ASSIGN Expr {}
-    | Expr COMMA Expr {}
+Expr: Expr ASSIGN Expr                                              {}
+    | Expr COMMA Expr                                               {}
     
-    | Expr PLUS Expr    {}
-    | Expr MINUS Expr   {}
-    | Expr MUL Expr     {}
-    | Expr DIV Expr     {}
-    | Expr MOD Expr     {}
+    | Expr PLUS Expr                                                {}
+    | Expr MINUS Expr                                               {}
+    | Expr MUL Expr                                                 {}
+    | Expr DIV Expr                                                 {}
+    | Expr MOD Expr                                                 {}
 
-    | Expr OR Expr          {}
-    | Expr AND Expr         {}
-    | Expr BITWISEAND Expr  {}
-    | Expr BITWISEOR Expr   {}
-    | Expr BITWISEXOR Expr  {}
+    | Expr OR Expr                                                  {}
+    | Expr AND Expr                                                 {}
+    | Expr BITWISEAND Expr                                          {}
+    | Expr BITWISEOR Expr                                           {}
+    | Expr BITWISEXOR Expr                                          {}
 
-    | Expr EQ Expr          {}
-    | Expr NE Expr          {}
-    | Expr LE Expr          {}
-    | Expr GE Expr          {}
-    | Expr LT Expr          {}
-    | Expr GT Expr          {}
+    | Expr EQ Expr                                                  {}
+    | Expr NE Expr                                                  {}
+    | Expr LE Expr                                                  {}
+    | Expr GE Expr                                                  {}
+    | Expr LT Expr                                                  {}
+    | Expr GT Expr                                                  {}
 
-    | PLUS Expr             {}
-    | MINUS Expr            {}
-    | NOT Expr              {}
+    | PLUS Expr                                                     {}
+    | MINUS Expr                                                    {}
+    | NOT Expr                                                      {}
 
-    | ID                {}
-    | INTLIT            {}
-    | CHRLIT            {}
-    | REALLIT           {}
-    | ID LPAR Expr RPAR {}
-    | LPAR Expr RPAR    {}
+    | ID                                                            {}
+    | INTLIT                                                        {}
+    | CHRLIT                                                        {}
+    | REALLIT                                                       {}
+    | ID LPAR Expr RPAR                                             {}
+    | LPAR Expr RPAR                                                {}
     ;
 
 %%

@@ -126,6 +126,14 @@
     }
 
 
+    void printTree(nodeptr node){
+        nodeptr aux = node;
+        int i=0;
+        while (aux){
+            printf("%d %s ",i++,aux->type);
+        }
+    }
+
     /*
     () normal
     [] opcional
@@ -163,7 +171,7 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 
     */
 
-#line 167 "y.tab.c" /* yacc.c:339  */
+#line 175 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -283,12 +291,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 107 "uccompiler.y" /* yacc.c:355  */
+#line 115 "uccompiler.y" /* yacc.c:355  */
 
     struct node *node;
     char* id;
 
-#line 292 "y.tab.c" /* yacc.c:355  */
+#line 300 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -305,7 +313,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 309 "y.tab.c" /* yacc.c:358  */
+#line 317 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -606,13 +614,13 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   168,   168,   171,   172,   175,   176,   179,   180,   181,
-     182,   183,   186,   189,   192,   193,   195,   196,   199,   200,
-     203,   204,   207,   208,   211,   212,   215,   218,   219,   222,
-     223,   227,   228,   230,   232,   234,   236,   239,   240,   243,
-     244,   247,   248,   251,   252,   254,   255,   256,   257,   258,
-     260,   261,   262,   263,   264,   266,   267,   268,   269,   270,
-     271,   273,   274,   275,   277,   278,   279,   280,   281,   282
+       0,   176,   176,   179,   180,   183,   184,   187,   188,   189,
+     190,   191,   194,   197,   200,   201,   203,   204,   207,   208,
+     211,   212,   215,   216,   219,   220,   223,   226,   227,   230,
+     231,   235,   236,   238,   240,   242,   244,   247,   248,   251,
+     252,   255,   256,   259,   260,   262,   263,   264,   265,   266,
+     268,   269,   270,   271,   272,   274,   275,   276,   277,   278,
+     279,   281,   282,   283,   285,   286,   287,   288,   289,   290
 };
 #endif
 
@@ -1514,415 +1522,415 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 168 "uccompiler.y" /* yacc.c:1646  */
+#line 176 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1520 "y.tab.c" /* yacc.c:1646  */
+#line 1528 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 171 "uccompiler.y" /* yacc.c:1646  */
+#line 179 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1526 "y.tab.c" /* yacc.c:1646  */
+#line 1534 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 172 "uccompiler.y" /* yacc.c:1646  */
+#line 180 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1532 "y.tab.c" /* yacc.c:1646  */
+#line 1540 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 175 "uccompiler.y" /* yacc.c:1646  */
+#line 183 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1538 "y.tab.c" /* yacc.c:1646  */
+#line 1546 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 176 "uccompiler.y" /* yacc.c:1646  */
+#line 184 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1544 "y.tab.c" /* yacc.c:1646  */
+#line 1552 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 179 "uccompiler.y" /* yacc.c:1646  */
+#line 187 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1550 "y.tab.c" /* yacc.c:1646  */
+#line 1558 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 180 "uccompiler.y" /* yacc.c:1646  */
+#line 188 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1556 "y.tab.c" /* yacc.c:1646  */
+#line 1564 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 181 "uccompiler.y" /* yacc.c:1646  */
+#line 189 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1562 "y.tab.c" /* yacc.c:1646  */
+#line 1570 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 182 "uccompiler.y" /* yacc.c:1646  */
+#line 190 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1568 "y.tab.c" /* yacc.c:1646  */
+#line 1576 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 183 "uccompiler.y" /* yacc.c:1646  */
+#line 191 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1574 "y.tab.c" /* yacc.c:1646  */
+#line 1582 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 186 "uccompiler.y" /* yacc.c:1646  */
+#line 194 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1580 "y.tab.c" /* yacc.c:1646  */
+#line 1588 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 189 "uccompiler.y" /* yacc.c:1646  */
+#line 197 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1586 "y.tab.c" /* yacc.c:1646  */
+#line 1594 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 192 "uccompiler.y" /* yacc.c:1646  */
+#line 200 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1592 "y.tab.c" /* yacc.c:1646  */
+#line 1600 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 193 "uccompiler.y" /* yacc.c:1646  */
+#line 201 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1598 "y.tab.c" /* yacc.c:1646  */
+#line 1606 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 195 "uccompiler.y" /* yacc.c:1646  */
+#line 203 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1604 "y.tab.c" /* yacc.c:1646  */
+#line 1612 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 196 "uccompiler.y" /* yacc.c:1646  */
+#line 204 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1610 "y.tab.c" /* yacc.c:1646  */
+#line 1618 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 199 "uccompiler.y" /* yacc.c:1646  */
+#line 207 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1616 "y.tab.c" /* yacc.c:1646  */
+#line 1624 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 200 "uccompiler.y" /* yacc.c:1646  */
+#line 208 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1622 "y.tab.c" /* yacc.c:1646  */
+#line 1630 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 203 "uccompiler.y" /* yacc.c:1646  */
+#line 211 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1628 "y.tab.c" /* yacc.c:1646  */
+#line 1636 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 204 "uccompiler.y" /* yacc.c:1646  */
+#line 212 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1634 "y.tab.c" /* yacc.c:1646  */
+#line 1642 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 207 "uccompiler.y" /* yacc.c:1646  */
+#line 215 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1640 "y.tab.c" /* yacc.c:1646  */
+#line 1648 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 208 "uccompiler.y" /* yacc.c:1646  */
+#line 216 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1646 "y.tab.c" /* yacc.c:1646  */
+#line 1654 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 211 "uccompiler.y" /* yacc.c:1646  */
+#line 219 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1652 "y.tab.c" /* yacc.c:1646  */
+#line 1660 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 212 "uccompiler.y" /* yacc.c:1646  */
+#line 220 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1658 "y.tab.c" /* yacc.c:1646  */
+#line 1666 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 215 "uccompiler.y" /* yacc.c:1646  */
+#line 223 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1664 "y.tab.c" /* yacc.c:1646  */
+#line 1672 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 218 "uccompiler.y" /* yacc.c:1646  */
+#line 226 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1670 "y.tab.c" /* yacc.c:1646  */
+#line 1678 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 219 "uccompiler.y" /* yacc.c:1646  */
+#line 227 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1676 "y.tab.c" /* yacc.c:1646  */
+#line 1684 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 222 "uccompiler.y" /* yacc.c:1646  */
+#line 230 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1682 "y.tab.c" /* yacc.c:1646  */
+#line 1690 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 223 "uccompiler.y" /* yacc.c:1646  */
+#line 231 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1688 "y.tab.c" /* yacc.c:1646  */
+#line 1696 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 227 "uccompiler.y" /* yacc.c:1646  */
+#line 235 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1694 "y.tab.c" /* yacc.c:1646  */
+#line 1702 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 228 "uccompiler.y" /* yacc.c:1646  */
+#line 236 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1700 "y.tab.c" /* yacc.c:1646  */
+#line 1708 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 230 "uccompiler.y" /* yacc.c:1646  */
+#line 238 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1706 "y.tab.c" /* yacc.c:1646  */
+#line 1714 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 232 "uccompiler.y" /* yacc.c:1646  */
+#line 240 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1712 "y.tab.c" /* yacc.c:1646  */
+#line 1720 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 234 "uccompiler.y" /* yacc.c:1646  */
+#line 242 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1718 "y.tab.c" /* yacc.c:1646  */
+#line 1726 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 236 "uccompiler.y" /* yacc.c:1646  */
+#line 244 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1724 "y.tab.c" /* yacc.c:1646  */
+#line 1732 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 239 "uccompiler.y" /* yacc.c:1646  */
+#line 247 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1730 "y.tab.c" /* yacc.c:1646  */
+#line 1738 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 240 "uccompiler.y" /* yacc.c:1646  */
+#line 248 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1736 "y.tab.c" /* yacc.c:1646  */
+#line 1744 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 243 "uccompiler.y" /* yacc.c:1646  */
+#line 251 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1742 "y.tab.c" /* yacc.c:1646  */
+#line 1750 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 244 "uccompiler.y" /* yacc.c:1646  */
+#line 252 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1748 "y.tab.c" /* yacc.c:1646  */
+#line 1756 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 247 "uccompiler.y" /* yacc.c:1646  */
+#line 255 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1754 "y.tab.c" /* yacc.c:1646  */
+#line 1762 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 248 "uccompiler.y" /* yacc.c:1646  */
+#line 256 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1760 "y.tab.c" /* yacc.c:1646  */
+#line 1768 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 251 "uccompiler.y" /* yacc.c:1646  */
+#line 259 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1766 "y.tab.c" /* yacc.c:1646  */
+#line 1774 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 252 "uccompiler.y" /* yacc.c:1646  */
+#line 260 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1772 "y.tab.c" /* yacc.c:1646  */
+#line 1780 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 254 "uccompiler.y" /* yacc.c:1646  */
+#line 262 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1778 "y.tab.c" /* yacc.c:1646  */
+#line 1786 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 255 "uccompiler.y" /* yacc.c:1646  */
+#line 263 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1784 "y.tab.c" /* yacc.c:1646  */
+#line 1792 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 256 "uccompiler.y" /* yacc.c:1646  */
+#line 264 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1790 "y.tab.c" /* yacc.c:1646  */
+#line 1798 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 257 "uccompiler.y" /* yacc.c:1646  */
+#line 265 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1796 "y.tab.c" /* yacc.c:1646  */
+#line 1804 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 258 "uccompiler.y" /* yacc.c:1646  */
+#line 266 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1802 "y.tab.c" /* yacc.c:1646  */
+#line 1810 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 260 "uccompiler.y" /* yacc.c:1646  */
+#line 268 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1808 "y.tab.c" /* yacc.c:1646  */
+#line 1816 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 261 "uccompiler.y" /* yacc.c:1646  */
+#line 269 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1814 "y.tab.c" /* yacc.c:1646  */
+#line 1822 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 262 "uccompiler.y" /* yacc.c:1646  */
+#line 270 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1820 "y.tab.c" /* yacc.c:1646  */
+#line 1828 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 263 "uccompiler.y" /* yacc.c:1646  */
+#line 271 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1826 "y.tab.c" /* yacc.c:1646  */
+#line 1834 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 264 "uccompiler.y" /* yacc.c:1646  */
+#line 272 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1832 "y.tab.c" /* yacc.c:1646  */
+#line 1840 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 266 "uccompiler.y" /* yacc.c:1646  */
+#line 274 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1838 "y.tab.c" /* yacc.c:1646  */
+#line 1846 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 267 "uccompiler.y" /* yacc.c:1646  */
+#line 275 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1844 "y.tab.c" /* yacc.c:1646  */
+#line 1852 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 268 "uccompiler.y" /* yacc.c:1646  */
+#line 276 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1850 "y.tab.c" /* yacc.c:1646  */
+#line 1858 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 269 "uccompiler.y" /* yacc.c:1646  */
+#line 277 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1856 "y.tab.c" /* yacc.c:1646  */
+#line 1864 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 270 "uccompiler.y" /* yacc.c:1646  */
+#line 278 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1862 "y.tab.c" /* yacc.c:1646  */
+#line 1870 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 271 "uccompiler.y" /* yacc.c:1646  */
+#line 279 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1868 "y.tab.c" /* yacc.c:1646  */
+#line 1876 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 273 "uccompiler.y" /* yacc.c:1646  */
+#line 281 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1874 "y.tab.c" /* yacc.c:1646  */
+#line 1882 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 274 "uccompiler.y" /* yacc.c:1646  */
+#line 282 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1880 "y.tab.c" /* yacc.c:1646  */
+#line 1888 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 275 "uccompiler.y" /* yacc.c:1646  */
+#line 283 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1886 "y.tab.c" /* yacc.c:1646  */
+#line 1894 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 277 "uccompiler.y" /* yacc.c:1646  */
+#line 285 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1892 "y.tab.c" /* yacc.c:1646  */
+#line 1900 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 278 "uccompiler.y" /* yacc.c:1646  */
+#line 286 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1898 "y.tab.c" /* yacc.c:1646  */
+#line 1906 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 279 "uccompiler.y" /* yacc.c:1646  */
+#line 287 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1904 "y.tab.c" /* yacc.c:1646  */
+#line 1912 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 280 "uccompiler.y" /* yacc.c:1646  */
+#line 288 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1910 "y.tab.c" /* yacc.c:1646  */
+#line 1918 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 281 "uccompiler.y" /* yacc.c:1646  */
+#line 289 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1916 "y.tab.c" /* yacc.c:1646  */
+#line 1924 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 282 "uccompiler.y" /* yacc.c:1646  */
+#line 290 "uccompiler.y" /* yacc.c:1646  */
     {}
-#line 1922 "y.tab.c" /* yacc.c:1646  */
+#line 1930 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1926 "y.tab.c" /* yacc.c:1646  */
+#line 1934 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2150,7 +2158,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 285 "uccompiler.y" /* yacc.c:1906  */
+#line 293 "uccompiler.y" /* yacc.c:1906  */
 
 
 
