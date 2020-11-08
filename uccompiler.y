@@ -6,21 +6,65 @@ uc2018279700 João Marcelino
 %{
     #include <stdlib.h>
     #include <stdio.h>
-    #include <string.h> 
+    #include <string.h>
+
+    #include "y.tab.h"
     int yylex(void);
     void yyerror (const char *s);
     int main(void);
 
-    #define NSYMS 100
+    #define SIZE 100
 
-    typedef struct _symtab{
-    char *name;
-    int value;
-    }symtab;
+    typedef struct  node*nodeptr;
 
-    symtab tab[NSYMS];
+    typedef struct node{
+        char *id;
+        char *type;
+        nodeptr nodeNext;
+        nodeptr nodeChild;
+        int value;
+    }node;
 
-    symtab *symlook(char *varname); 
+
+    nodeptr createNode(){
+        nodeptr aux;
+        aux=(nodeptr)malloc(sizeof(nodeptr));
+
+        if (aux!=NULL){
+            aux->id=malloc(SIZE*sizeof(char));
+            aux->type=malloc(SIZE*sizeof(char));
+            aux->nodeNext=NULL;
+            aux->nodeChild= NULL;
+        }
+        return aux;
+    }
+
+    nodeptr insertNode(nodeptr node, char *id, char *type){
+        nodeptr aux = createNode();
+
+        aux->id = id;
+        aux->type= type;
+        /* Adicionar no inicio */
+        aux->nodeChild= node;
+        aux->nodeNext= NULL;
+
+        return aux;
+    }
+
+    void freeTree(nodeptr first){
+        nodeptr aux=first;
+        nodeptr aux2;
+        while (aux->nodeNext!=NULL){
+            free(aux->id);
+            free(aux->type);
+            freeTree(aux->nodeChild);
+            aux2=aux->nodeNext;
+            free(aux);
+            aux=aux2;
+        }
+        free(aux2);
+    }
+
 
     /*
     () normal
@@ -61,9 +105,8 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 %}
 
 %union{
-int value;
-char *others;
-char* id;
+    struct node *node;
+    char* id;
 }
 
 
@@ -102,13 +145,16 @@ char* id;
 %token RPAR
 %token SEMI
 %token RESERVED
-%token <others> CHRLIT
-%token <others> REALLIT
-%token <value> INTLIT
+
+%token <id> CHRLIT
+%token <id> REALLIT
+%token <id> INTLIT
 %token <id> ID
 
 
+
 %right "then" ELSE
+
 %right ASSIGN
 %left COMMA
 %right EQ NE LE GE LT GT
@@ -122,59 +168,59 @@ char* id;
 FunctionsAndDec: TypeSpec FunctionsAndDeclarations {}
     ;
 
-FunctionsAndDeclarations: FunctionDeclarator FuctionsAndDecExtra  {}
-    |   Declaration FuctionsAndDecExtra                          {}
+FunctionsAndDeclarations: FunctionDeclarator FuctionsAndDecExtra    {}
+    |   Declaration FuctionsAndDecExtra                             {}
     ;
 
-FuctionsAndDecExtra:  FunctionsAndDeclarations {}
-    |       {}
+FuctionsAndDecExtra:  FunctionsAndDeclarations                      {}
+    |                                                               {}
     ;
 
-TypeSpec: CHAR      {}
-    | INT           {}
-    | VOID          {}
-    | SHORT         {}
-    | DOUBLE        {}
+TypeSpec: CHAR                                                      {}
+    | INT                                                           {}
+    | VOID                                                          {}
+    | SHORT                                                         {}
+    | DOUBLE                                                        {}
     ;
 
 FunctionDeclarator: ID LPAR ParameterList RPAR FunctionHelper       {}
     ;
 
-ParameterList: TypeSpec ParameterDeclaration ParameterExtra {}
+ParameterList: TypeSpec ParameterDeclaration ParameterExtra         {}
     ;
 
-ParameterExtra: COMMA TypeSpec ParameterDeclaration ParameterExtra {}
-    | {}
+ParameterExtra: COMMA TypeSpec ParameterDeclaration ParameterExtra  {}
+    |                                                               {}
     ;      
-ParameterDeclaration: ID {}
-    | {}
+ParameterDeclaration: ID                                            {}
+    |                                                               {}
     ;
 
-FunctionHelper:   LBRACE FunctionBody RBRACE    {}
-    | SEMI {}
+FunctionHelper:   LBRACE FunctionBody RBRACE                        {}
+    | SEMI                                                          {}
     ;
 
-FunctionBody: DeclarationsAndStatements {}
-    | {}
+FunctionBody: DeclarationsAndStatements                             {}
+    |                                                               {}
     ;
 
-DeclarationsAndStatements: Statement DeclarationsAndStatementsRep {}
-	| TypeSpec Declaration DeclarationsAndStatementsRep {}
+DeclarationsAndStatements: Statement DeclarationsAndStatementsRep   {}
+	| TypeSpec Declaration DeclarationsAndStatementsRep             {}
     ;
 
-DeclarationsAndStatementsRep: DeclarationsAndStatements {}
-    | {}
+DeclarationsAndStatementsRep: DeclarationsAndStatements             {}
+    |                                                               {}
     ;
 
-Declaration: ID Declarator DeclarationExtra {}
+Declaration: ID Declarator DeclarationExtra                         {}
     ;
 
-DeclarationExtra: COMMA ID Declarator DeclarationExtra {}
-    | SEMI      {}
+DeclarationExtra: COMMA ID Declarator DeclarationExtra              {}
+    | SEMI                                                          {}
     ;
 
-Declarator: ASSIGN Expr {}
-    |   {}
+Declarator: ASSIGN Expr                                             {}
+    |                                                               {}
     ;
 
 
@@ -238,21 +284,4 @@ Expr: Expr ASSIGN Expr {}
 
 %%
 
-symtab *symlook(char *varname)
-{
-int i;
-  
-for(i=0; i<NSYMS; i++)
- {
-        if(tab[i].name && strcmp(varname, tab[i].name)==0)   
-                return &tab[i];
-        if(!tab[i].name)
-        {
-                tab[i].name=varname;
-                return &tab[i];
-        }
- }
-yyerror("variaveis a mais...");
-    exit(1);
-}
 

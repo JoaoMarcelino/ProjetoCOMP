@@ -130,13 +130,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 58 "uccompiler.y" /* yacc.c:1909  */
+#line 107 "uccompiler.y" /* yacc.c:1909  */
 
-int value;
-char *others;
-char* id;
+    struct node *node;
+    char* id;
 
-#line 140 "y.tab.h" /* yacc.c:1909  */
+#line 139 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
