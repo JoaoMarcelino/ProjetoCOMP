@@ -1,14 +1,8 @@
-.PHONY: all generate meta1 printmeta1 lex lexerrors sint sinterrors tree treeprint clean
+.PHONY: all generate print errors run clean
 
-all:generate
+all:generate print
 
-meta1: generate printmeta1
-
-lex:generate lexerrors
-
-sint: generate sinterrors
-
-tree: generate treeprint
+errors:generate run
 
 generate:
 	lex uccompiler.l
@@ -16,17 +10,11 @@ generate:
 	cc -o uccompiler y.tab.c lex.yy.c
 
 
-printmeta1:
+print:
 	./uccompiler -1 <test.txt 
 
-lexerrors:
-	./uccompiler -e1 <test.txt
-
-sinterrors:
-	./uccompiler -e2 <test.txt
- 
-treeprint:
-	./uccompiler -t <test.txt
+run:
+	./uccompiler <test.txt
 
 clean:
 	@echo "Cleaning up..."
