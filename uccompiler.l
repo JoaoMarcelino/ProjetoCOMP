@@ -133,6 +133,7 @@ int main(int argc, char *argv[ ]){
 		SintaxErrors=1;
 	}
 	yylex();
+	yyparse();
 	return 0;
 }
 

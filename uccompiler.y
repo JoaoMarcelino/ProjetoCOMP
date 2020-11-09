@@ -21,7 +21,7 @@ uc2018279700 João Marcelino
         char *id;
         char *type;
         nodeptr nodeNext;
-        nodeptr nodeChild;
+        nodeptr nodeBrother;
         int value;
     }node;
 
@@ -34,7 +34,7 @@ uc2018279700 João Marcelino
             aux->id=malloc(SIZE*sizeof(char));
             aux->type=malloc(SIZE*sizeof(char));
             aux->nodeNext=NULL;
-            aux->nodeChild= NULL;
+            aux->nodeBrother= NULL;
         }
         return aux;
     }
@@ -45,7 +45,7 @@ uc2018279700 João Marcelino
         aux->id = id;
         aux->type= type;
         /* Adicionar no inicio */
-        aux->nodeChild= node;
+        aux->nodeBrother= node;
         aux->nodeNext= NULL;
 
         return aux;
@@ -57,7 +57,7 @@ uc2018279700 João Marcelino
         while (aux->nodeNext!=NULL){
             free(aux->id);
             free(aux->type);
-            freeTree(aux->nodeChild);
+            freeTree(aux->nodeBrother);
             aux2=aux->nodeNext;
             free(aux);
             aux=aux2;
@@ -71,7 +71,15 @@ uc2018279700 João Marcelino
         int i=0;
         while (aux){
             printf("%d %s ",i++,aux->type);
+            if (aux->nodeBrother){
+                printTree(aux->nodeBrother);
+            }
+            aux=aux->nodeNext;
         }
+    }
+
+    void joinNodes(nodeptr node1, nodeptr node2){
+        node1->nodeBrother = node2;
     }
 
     /*
@@ -198,121 +206,122 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 
 
 %%
-FunctionsAndDec: TypeSpec FunctionsAndDeclarations                  {}
+FunctionsAndDec: TypeSpec FunctionsAndDeclarations                  {joinNodes($1,$2);$$=insertNode($1,NULL,"PROGRAM");printTree($$);}
     ;
 
-FunctionsAndDeclarations: FunctionDeclarator FuctionsAndDecExtra    {}
-    |   Declaration FuctionsAndDecExtra                             {}
+FunctionsAndDeclarations: FunctionDeclarator FuctionsAndDecExtra    {joinNodes($1,$2);$$ = $1;}
+    | Declaration FuctionsAndDecExtra                               {joinNodes($1,$2);$$ = $1;}
     ;
 
-FuctionsAndDecExtra:  FunctionsAndDeclarations                      {}
-    |                                                               {}
+FuctionsAndDecExtra:  FunctionsAndDeclarations                      {$$ = $1;}
+    |                                                               {$$ = NULL;}
     ;
 
-TypeSpec: CHAR                                                      {}
-    | INT                                                           {}
-    | VOID                                                          {}
-    | SHORT                                                         {}
-    | DOUBLE                                                        {}
+TypeSpec: CHAR                                                      {$$=insertNode(NULL,NULL,"CHAR");}
+    | INT                                                           {$$=insertNode(NULL,NULL,"INT");}
+    | VOID                                                          {$$=insertNode(NULL,NULL,"VOID");}
+    | SHORT                                                         {$$=insertNode(NULL,NULL,"SHORT");}
+    | DOUBLE                                                        {$$=insertNode(NULL,NULL,"DOUBLE");}
     ;
 
-FunctionDeclarator: ID LPAR ParameterList RPAR FunctionHelper       {}
+FunctionDeclarator: ID LPAR ParameterList RPAR FunctionHelper       {joinNodes($3,$5); $$=insertNode($3, $1,"ID");}
     ;
 
-ParameterList: TypeSpec ParameterDeclaration ParameterExtra         {}
+ParameterList: TypeSpec ParameterDeclaration ParameterExtra         {joinNodes($2,$3);joinNodes($1,$2);$$ = $1;}
     ;
 
-ParameterExtra: COMMA TypeSpec ParameterDeclaration ParameterExtra  {}
-    |                                                               {}
+ParameterExtra: COMMA TypeSpec ParameterDeclaration ParameterExtra  {joinNodes($3,$4);joinNodes($2,$3);$$=insertNode($2, NULL,"COMMA");}
+    |                                                               {$$ = NULL;}
     ;      
-ParameterDeclaration: ID                                            {}
-    |                                                               {}
+
+ParameterDeclaration: ID                                            {$$ = insertNode(NULL, $1,"ID");}
+    |                                                               {$$ = NULL;}
     ;
 
-FunctionHelper:   LBRACE FunctionBody RBRACE                        {}
-    | SEMI                                                          {}
+FunctionHelper:   LBRACE FunctionBody RBRACE                        {$$ = $2;}
+    | SEMI                                                          {$$ = NULL;}
     ;
 
-FunctionBody: DeclarationsAndStatements                             {}
-    |                                                               {}
+FunctionBody: DeclarationsAndStatements                             {$$ = $1;}
+    |                                                               {$$ = NULL;}
     ;
 
-DeclarationsAndStatements: Statement DeclarationsAndStatementsRep   {}
-	| TypeSpec Declaration DeclarationsAndStatementsRep             {}
+DeclarationsAndStatements: Statement DeclarationsAndStatementsRep   {joinNodes($1,$2); $$ = $1;}
+	| TypeSpec Declaration DeclarationsAndStatementsRep             {joinNodes($2,$3);joinNodes($1,$2); $$ = $1;}
     ;
 
-DeclarationsAndStatementsRep: DeclarationsAndStatements             {}
-    |                                                               {}
+DeclarationsAndStatementsRep: DeclarationsAndStatements             {$$ = $1;};
+    |                                                               {$$ = NULL;}
     ;
 
-Declaration: ID Declarator DeclarationExtra                         {}
+Declaration: ID Declarator DeclarationExtra                         {joinNodes($2,$3); $$=insertNode($2, $1,"ID");}
     ;
 
-DeclarationExtra: COMMA ID Declarator DeclarationExtra              {}
-    | SEMI                                                          {}
+DeclarationExtra: COMMA ID Declarator DeclarationExtra              {nodeptr aux; joinNodes($3,$4); aux = insertNode($3,$2,"ID"); $$ =insertNode(aux,NULL,"COMMA"); }
+    | SEMI                                                          {$$ = NULL;}
     ;
 
-Declarator: ASSIGN Expr                                             {}
-    |                                                               {}
+Declarator: ASSIGN Expr                                             {$$=insertNode($2,NULL,"ASSIGN");}
+    |                                                               {$$ = NULL;}
     ;
 
 
-Statement: Expr SEMI                                                {}
-    | SEMI                                                          {}
+Statement: Expr SEMI                                                {$$ = $1;}
+    | SEMI                                                          {$$ =  NULL;}
 
-    | LBRACE StatementBrace                                         {}
+    | LBRACE StatementBrace                                         {$$ = $2;}
 
-    | IF LPAR Expr RPAR Statement StatementElse                     {}
+    | IF LPAR Expr RPAR Statement StatementElse                     {joinNodes($5,$6); joinNodes($3,$5); $$=insertNode($3,NULL,"IF");}
     
-    | WHILE LPAR Expr RPAR Statement                                {}
+    | WHILE LPAR Expr RPAR Statement                                {joinNodes($3,$5); $$=insertNode($3,NULL,"WHILE");}
 
-    | RETURN StatementReturn                                        {}
+    | RETURN StatementReturn                                        {$$=insertNode($2,NULL,"RETURN");}
     ;
 
-StatementBrace: Statement RBRACE                                    {}
-    | RBRACE                                                        {}
+StatementBrace: Statement RBRACE                                    {$$=insertNode($1,NULL,"STATEMENT");}
+    | RBRACE                                                        {$$ = NULL;}
     ;
 
-StatementElse: ELSE Statement                                       {}
-    | %prec "then"                                                  {}
+StatementElse: ELSE Statement                                       {$$=insertNode($2,NULL,"STATEMENT");}
+    | %prec "then"                                                  {$$ = NULL;}
     ;
 
-StatementReturn: SEMI                                               {}
-    | Expr SEMI                                                     {}
+StatementReturn: SEMI                                               {$$ = NULL;}
+    | Expr SEMI                                                     {$$ = $1;}
     ;
 
-Expr: Expr ASSIGN Expr                                              {}
-    | Expr COMMA Expr                                               {}
+Expr: Expr ASSIGN Expr                                              {joinNodes($1,$3); $$=insertNode($1,NULL,"ASSIGN");}
+    | Expr COMMA Expr                                               {joinNodes($1,$3); $$=insertNode($1,NULL,"COMMA");}
     
-    | Expr PLUS Expr                                                {}
-    | Expr MINUS Expr                                               {}
-    | Expr MUL Expr                                                 {}
-    | Expr DIV Expr                                                 {}
-    | Expr MOD Expr                                                 {}
+    | Expr PLUS Expr                                                {joinNodes($1,$3); $$=insertNode($1,NULL,"PLUS");}
+    | Expr MINUS Expr                                               {joinNodes($1,$3); $$=insertNode($1,NULL,"MINUS");}
+    | Expr MUL Expr                                                 {joinNodes($1,$3); $$=insertNode($1,NULL,"MUL");}
+    | Expr DIV Expr                                                 {joinNodes($1,$3); $$=insertNode($1,NULL,"DIV");}
+    | Expr MOD Expr                                                 {joinNodes($1,$3); $$=insertNode($1,NULL,"MOD");}
 
-    | Expr OR Expr                                                  {}
-    | Expr AND Expr                                                 {}
-    | Expr BITWISEAND Expr                                          {}
-    | Expr BITWISEOR Expr                                           {}
-    | Expr BITWISEXOR Expr                                          {}
+    | Expr OR Expr                                                  {joinNodes($1,$3); $$=insertNode($1,NULL,"OR");}
+    | Expr AND Expr                                                 {joinNodes($1,$3); $$=insertNode($1,NULL,"AND");}
+    | Expr BITWISEAND Expr                                          {joinNodes($1,$3); $$=insertNode($1,NULL,"BITWISEAND");}
+    | Expr BITWISEOR Expr                                           {joinNodes($1,$3); $$=insertNode($1,NULL,"BITWISEOR");}
+    | Expr BITWISEXOR Expr                                          {joinNodes($1,$3); $$=insertNode($1,NULL,"BITWISEXOR");}
 
-    | Expr EQ Expr                                                  {}
-    | Expr NE Expr                                                  {}
-    | Expr LE Expr                                                  {}
-    | Expr GE Expr                                                  {}
-    | Expr LT Expr                                                  {}
-    | Expr GT Expr                                                  {}
+    | Expr EQ Expr                                                  {joinNodes($1,$3); $$=insertNode($1,NULL,"EQ");}
+    | Expr NE Expr                                                  {joinNodes($1,$3); $$=insertNode($1,NULL,"NE");}
+    | Expr LE Expr                                                  {joinNodes($1,$3); $$=insertNode($1,NULL,"LE");}
+    | Expr GE Expr                                                  {joinNodes($1,$3); $$=insertNode($1,NULL,"GE");}
+    | Expr LT Expr                                                  {joinNodes($1,$3); $$=insertNode($1,NULL,"LT");}
+    | Expr GT Expr                                                  {joinNodes($1,$3); $$=insertNode($1,NULL,"GT");}
 
-    | PLUS Expr                                                     {}
-    | MINUS Expr                                                    {}
-    | NOT Expr                                                      {}
+    | PLUS Expr                                                     {$$=insertNode($2,NULL,"PLUS");}
+    | MINUS Expr                                                    {$$=insertNode($2,NULL,"MINUS");}
+    | NOT Expr                                                      {$$=insertNode($2,NULL,"NOT");}
 
-    | ID                                                            {}
-    | INTLIT                                                        {}
-    | CHRLIT                                                        {}
-    | REALLIT                                                       {}
-    | ID LPAR Expr RPAR                                             {}
-    | LPAR Expr RPAR                                                {}
+    | ID                                                            {$$=insertNode(NULL,$1,"ID");}
+    | INTLIT                                                        {$$=insertNode(NULL,$1,"INTLIT");}
+    | CHRLIT                                                        {$$=insertNode(NULL,$1,"CHRLIT");}
+    | REALLIT                                                       {$$=insertNode(NULL,$1,"REALLIT");}
+    | ID LPAR Expr RPAR                                             {$$=insertNode($3,$1,"ID");}
+    | LPAR Expr RPAR                                                {$$ = $2;}
     ;
 
 %%
