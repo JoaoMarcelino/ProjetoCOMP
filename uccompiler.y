@@ -125,6 +125,31 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
     char* id;
 }
 
+%type <node> FunctionsAndDec
+%type <node> FunctionsAndDeclarations
+%type <node> FuctionsAndDecExtra
+%type <node> TypeSpec
+%type <node> FunctionDeclarator
+%type <node> ParameterList
+%type <node> ParameterExtra
+%type <node> ParameterDeclaration
+%type <node> FunctionHelper
+%type <node> FunctionBody
+%type <node> DeclarationsAndStatements
+%type <node> DeclarationsAndStatementsRep
+%type <node> Declaration
+%type <node> DeclarationExtra
+%type <node> Declarator
+%type <node> Statement
+%type <node> StatementBrace
+%type <node> StatementElse
+%type <node> StatementReturn
+%type <node> Expr
+
+
+
+
+
 
 
 %token CHAR
