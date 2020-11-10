@@ -95,7 +95,7 @@ uc2018279700 João Marcelino
     
     void printPontos(int num){
         int i=0;
-        printf("%d",num);
+        printf("%.2d",num);
         for(i;i<num;i++){
             printf(".");
         }
