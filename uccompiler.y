@@ -130,6 +130,8 @@ uc2018279700 João Marcelino
     void printPontos(int num){
         int i=0;
         //printf("%.2d",num);
+        if (num)
+            printf("\n");
         for(;i<num;i++){
             printf(".");
         }
@@ -137,18 +139,19 @@ uc2018279700 João Marcelino
     
     void printTree(nodeptr node, int nPontos){
         nodeptr aux =node;
+        int check =0;
 
          while (aux){
             if(aux->id){
                 //print de Ids
                 printPontos(nPontos);
-                printf("%s(%s)\n",aux->type, aux->id);
+                printf("%s(%s)",aux->type, aux->id);
 
             }else if(strcmp(aux->type,"StatList")==0){
                 //print de StatLists
                 if (needsStatList(aux->nodeNext)){
                      printPontos(nPontos);
-                    printf("%s\n",aux->type);
+                    printf("%s",aux->type);
 
                 }else{
                     //StatLists Redundantes
@@ -157,10 +160,15 @@ uc2018279700 João Marcelino
 
             }else if (strcmp(aux->type,"Statement")==0){
                 //Statements
-                nPontos-=2;
+                if(!check){
+                    nPontos-=2;
+                    check=1;
+                }
+                
+                
             }else{
                 printPontos(nPontos);
-                printf("%s\n",aux->type);
+                printf("%s",aux->type);
             }
 
             if (aux->nodeNext){
@@ -387,7 +395,7 @@ Declaration: Declarator DeclarationExtra                            {joinNodes($
     | error SEMI                                                    {printf("erro");$$ = insertNode(NULL,NULL,NULL);}
     ;
 
-DeclarationExtra: COMMA Declarator DeclarationExtra                 {joinNodes($2,$3); $$ = $2}
+DeclarationExtra: COMMA Declarator DeclarationExtra                 {joinNodes($2,$3); $$ = $2;}
     | SEMI                                                          {$$ = NULL;}
     ;
 
