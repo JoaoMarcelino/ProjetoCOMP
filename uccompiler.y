@@ -92,6 +92,23 @@ uc2018279700 João Marcelino
             aux=aux->nodeBrother;
         }
     }
+
+
+    else if(strcmp(aux->type,"StatList")==0){
+                //print de StatLists
+                if (needsStatList(aux->nodeNext)){
+                     printPontos(nPontos);
+                    printf("%s \n",aux->type);
+
+                }else{
+                    //StatLists Redundantes
+                    nPontos-=2;
+                }
+
+            }else if (strcmp(aux->type,"Statement")==0){
+                //Statements
+                nPontos-=2;
+            }
     */
     
     int needsStatList(nodeptr node){
@@ -117,7 +134,7 @@ uc2018279700 João Marcelino
             printf(".");
         }
     }
-
+    
     void printTree(nodeptr node, int nPontos){
         nodeptr aux =node;
 
@@ -131,7 +148,7 @@ uc2018279700 João Marcelino
                 //print de StatLists
                 if (needsStatList(aux->nodeNext)){
                      printPontos(nPontos);
-                    printf("%s \n",aux->type);
+                    printf("%s\n",aux->type);
 
                 }else{
                     //StatLists Redundantes
@@ -142,11 +159,10 @@ uc2018279700 João Marcelino
                 //Statements
                 nPontos-=2;
             }else{
-                 printPontos(nPontos);
-                printf("%s \n",aux->type);
+                printPontos(nPontos);
+                printf("%s\n",aux->type);
             }
-                
-            
+
             if (aux->nodeNext){
                 printTree(aux->nodeNext, nPontos + 2);
             }
@@ -371,7 +387,7 @@ Declaration: Declarator DeclarationExtra                            {joinNodes($
     | error SEMI                                                    {printf("erro");$$ = insertNode(NULL,NULL,NULL);}
     ;
 
-DeclarationExtra: COMMA Declarator DeclarationExtra                 {joinNodes($2,$3); $$  = insertNode($2,NULL,"Comma"); }
+DeclarationExtra: COMMA Declarator DeclarationExtra                 {joinNodes($2,$3); $$ = $2}
     | SEMI                                                          {$$ = NULL;}
     ;
 
@@ -386,7 +402,7 @@ Statement: Expr SEMI                                                {$$ = insert
     | LBRACE StatementBrace                                         {$$ = $2;}
 
     | IF LPAR Expr RPAR Statement StatementElse                     {nodeptr aux=insertNode($5,NULL,"Statement");aux=insertNode(aux,NULL,"StatList");
-                                                                     nodeptr aux2=insertNode($5,NULL,"Statement");aux2=insertNode(aux,NULL,"StatList");
+                                                                     nodeptr aux2=insertNode($6,NULL,"Statement");aux2=insertNode(aux2,NULL,"StatList");
                                                                      joinNodes(aux,aux2); joinNodes($3,aux); $$ = insertNode($3,NULL,"If");}
     
     | WHILE LPAR Expr RPAR Statement                                {nodeptr aux=insertNode($5,NULL,"StatList"); joinNodes($3,aux); $$ = insertNode($3,NULL,"While");}
@@ -401,7 +417,7 @@ StatementBrace: Statement RBRACE                                    {$$ = $1;}
     ;
 
 StatementElse: ELSE Statement                                       {$$ = $2;}
-    | %prec "then"                                                  {$$ = insertNode(NULL,NULL,NULL);}
+    | %prec "then"                                                  {$$ = NULL;}
     ;
 
 StatementReturn: SEMI                                               {$$ = NULL;}
@@ -419,7 +435,7 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
 
     | Expr OR Expr                                                  {joinNodes($1,$3); $$ = insertNode($1,NULL,"Or");}
     | Expr AND Expr                                                 {joinNodes($1,$3); $$ = insertNode($1,NULL,"And");}
-    | Expr BITWISEAND Expr                                          {joinNodes($1,$3); $$ = insertNode($1,NULL,"BitWiseAbd");}
+    | Expr BITWISEAND Expr                                          {joinNodes($1,$3); $$ = insertNode($1,NULL,"BitWiseAnd");}
     | Expr BITWISEOR Expr                                           {joinNodes($1,$3); $$ = insertNode($1,NULL,"BitWiseOr");}
     | Expr BITWISEXOR Expr                                          {joinNodes($1,$3); $$ = insertNode($1,NULL,"BitWiseXor");}
 
@@ -449,8 +465,7 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
 
 
 void yyerror (char *s) {
-    if(SintaxErrors)
-        printf ( "Line %d, col %d: %s: %s\n" , nline , ncol ,s , yytext );
+    printf ( "Line %d, col %d: %s: %s\n" , nline , ncol ,s , yytext );
     treePrint = 0;
 }
 
