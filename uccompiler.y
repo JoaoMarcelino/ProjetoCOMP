@@ -19,6 +19,7 @@ uc2018279700 João Marcelino
 	extern int SintaxErrors;
     extern int nline,ncol;
     extern char* yytext;
+    extern int yyleng;
 
     int isDefinition;
     int isStatement;
@@ -473,7 +474,7 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
 
 
 void yyerror (char *s) {
-    printf ( "Line %d, col %d: %s: %s\n" , nline , ncol ,s , yytext );
+    printf ( "Line %d, col %d: %s: %s\n" , nline , ncol - yyleng ,s , yytext );
     treePrint = 0;
 }
 
