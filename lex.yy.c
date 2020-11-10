@@ -2173,18 +2173,20 @@ int main(int argc, char *argv[ ]){
 			
 		else if (!strcmp(argv[1],"-t")){
 			treePrint=1;
+			yyparse();
 		}
 			
 		else if (!strcmp(argv[1],"-e2")){
 			LexicalErrors=1;
 			SintaxErrors=1;
+			yyparse();
 		}
 			
 	}else{
 		LexicalErrors=1;
 		SintaxErrors=1;
+		yyparse();
 	}
-	yyparse();
 	return 0;
 }
 
