@@ -1,17 +1,8 @@
-int main(void) {
-  =;
-  char i = 'A';
-  while (i <= 'Z')
-  {
-      
-    i = i + 1;
+void main(int a, int b, int c){
+  a=2;
+  while(a){
+    a=1;
+    b=2;
   }
-  =;
-  return 0;
-}
-
-char e(void) {
-  while(==);
-  func(==);
-  { == };
+  return c;
 }
