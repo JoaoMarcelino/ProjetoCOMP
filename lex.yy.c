@@ -1125,7 +1125,7 @@ YY_RULE_SETUP
 case 45:
 YY_RULE_SETUP
 #line 103 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("ID(%s)\n",&yytext[0]);       yylval.id = strdup(yytext); return INT;}
+{ncol+=yyleng;if(willPrint)printf("ID(%s)\n",&yytext[0]);       yylval.id = strdup(yytext); return ID;}
 	YY_BREAK
 case 46:
 /* rule 46 can match eol */
@@ -2163,10 +2163,12 @@ int main(int argc, char *argv[ ]){
 		if (!strcmp(argv[1],"-l")){
 			willPrint=1;
 			LexicalErrors=1;
+			yylex();
 		}
 			
 		else if (!strcmp(argv[1],"-e1")){
 			LexicalErrors=1;
+			yylex();
 		}
 			
 		else if (!strcmp(argv[1],"-t")){
@@ -2182,15 +2184,10 @@ int main(int argc, char *argv[ ]){
 		LexicalErrors=1;
 		SintaxErrors=1;
 	}
-	yylex();
 	yyparse();
 	return 0;
 }
 
 int yywrap() {
 	return 1;
-}
-
-void yyerror (const char *s) { 
-     printf ("%s: %s\n", s, yytext);
 }

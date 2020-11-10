@@ -100,7 +100,7 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 {reserved}		{ncol+=yyleng;if(willPrint)printf("RESERVED(%s)\n",&yytext[0]); return RESERVED;} 
 {reallit}		{ncol+=yyleng;if(willPrint)printf("REALLIT(%s)\n",&yytext[0]);  yylval.id = strdup(yytext); return REALLIT;}
 {intlit}		{ncol+=yyleng;if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);   yylval.id = strdup(yytext); return INTLIT;}
-{id}			{ncol+=yyleng;if(willPrint)printf("ID(%s)\n",&yytext[0]);       yylval.id = strdup(yytext); return INT;}
+{id}			{ncol+=yyleng;if(willPrint)printf("ID(%s)\n",&yytext[0]);       yylval.id = strdup(yytext); return ID;}
 
 \r\n|\n|\r		{nline++;ncol=1;}
 \f|\v|\t|" "	{ncol++;}
@@ -113,10 +113,12 @@ int main(int argc, char *argv[ ]){
 		if (!strcmp(argv[1],"-l")){
 			willPrint=1;
 			LexicalErrors=1;
+			yylex();
 		}
 			
 		else if (!strcmp(argv[1],"-e1")){
 			LexicalErrors=1;
+			yylex();
 		}
 			
 		else if (!strcmp(argv[1],"-t")){
@@ -132,15 +134,10 @@ int main(int argc, char *argv[ ]){
 		LexicalErrors=1;
 		SintaxErrors=1;
 	}
-	yylex();
 	yyparse();
 	return 0;
 }
 
 int yywrap() {
 	return 1;
-}
-
-void yyerror (const char *s) { 
-     printf ("%s: %s\n", s, yytext);
 }

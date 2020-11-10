@@ -7,15 +7,20 @@ uc2018279700 João Marcelino
     #include <stdlib.h>
     #include <stdio.h>
     #include <string.h>
-
     #include "y.tab.h"
-    int yylex(void);
-    void yyerror (const char *s);
-    int main(void);
-
     #define SIZE 100
 
-    typedef struct  node*nodeptr;
+    int yylex(void);
+    int main(void);
+    void yyerror (char *s);
+    
+
+    extern int treePrint;
+	extern int SintaxErrors;
+    extern int nline,ncol;
+    extern char* yytext;
+
+    typedef struct  node *nodeptr;
 
     typedef struct node{
         char *id;
@@ -23,12 +28,11 @@ uc2018279700 João Marcelino
         nodeptr nodeNext;
         nodeptr nodeBrother;
         int value;
-    }node;
+    }Node;
 
 
     nodeptr createNode(){
-        nodeptr aux;
-        aux=(nodeptr)malloc(sizeof(nodeptr));
+        nodeptr aux = (nodeptr )malloc(sizeof(Node));
 
         if (aux!=NULL){
             aux->id=malloc(SIZE*sizeof(char));
@@ -40,8 +44,7 @@ uc2018279700 João Marcelino
     }
 
     nodeptr insertNode(nodeptr node, char *id, char *type){
-        nodeptr aux = createNode();
-
+        nodeptr aux = (nodeptr)malloc(sizeof(Node));
         aux->id = id;
         aux->type= type;
         /* Adicionar no inicio */
@@ -70,17 +73,20 @@ uc2018279700 João Marcelino
         nodeptr aux = node;
         int i=0;
         while (aux){
-            printf("%d %s ",i++,aux->type);
-            if (aux->nodeBrother){
-                printTree(aux->nodeBrother);
-            }
-            aux=aux->nodeNext;
+            printf("%d %s %s\n",i++,aux->type, aux->id);
+            aux=aux->nodeBrother;
         }
     }
 
     void joinNodes(nodeptr node1, nodeptr node2){
-        node1->nodeBrother = node2;
+        if(node1){
+            node1->nodeBrother = node2;
+        }else if(node2){
+            node1 = node2;
+        }
+
     }
+
 
     /*
     () normal
@@ -219,12 +225,14 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 %left RPAR LPAR
 
 
+
+
 %%
-FunctionsAndDec: TypeSpec FunctionsAndDeclarations                  {joinNodes($1,$2); $$ = insertNode($1,NULL,"PROGRAM");}
+FunctionsAndDec: TypeSpec FunctionsAndDeclarations                  {printf("Programa\n"); joinNodes($1,$2); $$ = insertNode($1,NULL,"PROGRAM");printTree($$);}
     ;
 
 FunctionsAndDeclarations: FunctionDeclarator FuctionsAndDecExtra    {joinNodes($1,$2); $$ = $1;}
-    | Declaration FuctionsAndDecExtra                               {joinNodes($1,$2); $$ = $1;}
+    | Declaration FuctionsAndDecExtra                               {printf("FunctionsAndDeclarations\n"); joinNodes($1,$2); $$ = $1;}
     ;
 
 FuctionsAndDecExtra:  FunctionsAndDeclarations                      {$$ = $1;}
@@ -232,56 +240,57 @@ FuctionsAndDecExtra:  FunctionsAndDeclarations                      {$$ = $1;}
     ;
 
 TypeSpec: CHAR                                                      {$$ = insertNode(NULL,NULL,"CHAR");}
-    | INT                                                           {$$ = insertNode(NULL,NULL,"INT");}
-    | VOID                                                          {$$ = insertNode(NULL,NULL,"VOID");}
+    | INT                                                           {printf("int\n");$$ = insertNode(NULL,NULL,"INT");}
+    | VOID                                                          {printf("void\n");$$ = insertNode(NULL,NULL,"VOID");}
     | SHORT                                                         {$$ = insertNode(NULL,NULL,"SHORT");}
     | DOUBLE                                                        {$$ = insertNode(NULL,NULL,"DOUBLE");}
     ;
 
-FunctionDeclarator: ID LPAR ParameterList RPAR FunctionHelper       {joinNodes($3,$5); $$ = insertNode($3, $1,"ID");}
+FunctionDeclarator: ID LPAR ParameterList RPAR FunctionHelper       {printf("id---%s\n",$1);printTree($5);joinNodes($3,$5); $$ = insertNode($3, $1,"ID");printTree($3);}
     ;
 
-ParameterList: TypeSpec ParameterDeclaration ParameterExtra         {joinNodes($2,$3); joinNodes($1,$2); $$ = $1;}
+ParameterList: TypeSpec ParameterDeclaration ParameterExtra         {printf("parameterlist\n");joinNodes($2,$3); joinNodes($1,$2); $$ = $1;printTree($$);}
     ;
 
-ParameterExtra: COMMA TypeSpec ParameterDeclaration ParameterExtra  {joinNodes($3,$4); joinNodes($2,$3); $$ = insertNode($2, NULL,"COMMA");}
+ParameterExtra: COMMA TypeSpec ParameterDeclaration ParameterExtra  {printf("parameterextra\n");joinNodes($3,$4); joinNodes($2,$3); $$ = insertNode($2, NULL,"COMMA");}
     |                                                               {$$ = NULL;}
     ;      
 
-ParameterDeclaration: ID                                            {$$ = insertNode(NULL, $1,"ID");}
+ParameterDeclaration: ID                                            {printf("id %s\n",$1);$$ = insertNode(NULL, $1,"ID");}
     |                                                               {$$ = NULL;}
     ;
 
-FunctionHelper:   LBRACE FunctionBody RBRACE                        {$$ = $2;}
+FunctionHelper:   LBRACE FunctionBody RBRACE                        {printf("functionbody\n");$$ = $2;}
     | SEMI                                                          {$$ = NULL;}
     ;
 
-FunctionBody: DeclarationsAndStatements                             {$$ = $1;}
+FunctionBody: DeclarationsAndStatements                             {printf("decandstat\n");$$ = $1;}
     |                                                               {$$ = NULL;}
     ;
 
-DeclarationsAndStatements: Statement DeclarationsAndStatementsRep   {joinNodes($1,$2); $$ = $1;}
-	| TypeSpec Declaration DeclarationsAndStatementsRep             {joinNodes($2,$3); joinNodes($1,$2); $$ = $1;}
+DeclarationsAndStatements: Statement DeclarationsAndStatementsRep   {printf("statement\n");joinNodes($1,$2); $$ = $1;}
+	| TypeSpec Declaration DeclarationsAndStatementsRep             {printf("declaration\n");joinNodes($2,$3); joinNodes($1,$2); $$ = $1;}
     ;
 
 DeclarationsAndStatementsRep: DeclarationsAndStatements             {$$ = $1;};
     |                                                               {$$ = NULL;}
     ;
 
-Declaration: ID Declarator DeclarationExtra                         {joinNodes($2,$3); $$ = insertNode($2, $1,"ID");}
+Declaration: ID Declarator DeclarationExtra                         {printf("Declaration\n");joinNodes($2,$3); $$ = insertNode($2, $1,"ID");}
+    | error SEMI                                                    {printf("erro");$$ = insertNode(NULL,NULL,NULL);}
     ;
 
 DeclarationExtra: COMMA ID Declarator DeclarationExtra              {nodeptr aux; joinNodes($3,$4); aux = insertNode($3,$2,"ID"); $$  = insertNode(aux,NULL,"COMMA"); }
-    | SEMI                                                          {$$ = NULL;}
+    | SEMI                                                          {printf("semi\n");$$ = NULL;}
     ;
 
-Declarator: ASSIGN Expr                                             {$$ = insertNode($2,NULL,"ASSIGN");}
-    |                                                               {$$ = NULL;}
+Declarator: ASSIGN Expr                                             {printf("declarator1\n");$$ = insertNode($2,NULL,"ASSIGN");}
+    |                                                               {printf("declarator2\n");$$ = NULL;}
     ;
 
 
 Statement: Expr SEMI                                                {$$ = $1;}
-    | SEMI                                                          {$$ =  NULL;}
+    | error SEMI                                                    {$$ = insertNode(NULL,NULL,NULL);}
 
     | LBRACE StatementBrace                                         {$$ = $2;}
 
@@ -293,7 +302,7 @@ Statement: Expr SEMI                                                {$$ = $1;}
     ;
 
 StatementBrace: Statement RBRACE                                    {$$ = insertNode($1,NULL,"STATEMENT");}
-    | RBRACE                                                        {$$ = NULL;}
+    | error RBRACE                                                        {$$ = insertNode(NULL,NULL,NULL);}
     ;
 
 StatementElse: ELSE Statement                                       {$$ = insertNode($2,NULL,"STATEMENT");}
@@ -330,14 +339,21 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
     | MINUS Expr                                                    {$$ = insertNode($2,NULL,"MINUS");}
     | NOT Expr                                                      {$$ = insertNode($2,NULL,"NOT");}
 
-    | ID                                                            {$$ = insertNode(NULL,$1,"ID");}
+    | ID                                                            {printf("id %s\n",$1);$$ = insertNode(NULL,$1,"ID");}
     | INTLIT                                                        {$$ = insertNode(NULL,$1,"INTLIT");}
     | CHRLIT                                                        {$$ = insertNode(NULL,$1,"CHRLIT");}
     | REALLIT                                                       {$$ = insertNode(NULL,$1,"REALLIT");}
     | ID LPAR Expr RPAR                                             {$$ = insertNode($3,$1,"ID");}
+    | ID LPAR error RPAR                                            {$$ = insertNode(NULL,NULL,NULL);}
     | LPAR Expr RPAR                                                {$$ = $2;}
+    | LPAR error RPAR                                               {$$ = insertNode(NULL,NULL,NULL);}
     ;
+
 
 %%
 
+
+void yyerror (char *s) {
+    printf ( "Line %d, col %d: %s: %s\n" , nline , ncol ,s , yytext );
+}
 

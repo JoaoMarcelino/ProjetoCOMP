@@ -1,4 +1,4 @@
-.PHONY: all generate meta1 printmeta1 lex lexerrors sint sinterrors tree treeprint clean
+.PHONY: all generate meta1 printmeta1 lex lexerrors sint sinterrors tree treeprint debug clean
 
 all:generate
 
@@ -9,6 +9,8 @@ lex:generate lexerrors
 sint: generate sinterrors
 
 tree: generate treeprint
+
+gdb: generate debug
 
 generate:
 	lex uccompiler.l
@@ -27,6 +29,9 @@ sinterrors:
  
 treeprint:
 	./uccompiler -t <test.txt
+
+debug:
+	gdb ./uccompiler
 
 clean:
 	@echo "Cleaning up..."
