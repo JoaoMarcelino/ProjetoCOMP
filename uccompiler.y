@@ -474,7 +474,11 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
 
 
 void yyerror (char *s) {
-    printf ( "Line %d, col %d: %s: %s\n" , nline , ncol - yyleng ,s , yytext );
+    int col = ncol - yyleng ;
+    if (col<=0){
+        col=1;
+    }
+    printf ( "Line %d, col %d: %s: %s\n" , nline , col ,s , yytext );
     treePrint = 0;
 }
 
