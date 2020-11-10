@@ -77,11 +77,11 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 "|"             {ncol+=yyleng;if(willPrint)printf("BITWISEOR\n"); return BITWISEOR;}
 "^"             {ncol+=yyleng;if(willPrint)printf("BITWISEXOR\n"); return BITWISEXOR;}
 "&&"            {ncol+=yyleng;if(willPrint)printf("AND\n"); return AND;}
-"="             {ncol+=yyleng;if(willPrint)printf("ASSIGN\n"); return ASSIGN;}
+"="             {if(willPrint)printf("ASSIGN\n"); return ASSIGN;ncol+=yyleng;}
 "*"             {ncol+=yyleng;if(willPrint)printf("MUL\n"); return MUL;}
 ","             {ncol+=yyleng;if(willPrint)printf("COMMA\n"); return COMMA;}
 "/"             {ncol+=yyleng;if(willPrint)printf("DIV\n"); return DIV;}
-"=="            {ncol+=yyleng;if(willPrint)printf("EQ\n"); return EQ;}
+"=="            {if(willPrint)printf("EQ\n"); return EQ;ncol+=yyleng;}
 ">="            {ncol+=yyleng;if(willPrint)printf("GE\n"); return GE;}
 ">"             {ncol+=yyleng;if(willPrint)printf("GT\n"); return GT;}
 "{"             {ncol+=yyleng;if(willPrint)printf("LBRACE\n"); return LBRACE;}

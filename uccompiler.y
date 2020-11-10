@@ -20,6 +20,8 @@ uc2018279700 João Marcelino
     extern int nline,ncol;
     extern char* yytext;
 
+    int isDefinition;
+
     typedef struct  node *nodeptr;
 
     typedef struct node{
@@ -48,8 +50,8 @@ uc2018279700 João Marcelino
         aux->id = id;
         aux->type= type;
         /* Adicionar no inicio */
-        aux->nodeBrother= node;
-        aux->nodeNext= NULL;
+        aux->nodeBrother= NULL;
+        aux->nodeNext= node;
 
         return aux;
     }
@@ -73,9 +75,16 @@ uc2018279700 João Marcelino
         nodeptr aux = node;
         int i=0;
         while (aux){
-            printf("%d %s %s\n",i++,aux->type, aux->id);
+            if (aux->nodeNext){
+                printf("%d %s %s\nnext->",i++,aux->type, aux->id);
+                printTree(aux->nodeNext);
+            }
+            else{
+                printf("%d %s %s\nbrother->",i++,aux->type, aux->id);
+            }
             aux=aux->nodeBrother;
         }
+        printf("\n");
     }
 
     void joinNodes(nodeptr node1, nodeptr node2){
@@ -85,6 +94,14 @@ uc2018279700 João Marcelino
             node1 = node2;
         }
 
+    }
+
+    nodeptr checkFuncHelper(nodeptr node){
+        if(isDefinition){
+            return insertNode(node,NULL, "FuncDefinition");
+        }else{
+            return insertNode(node,NULL, "FuncDeclaration");
+        }
     }
 
 
@@ -228,14 +245,14 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 
 
 %%
-FunctionsAndDec: TypeSpec FunctionsAndDeclarations                  {printf("Programa\n"); joinNodes($1,$2); $$ = insertNode($1,NULL,"PROGRAM");printTree($$);}
+FunctionsAndDec: FunctionsAndDeclarations                  {printf("Programa\n"); $$ = insertNode($1,NULL,"PROGRAM");if(treePrint)printTree($$);}
     ;
 
-FunctionsAndDeclarations: FunctionDeclarator FuctionsAndDecExtra    {joinNodes($1,$2); $$ = $1;}
-    | Declaration FuctionsAndDecExtra                               {printf("FunctionsAndDeclarations\n"); joinNodes($1,$2); $$ = $1;}
+FunctionsAndDeclarations: TypeSpec FunctionDeclarator FuctionsAndDecExtra    {joinNodes($1,$2);$$ = checkFuncHelper($1);joinNodes($$, $3);}
+    | TypeSpec Declaration FuctionsAndDecExtra                               {printf("FunctionsAndDeclarations\n"); joinNodes($1,$2); $$ = insertNode($1,NULL,"Declaration"); joinNodes($$,$3);}
     ;
 
-FuctionsAndDecExtra:  FunctionsAndDeclarations                      {$$ = $1;}
+FuctionsAndDecExtra: FunctionsAndDeclarations                       {$$ = $1;}
     |                                                               {$$ = NULL;}
     ;
 
@@ -246,13 +263,13 @@ TypeSpec: CHAR                                                      {$$ = insert
     | DOUBLE                                                        {$$ = insertNode(NULL,NULL,"DOUBLE");}
     ;
 
-FunctionDeclarator: ID LPAR ParameterList RPAR FunctionHelper       {printf("id---%s\n",$1);printTree($5);joinNodes($3,$5); $$ = insertNode($3, $1,"ID");printTree($3);}
+FunctionDeclarator: ID LPAR ParameterList RPAR FunctionHelper       {printf("id---%s\n",$1);nodeptr aux = insertNode($3,NULL,"ParamList"); joinNodes(aux,$5); $$ = insertNode(NULL, $1,"ID");joinNodes($$,aux);}
     ;
 
-ParameterList: TypeSpec ParameterDeclaration ParameterExtra         {printf("parameterlist\n");joinNodes($2,$3); joinNodes($1,$2); $$ = $1;printTree($$);}
+ParameterList: TypeSpec ParameterDeclaration ParameterExtra         {printf("parameterlist\n"); joinNodes($1,$2); $$ = insertNode($1, NULL,"ParamDeclaration"); joinNodes($$,$3);}
     ;
 
-ParameterExtra: COMMA TypeSpec ParameterDeclaration ParameterExtra  {printf("parameterextra\n");joinNodes($3,$4); joinNodes($2,$3); $$ = insertNode($2, NULL,"COMMA");}
+ParameterExtra: COMMA TypeSpec ParameterDeclaration ParameterExtra  {printf("parameterextra\n"); joinNodes($2,$3); $$ = insertNode($2, NULL,"ParamDeclaration");joinNodes($$,$4);}
     |                                                               {$$ = NULL;}
     ;      
 
@@ -260,8 +277,8 @@ ParameterDeclaration: ID                                            {printf("id 
     |                                                               {$$ = NULL;}
     ;
 
-FunctionHelper:   LBRACE FunctionBody RBRACE                        {printf("functionbody\n");$$ = $2;}
-    | SEMI                                                          {$$ = NULL;}
+FunctionHelper:   LBRACE FunctionBody RBRACE                        {printf("functionbody\n"); isDefinition=1; $$ = insertNode($2,NULL, "FuncBody"); printTree($$);}
+    | SEMI                                                          {isDefinition = 0; $$ = NULL;}
     ;
 
 FunctionBody: DeclarationsAndStatements                             {printf("decandstat\n");$$ = $1;}
@@ -276,16 +293,16 @@ DeclarationsAndStatementsRep: DeclarationsAndStatements             {$$ = $1;};
     |                                                               {$$ = NULL;}
     ;
 
-Declaration: ID Declarator DeclarationExtra                         {printf("Declaration\n");joinNodes($2,$3); $$ = insertNode($2, $1,"ID");}
+Declaration: Declarator DeclarationExtra                            {/*PASSAGEM DE ID PARA DECLARATOR*/ printf("Declaration\n");joinNodes($1,$2);}
     | error SEMI                                                    {printf("erro");$$ = insertNode(NULL,NULL,NULL);}
     ;
 
-DeclarationExtra: COMMA ID Declarator DeclarationExtra              {nodeptr aux; joinNodes($3,$4); aux = insertNode($3,$2,"ID"); $$  = insertNode(aux,NULL,"COMMA"); }
+DeclarationExtra: COMMA Declarator DeclarationExtra                 {joinNodes($2,$3); $$  = insertNode($2,NULL,"COMMA"); }
     | SEMI                                                          {printf("semi\n");$$ = NULL;}
     ;
 
-Declarator: ASSIGN Expr                                             {printf("declarator1\n");$$ = insertNode($2,NULL,"ASSIGN");}
-    |                                                               {printf("declarator2\n");$$ = NULL;}
+Declarator:ID ASSIGN Expr                                           {printf("declarator1\n");nodeptr aux = insertNode(NULL, $1,"ID"); joinNodes(aux, $3); $$ = insertNode(aux,NULL,"STORE");}
+    | ID                                                            {printf("declarator2\n");$$ = insertNode(NULL, $1,"ID");}
     ;
 
 
@@ -302,7 +319,7 @@ Statement: Expr SEMI                                                {$$ = $1;}
     ;
 
 StatementBrace: Statement RBRACE                                    {$$ = insertNode($1,NULL,"STATEMENT");}
-    | error RBRACE                                                        {$$ = insertNode(NULL,NULL,NULL);}
+    | error RBRACE                                                  {$$ = insertNode(NULL,NULL,NULL);}
     ;
 
 StatementElse: ELSE Statement                                       {$$ = insertNode($2,NULL,"STATEMENT");}
@@ -313,10 +330,10 @@ StatementReturn: SEMI                                               {$$ = NULL;}
     | Expr SEMI                                                     {$$ = $1;}
     ;
 
-Expr: Expr ASSIGN Expr                                              {joinNodes($1,$3); $$ = insertNode($1,NULL,"ASSIGN");}
+Expr: Expr ASSIGN Expr                                              {joinNodes($1,$3); $$ = insertNode($1,NULL,"STORE");printTree($1);}
     | Expr COMMA Expr                                               {joinNodes($1,$3); $$ = insertNode($1,NULL,"COMMA");}
     
-    | Expr PLUS Expr                                                {joinNodes($1,$3); $$ = insertNode($1,NULL,"PLUS");}
+    | Expr PLUS Expr                                                {joinNodes($1,$3); $$ = insertNode($1,NULL,"PLUS");printTree($$);}
     | Expr MINUS Expr                                               {joinNodes($1,$3); $$ = insertNode($1,NULL,"MINUS");}
     | Expr MUL Expr                                                 {joinNodes($1,$3); $$ = insertNode($1,NULL,"MUL");}
     | Expr DIV Expr                                                 {joinNodes($1,$3); $$ = insertNode($1,NULL,"DIV");}
@@ -355,5 +372,6 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
 
 void yyerror (char *s) {
     printf ( "Line %d, col %d: %s: %s\n" , nline , ncol ,s , yytext );
+    treePrint = 0;
 }
 

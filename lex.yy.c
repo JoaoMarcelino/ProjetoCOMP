@@ -1010,7 +1010,7 @@ YY_RULE_SETUP
 case 22:
 YY_RULE_SETUP
 #line 80 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("ASSIGN\n"); return ASSIGN;}
+{if(willPrint)printf("ASSIGN\n"); return ASSIGN;ncol+=yyleng;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
@@ -1030,7 +1030,7 @@ YY_RULE_SETUP
 case 26:
 YY_RULE_SETUP
 #line 84 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("EQ\n"); return EQ;}
+{if(willPrint)printf("EQ\n"); return EQ;ncol+=yyleng;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
