@@ -945,67 +945,67 @@ YY_RULE_SETUP
 case 9:
 YY_RULE_SETUP
 #line 67 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("CHAR\n"); return CHAR;}
+{if(willPrint)printf("CHAR\n"); return CHAR;ncol+=yyleng;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 68 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("ELSE\n"); return ELSE;}
+{if(willPrint)printf("ELSE\n"); return ELSE;ncol+=yyleng;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 69 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("WHILE\n"); return WHILE;}
+{if(willPrint)printf("WHILE\n"); return WHILE;ncol+=yyleng;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 70 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("IF\n"); return IF;}
+{if(willPrint)printf("IF\n"); return IF;ncol+=yyleng;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 71 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("INT\n"); return INT;}
+{if(willPrint)printf("INT\n"); return INT;ncol+=yyleng;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 72 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("SHORT\n"); return SHORT;}
+{if(willPrint)printf("SHORT\n"); return SHORT;ncol+=yyleng;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 73 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("DOUBLE\n"); return DOUBLE;}
+{if(willPrint)printf("DOUBLE\n"); return DOUBLE;ncol+=yyleng;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 74 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("RETURN\n"); return RETURN;}
+{if(willPrint)printf("RETURN\n"); return RETURN;ncol+=yyleng;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 75 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("VOID\n"); return VOID;}
+{if(willPrint)printf("VOID\n"); return VOID;ncol+=yyleng;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 76 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("BITWISEAND\n"); return BITWISEAND;}
+{if(willPrint)printf("BITWISEAND\n"); return BITWISEAND;ncol+=yyleng;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 77 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("BITWISEOR\n"); return BITWISEOR;}
+{if(willPrint)printf("BITWISEOR\n"); return BITWISEOR;ncol+=yyleng;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 78 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("BITWISEXOR\n"); return BITWISEXOR;}
+{if(willPrint)printf("BITWISEXOR\n"); return BITWISEXOR;ncol+=yyleng;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 79 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("AND\n"); return AND;}
+{if(willPrint)printf("AND\n"); return AND;ncol+=yyleng;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
@@ -1015,17 +1015,17 @@ YY_RULE_SETUP
 case 23:
 YY_RULE_SETUP
 #line 81 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("MUL\n"); return MUL;}
+{if(willPrint)printf("MUL\n"); return MUL;ncol+=yyleng;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 82 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("COMMA\n"); return COMMA;}
+{if(willPrint)printf("COMMA\n"); return COMMA;ncol+=yyleng;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 83 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("DIV\n"); return DIV;}
+{if(willPrint)printf("DIV\n"); return DIV;ncol+=yyleng;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
@@ -1035,97 +1035,97 @@ YY_RULE_SETUP
 case 27:
 YY_RULE_SETUP
 #line 85 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("GE\n"); return GE;}
+{if(willPrint)printf("GE\n"); return GE;ncol+=yyleng;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 86 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("GT\n"); return GT;}
+{if(willPrint)printf("GT\n"); return GT;ncol+=yyleng;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 87 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("LBRACE\n"); return LBRACE;}
+{if(willPrint)printf("LBRACE\n"); return LBRACE;ncol+=yyleng;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 88 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("LE\n"); return LE;}
+{if(willPrint)printf("LE\n"); return LE;ncol+=yyleng;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 89 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("LPAR\n"); return LPAR;}
+{if(willPrint)printf("LPAR\n"); return LPAR;ncol+=yyleng;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 90 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("LT\n"); return LT;}
+{if(willPrint)printf("LT\n"); return LT;ncol+=yyleng;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 91 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("MINUS\n"); return MINUS;}
+{if(willPrint)printf("MINUS\n"); return MINUS;ncol+=yyleng;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 92 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("MOD\n"); return MOD;}
+{if(willPrint)printf("MOD\n"); return MOD;ncol+=yyleng;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 93 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("NE\n"); return NE;}
+{if(willPrint)printf("NE\n"); return NE;ncol+=yyleng;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 94 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("NOT\n"); return NOT;}
+{if(willPrint)printf("NOT\n"); return NOT;ncol+=yyleng;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 95 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("OR\n"); return OR;}
+{if(willPrint)printf("OR\n"); return OR;ncol+=yyleng;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 96 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("PLUS\n"); return PLUS;}
+{if(willPrint)printf("PLUS\n"); return PLUS;ncol+=yyleng;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 97 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("RBRACE\n"); return RBRACE;}
+{if(willPrint)printf("RBRACE\n"); return RBRACE;ncol+=yyleng;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 98 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("RPAR\n"); return RPAR;}
+{if(willPrint)printf("RPAR\n"); return RPAR;ncol+=yyleng;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
 #line 99 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("SEMI\n"); return SEMI;}
+{if(willPrint)printf("SEMI\n"); return SEMI;ncol+=yyleng;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
 #line 100 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("RESERVED(%s)\n",&yytext[0]); return RESERVED;} 
+{if(willPrint)printf("RESERVED(%s)\n",&yytext[0]); return RESERVED;ncol+=yyleng;} 
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 #line 101 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("REALLIT(%s)\n",&yytext[0]);  yylval.id = strdup(yytext); return REALLIT;}
+{if(willPrint)printf("REALLIT(%s)\n",&yytext[0]);  yylval.id = strdup(yytext); return REALLIT;ncol+=yyleng;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
 #line 102 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);   yylval.id = strdup(yytext); return INTLIT;}
+{if(willPrint)printf("INTLIT(%s)\n",&yytext[0]);   yylval.id = strdup(yytext); return INTLIT;ncol+=yyleng;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
 #line 103 "uccompiler.l"
-{ncol+=yyleng;if(willPrint)printf("ID(%s)\n",&yytext[0]);       yylval.id = strdup(yytext); return ID;}
+{if(willPrint)printf("ID(%s)\n",&yytext[0]);       yylval.id = strdup(yytext); return ID;ncol+=yyleng;}
 	YY_BREAK
 case 46:
 /* rule 46 can match eol */
