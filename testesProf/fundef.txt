@@ -1,0 +1,88 @@
+/* no function return type */
+zf23(int x){}
+void a(void);
+/* ast in wrong place */
+char aasd(int das, char dsa){}
+void a(void);
+/* type float */
+int a(float a, int *b, char c, void d);
+void a(void);
+float a(void a, int *b, char **c, int d);
+void a(void);
+/* no parameter type */
+int main(a,b,c,d){}
+void a(void);
+/* consecutive commas */
+int main(int a, char b, int c,, int d){}
+void a(void);
+/* ) after , */
+int dasda(char a, char bds,){}
+void a(void);
+/* two types in param list */
+void a (int char){}
+void a(void);
+void a(void);
+void a(void);
+/* wrong type */
+void a(INT a){}
+void a(void);
+void a(void);
+/* wrong type */
+VOID a(INT a){}
+void a(void);
+/* SEMI inside param list */ void a(int INT;){}
+void a(void);
+/* start with , */    char a(, int b){}
+/* empty parameter list */
+char a(){}
+void a(void);
+/* double type */
+    char a(double a){}
+void a(void);
+void a(void);void a(void);
+/* ; */
+    char *a(int a_123, char, void,;){}
+void a(void);void a(void);
+/* + */
+char a(int a_123+2){}
+void a(void);void a(void);
+/* extra ) */
+char a(int, void, char, char, char, int, void, char, char, char, int, void, char, char, char)){}
+void a(void);void a(void);
+/* extra ( */
+char a((){}
+void a(void);void a(void);
+/*  lines */
+int a(
+    int,
+    void,
+        ){}
+void a(void); void a(void);
+/* , in other line */
+int a(
+    int,
+    ,
+    
+     ){}
+void a(void);void a(void);
+/* two types */
+int void (void) {}
+void a(void);void a(void);
+/* two types, multiple lines */
+int 
+char
+a(void)
+{}
+void a(void);void a(void);
+/* function return type is float */
+float aa (int){}
+void a(void);void a(void);
+/* double type */
+double  a(char){}
+void a(void);void a(void);
+/* no ) */
+char zdfe23(int a {}
+void a(void);void a(void);
+int a {}
+void a(void);void a(void);
+int a (char, int z) }
