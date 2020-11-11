@@ -1,4 +1,4 @@
-/*
+/*FUKCFUKCFUCKFUCK
 uc2018293871 Sofia Silva
 uc2018279700 João Marcelino
 */
@@ -21,8 +21,6 @@ uc2018279700 João Marcelino
     extern char* yytext;
     extern int yyleng;
 
-    int isDefinition;
-    int isStatement;
     int hasStatementList =0;
 
     typedef struct  node *nodeptr;
@@ -110,14 +108,19 @@ uc2018279700 João Marcelino
                 //Statements
                 nPontos-=2;
             }
+
+
+
+
+    
     */
     
     int needsStatList(nodeptr node){
-        nodeptr aux= node;
+        nodeptr aux= node->nodeNext;
         int count=0;
         while(aux){
-            if (strcmp(aux->type,"Statement")==0){
-                count++;
+            if(strcmp(aux->type,"Else") && strcmp(aux->type,"Null") ){
+                count++;    
             }
             if (count==2){
                 return 1;
@@ -148,26 +151,24 @@ uc2018279700 João Marcelino
                 printPontos(nPontos);
                 printf("%s(%s)",aux->type, aux->id);
 
-            }else if(strcmp(aux->type,"StatList")==0){
-                //print de StatLists
-                if (needsStatList(aux->nodeNext)){
-                     printPontos(nPontos);
+            }
+            else if(!strcmp(aux->type,"Else") ){
+
+            }
+            else if(!strcmp(aux->type,"StatList")){
+                if (needsStatList(aux)){
+                    printPontos(nPontos);
                     printf("%s",aux->type);
-
-                }else{
-                    //StatLists Redundantes
-                    nPontos-=2;
                 }
-
-            }else if (strcmp(aux->type,"Statement")==0){
-                //Statements
-                if(!check){
-                    nPontos-=2;
-                    check=1;
+                else{
+                    if(!check){
+                        nPontos -=2;
+                        check=1;
+                    }
+                    
                 }
-                
-                
-            }else{
+            }
+            else{
                 printPontos(nPontos);
                 printf("%s",aux->type);
             }
@@ -179,7 +180,6 @@ uc2018279700 João Marcelino
         }
     }
 
-    
 
     void joinNodes(nodeptr node1, nodeptr node2){
         nodeptr aux = node1;
@@ -196,15 +196,39 @@ uc2018279700 João Marcelino
     }
 
     nodeptr checkFuncHelper(nodeptr node){
-        if(isDefinition){
+
+        nodeptr aux = node;
+        int i =0;
+        while(i!=3){
+            aux=aux->nodeBrother;
+            i+=1;
+        }
+        if(aux){
             return insertNode(node,NULL, "FuncDefinition");
         }else{
             return insertNode(node,NULL, "FuncDeclaration");
         }
     }
 
-
-    /*
+    nodeptr DeclarationFunc(nodeptr main,nodeptr typespec, nodeptr declarations){
+        nodeptr aux= declarations;
+        nodeptr node;
+        nodeptr typeaux;
+        char * type = typespec->type;
+        while(aux){
+            //printf("%p, %p, %p\n",main, declarations,node);
+            typeaux = insertNode(NULL,NULL,type);
+            joinNodes(typeaux, aux->nodeNext);
+            node = insertNode(typeaux, NULL, "Declaration");
+            if (main)
+                joinNodes(main, node);
+            else main = node;
+            
+            aux=aux->nodeBrother;
+        }
+        return main;
+    }
+    /*Declaration:TypeSpec Declarator DeclarationExtra                    {joinNodes($1,$2);$$ = insertNode($1,NULL,"Declaration"); joinNodes($$,$3);} 
     () normal
     [] opcional
     {} zero ou mais repetições
@@ -273,6 +297,7 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 %type <node> Declaration
 %type <node> DeclarationExtra
 %type <node> Declarator
+%type <node> StatementList
 %type <node> Statement
 %type <node> StatementBrace
 %type <node> StatementElse
@@ -348,7 +373,8 @@ FunctionsAndDec: FunctionsAndDeclarations                  {$$ = insertNode($1,N
     ;
 
 FunctionsAndDeclarations: TypeSpec FunctionDeclarator FuctionsAndDecExtra    {joinNodes($1,$2);$$ = checkFuncHelper($1);joinNodes($$, $3);}
-    | TypeSpec Declaration FuctionsAndDecExtra                               {printf("FunctionsAndDeclarations\n"); joinNodes($1,$2); $$ = insertNode($1,NULL,"Declaration"); joinNodes($$,$3);}
+    | Declaration FuctionsAndDecExtra                               {joinNodes($1,$2);$$=$1;}
+    | error SEMI FuctionsAndDecExtra                                {$$ = insertNode(NULL,NULL,NULL);}
     ;
 
 FuctionsAndDecExtra: FunctionsAndDeclarations                       {$$ = $1;}
@@ -362,7 +388,7 @@ TypeSpec: CHAR                                                      {$$ = insert
     | DOUBLE                                                        {$$ = insertNode(NULL,NULL,"Double");}
     ;
 
-FunctionDeclarator: ID LPAR ParameterList RPAR FunctionHelper       {nodeptr aux = insertNode($3,NULL,"ParamList"); joinNodes(aux,$5); $$ = insertNode(NULL, $1,"Id");joinNodes($$,aux);}
+FunctionDeclarator: ID LPAR ParameterList RPAR FunctionHelper       {nodeptr aux = insertNode($3,NULL,"ParamList");joinNodes(aux,$5); $$ = insertNode(NULL, $1,"Id");joinNodes($$,aux);}
     ;
 
 ParameterList: TypeSpec ParameterDeclaration ParameterExtra         {joinNodes($1,$2); $$ = insertNode($1, NULL,"ParamDeclaration"); joinNodes($$,$3);}
@@ -376,27 +402,27 @@ ParameterDeclaration: ID                                            {$$ = insert
     |                                                               {$$ = NULL;}
     ;
 
-FunctionHelper:   LBRACE FunctionBody RBRACE                        {isDefinition=1; $$ = insertNode($2,NULL, "FuncBody");}
-    | SEMI                                                          {isDefinition = 0; $$ = NULL;}
+FunctionHelper:   LBRACE FunctionBody RBRACE                        { $$ = insertNode($2,NULL, "FuncBody");}
+    | SEMI                                                          { $$ = NULL;}
     ;
 
-FunctionBody: DeclarationsAndStatements                             {if(isStatement)  $$ = insertNode($1,NULL,"StatList");}
+FunctionBody: DeclarationsAndStatements                             {$$=$1; }
     |                                                               {$$ = NULL;}
     ;
 
-DeclarationsAndStatements: Statement DeclarationsAndStatementsRep   {isStatement=1;joinNodes($1,$2);$$=$1;}
-	| TypeSpec Declaration DeclarationsAndStatementsRep             {isStatement=0; joinNodes($1,$2);$$=insertNode($1, NULL, "Declaration"); joinNodes($$,$3);}
+DeclarationsAndStatements: StatementList DeclarationsAndStatementsRep { joinNodes($1,$2);$$ =  $1;}
+	| Declaration DeclarationsAndStatementsRep                      {joinNodes($1,$2);$$=$1;}
+    | error SEMI                                                    {$$ = insertNode(NULL,NULL,NULL);}
     ;
 
 DeclarationsAndStatementsRep: DeclarationsAndStatements             {$$ = $1;};
     |                                                               {$$ = NULL;}
     ;
 
-Declaration: Declarator DeclarationExtra                            {joinNodes($1,$2);$$ = $1;}
-    | error SEMI                                                    {printf("erro");$$ = insertNode(NULL,NULL,NULL);}
+Declaration:TypeSpec Declarator DeclarationExtra                    {joinNodes($1,$2);$$ = insertNode($1,NULL,"Declaration");nodeptr aux=NULL; aux=DeclarationFunc(aux, $1, $3);joinNodes($$,aux);} 
     ;
 
-DeclarationExtra: COMMA Declarator DeclarationExtra                 {joinNodes($2,$3); $$ = $2;}
+DeclarationExtra: COMMA Declarator DeclarationExtra                 {$2=insertNode($2,NULL,"Declarator");joinNodes($2,$3);$$=$2;}
     | SEMI                                                          {$$ = NULL;}
     ;
 
@@ -404,17 +430,16 @@ Declarator:ID ASSIGN Expr                                           {nodeptr aux
     | ID                                                            {$$ = insertNode(NULL, $1,"Id");}
     ;
 
+StatementList: Statement                                             {$$=insertNode($1,NULL,"StatList");}
+    ;
 
-Statement: Expr SEMI                                                {$$ = insertNode($1,NULL,"Statement");}
-    | error SEMI                                                    {$$ = insertNode(NULL,NULL,NULL);}
+Statement: Expr SEMI                                                {$$ = $1;}
 
     | LBRACE StatementBrace                                         {$$ = $2;}
 
-    | IF LPAR Expr RPAR Statement StatementElse                     {nodeptr aux=insertNode($5,NULL,"Statement");aux=insertNode(aux,NULL,"StatList");
-                                                                     nodeptr aux2=insertNode($6,NULL,"Statement");aux2=insertNode(aux2,NULL,"StatList");
-                                                                     joinNodes(aux,aux2); joinNodes($3,aux); $$ = insertNode($3,NULL,"If");}
+    | IF LPAR Expr RPAR StatementList StatementElse                 {joinNodes($3,$5);$3=insertNode($3,NULL,"If");joinNodes($3,$6);$$=$3;}
     
-    | WHILE LPAR Expr RPAR Statement                                {nodeptr aux=insertNode($5,NULL,"StatList"); joinNodes($3,aux); $$ = insertNode($3,NULL,"While");}
+    | WHILE LPAR Expr RPAR StatementList                            {joinNodes($3, $5);$$= insertNode($3,NULL,"While");}
 
     | RETURN StatementReturn                                        {$$ = insertNode($2,NULL,"Return");}
 
@@ -425,16 +450,16 @@ StatementBrace: Statement RBRACE                                    {$$ = $1;}
     | error RBRACE                                                  {$$ = insertNode(NULL,NULL,NULL);}
     ;
 
-StatementElse: ELSE Statement                                       {$$ = $2;}
-    | %prec "then"                                                  {$$ = NULL;}
+StatementElse: ELSE StatementList                                   {$$ = insertNode($2, NULL, "Else");}
+    | %prec "then"                                                  {$$ = insertNode(NULL,NULL,"Null");$$= insertNode($$, NULL, "Else");}
     ;
 
-StatementReturn: SEMI                                               {$$ = NULL;}
+StatementReturn: SEMI                                               {$$ = insertNode(NULL,NULL,"Null");}
     | Expr SEMI                                                     {$$ = $1;}
     ;
 
 Expr: Expr ASSIGN Expr                                              {joinNodes($1,$3); $$ = insertNode($1,NULL,"Store");}
-    | Expr COMMA Expr                                               {joinNodes($1,$3); $$ = insertNode($1,NULL,"Comma");}
+    | Expr COMMA Expr                                               {joinNodes($1,$3); $$ = insertNode($1, NULL,"Comma");}
     
     | Expr PLUS Expr                                                {joinNodes($1,$3); $$ = insertNode($1,NULL,"Add");}
     | Expr MINUS Expr                                               {joinNodes($1,$3); $$ = insertNode($1,NULL,"Sub");}
