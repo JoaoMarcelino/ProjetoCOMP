@@ -20,8 +20,11 @@ uc2018279700 João Marcelino
     extern int nline,ncol;
     extern char* yytext;
     extern int yyleng; 
+    extern int comment,comcol,comline;
+
 
     int hasStatementList =0;
+    
 
     typedef struct  node *nodeptr;
 
@@ -304,7 +307,6 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 
 
 
-
 %token <id> CHRLIT
 %token <id> REALLIT
 %token <id> INTLIT
@@ -430,12 +432,14 @@ Declarator:ID ASSIGN Expr                                           {nodeptr aux
     ;
 
 StatementList: Statement                                             {$$=insertNode($1,NULL,"StatList");}
+    | error SEMI                                                    {$$ = insertNode(NULL,NULL,NULL);}
     ;
 
 Statement: Expr SEMI                                                {$$ = $1;}
-    | error SEMI                                                    {$$ = insertNode(NULL,NULL,NULL);}
+    | SEMI                                                          {$$ = insertNode(NULL,NULL,"Null");}
 
     | LBRACE StatementBrace                                         {$$ = $2;}
+    | LBRACE RBRACE                                                 {$$ = insertNode(NULL,NULL,"Null");}
 
     | IF LPAR Expr RPAR StatementList StatementElse                 {joinNodes($3,$5);$3=insertNode($3,NULL,"If");joinNodes($3,$6);$$=$3;}
     
@@ -445,10 +449,10 @@ Statement: Expr SEMI                                                {$$ = $1;}
 
     ;
 
-StatementBrace: Statement RBRACE                                    {$$ = $1;}
+StatementBrace: Statement RBRACE                                    {$$ = $1;/* Necessário Retirar Nulo quando Statement é apenas isso */}
     | Statement StatementBrace                                      {joinNodes($1,$2);$$ = $1;}
-    | error RBRACE                                                  {$$ = insertNode(NULL,NULL,NULL);}
     ;
+
 
 StatementElse: ELSE StatementList                                   {$$ = insertNode($2, NULL, "Else");}
     | %prec "then"                                                  {$$ = insertNode(NULL,NULL,"Null");$$= insertNode($$, NULL, "Else");}
@@ -460,7 +464,7 @@ StatementReturn: SEMI                                               {$$ = insert
 
 
 Expr: Expr ASSIGN Expr                                              {joinNodes($1,$3); $$ = insertNode($1,NULL,"Store");}
-    | Expr COMMA Expr                                               {joinNodes($1,$3); $$ = insertNode($1, NULL,"Comma");}
+    | Expr COMMA Expr                                               {joinNodes($1,$3); $$ = insertNode($1, NULL,"Comma"); /* Retirar Comma as vezes*/}
     
     | Expr PLUS Expr                                                {joinNodes($1,$3); $$ = insertNode($1,NULL,"Add");}
     | Expr MINUS Expr                                               {joinNodes($1,$3); $$ = insertNode($1,NULL,"Sub");}
@@ -481,8 +485,8 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
     | Expr LT Expr                                                  {joinNodes($1,$3); $$ = insertNode($1,NULL,"Lt");}
     | Expr GT Expr                                                  {joinNodes($1,$3); $$ = insertNode($1,NULL,"Gt");}
 
-    | PLUS Expr                                                     {$$ = insertNode($2,NULL,"Plus");}
-    | MINUS Expr                                                    {$$ = insertNode($2,NULL,"Minus");}
+    | PLUS Expr %prec NOT                                           {$$ = insertNode($2,NULL,"Plus");}
+    | MINUS Expr %prec NOT                                          {$$ = insertNode($2,NULL,"Minus");}
     | NOT Expr                                                      {$$ = insertNode($2,NULL,"Not");}
 
     | ID                                                            {$$ = insertNode(NULL,$1,"Id");}
@@ -495,16 +499,17 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
     | LPAR error RPAR                                               {$$ = insertNode(NULL,NULL,NULL);ncol-=1;}
     ;
 
-
 %%
 
 
 void yyerror (char *s) {
-    int col = ncol - yyleng ;
+    int col = ncol - (int) yyleng ;
     if (col<=0){
         col=1;
     }
-    printf ( "Line %d, col %d: %s: %s\n" , nline , col ,s , yytext );
+    
+
+    printf ("Line %d, col %d: %s: %s\n" , nline , col ,s , yytext );
     treePrint=0;
 }
 

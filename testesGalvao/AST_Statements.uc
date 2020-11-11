@@ -34,8 +34,7 @@ int main(void){
 		statement2 = 2;
 		statement3 = 3;
 	}
-  
-  {;}
+	{;}
 
 	{statement1 = 1;}
 

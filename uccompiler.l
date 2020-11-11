@@ -47,6 +47,7 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 	int nline=1,ncol=1;
 	int comline=0,comcol=1; 
 	int longComment=0;
+	int comment;
 %}
 /*<CHARS>{escape}	{numChar++;if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);if(numChar>1)printf("ERROR INVALID CHAR");}
 */
@@ -55,7 +56,7 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 
 "/*"			{ comline=0; comcol=yyleng; longComment=1; BEGIN COMMENT;}
 "//"			{ comline=0; comcol=yyleng; longComment=0; BEGIN COMMENT;}
-<COMMENT>"*/" 	{comcol+=yyleng;printf("%d, %d, %d, %d",nline,ncol,comline, comcol); if(longComment){ nline+=comline; ncol+=comcol; BEGIN 0;}}
+<COMMENT>"*/" 	{comcol+=yyleng; if(longComment){ nline+=comline; ncol+=comcol; BEGIN 0;}comment=nline;}
 <COMMENT>\n		{comline++; comcol=1; if(!longComment){ nline+=comline; ncol=comcol; BEGIN 0;}}
 <COMMENT><<EOF>> {if(longComment){if(LexicalErrors)printf("Line %d, col %d: unterminated comment\n",nline,ncol);}nline+=comline;ncol=comcol;BEGIN 0;}
 <COMMENT>.		{comcol+=yyleng;}
