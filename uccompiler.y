@@ -306,11 +306,11 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 
 
 
+
 %token <id> CHRLIT
 %token <id> REALLIT
 %token <id> INTLIT
 %token <id> ID
-
 
 
 %token CHAR
@@ -412,14 +412,15 @@ FunctionBody: DeclarationsAndStatements                             {$$=$1; }
 
 DeclarationsAndStatements: StatementList DeclarationsAndStatementsRep { joinNodes($1,$2);$$ =  $1;}
 	| Declaration DeclarationsAndStatementsRep                      {joinNodes($1,$2);$$=$1;}
-    | error SEMI                                                    {$$ = insertNode(NULL,NULL,NULL);}
+    
     ;
 
 DeclarationsAndStatementsRep: DeclarationsAndStatements             {$$ = $1;};
     |                                                               {$$ = NULL;}
     ;
 
-Declaration:TypeSpec Declarator DeclarationExtra                    {joinNodes($1,$2);$$ = insertNode($1,NULL,"Declaration");nodeptr aux=NULL; aux=DeclarationFunc(aux, $1, $3);joinNodes($$,aux);} 
+Declaration:TypeSpec Declarator DeclarationExtra                    {joinNodes($1,$2);$$ = insertNode($1,NULL,"Declaration");nodeptr aux=NULL; aux=DeclarationFunc(aux, $1, $3);joinNodes($$,aux);}
+    | TypeSpec error SEMI                                           {$$ = insertNode(NULL,NULL,NULL);}
     ;
 
 DeclarationExtra: COMMA Declarator DeclarationExtra                 {$2=insertNode($2,NULL,"Declarator");joinNodes($2,$3);$$=$2;}
@@ -434,6 +435,7 @@ StatementList: Statement                                             {$$=insertN
     ;
 
 Statement: Expr SEMI                                                {$$ = $1;}
+    | error SEMI                                                    {$$ = insertNode(NULL,NULL,NULL);}
 
     | LBRACE StatementBrace                                         {$$ = $2;}
 
@@ -457,6 +459,7 @@ StatementElse: ELSE StatementList                                   {$$ = insert
 StatementReturn: SEMI                                               {$$ = insertNode(NULL,NULL,"Null");}
     | Expr SEMI                                                     {$$ = $1;}
     ;
+
 
 Expr: Expr ASSIGN Expr                                              {joinNodes($1,$3); $$ = insertNode($1,NULL,"Store");}
     | Expr COMMA Expr                                               {joinNodes($1,$3); $$ = insertNode($1, NULL,"Comma");}
@@ -504,6 +507,6 @@ void yyerror (char *s) {
         col=1;
     }
     printf ( "Line %d, col %d: %s: %s\n" , nline , col ,s , yytext );
-    treePrint = 0;
+    treePrint=0;
 }
 
