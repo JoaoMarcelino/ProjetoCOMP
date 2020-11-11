@@ -1,4 +1,4 @@
-/*FUKCFUKCFUCKFUCK
+/*
 uc2018293871 Sofia Silva
 uc2018279700 João Marcelino
 */
@@ -19,7 +19,7 @@ uc2018279700 João Marcelino
 	extern int SintaxErrors;
     extern int nline,ncol;
     extern char* yytext;
-    extern int yyleng;
+    extern int yyleng; 
 
     int hasStatementList =0;
 
@@ -134,8 +134,6 @@ uc2018279700 João Marcelino
     void printPontos(int num){
         int i=0;
         //printf("%.2d",num);
-        if (num)
-            printf("\n");
         for(;i<num;i++){
             printf(".");
         }
@@ -149,7 +147,7 @@ uc2018279700 João Marcelino
             if(aux->id){
                 //print de Ids
                 printPontos(nPontos);
-                printf("%s(%s)",aux->type, aux->id);
+                printf("%s(%s)\n",aux->type, aux->id);
 
             }
             else if(!strcmp(aux->type,"Else") ){
@@ -158,7 +156,7 @@ uc2018279700 João Marcelino
             else if(!strcmp(aux->type,"StatList")){
                 if (needsStatList(aux)){
                     printPontos(nPontos);
-                    printf("%s",aux->type);
+                    printf("%s\n",aux->type);
                 }
                 else{
                     if(!check){
@@ -170,7 +168,7 @@ uc2018279700 João Marcelino
             }
             else{
                 printPontos(nPontos);
-                printf("%s",aux->type);
+                printf("%s\n",aux->type);
             }
 
             if (aux->nodeNext){
@@ -492,9 +490,9 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
     | CHRLIT                                                        {$$ = insertNode(NULL,$1,"ChrLit");}
     | REALLIT                                                       {$$ = insertNode(NULL,$1,"RealLit");}
     | ID LPAR Expr RPAR                                             {nodeptr aux = insertNode(NULL,$1,"Id"); joinNodes(aux,$3); $$= insertNode(aux,NULL,"Call");}
-    | ID LPAR error RPAR                                            {$$ = insertNode(NULL,NULL,NULL);}
+    | ID LPAR error RPAR                                            {$$ = insertNode(NULL,NULL,NULL); ncol-=1;}
     | LPAR Expr RPAR                                                {$$ = $2;}
-    | LPAR error RPAR                                               {$$ = insertNode(NULL,NULL,NULL);}
+    | LPAR error RPAR                                               {$$ = insertNode(NULL,NULL,NULL);ncol-=1;}
     ;
 
 

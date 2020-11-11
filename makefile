@@ -25,7 +25,7 @@ lexerrors:
 	./uccompiler -e1 <test.txt
 
 sinterrors:
-	./uccompiler -e2 <test.txt
+	./uccompiler -e2 <test.txt >output.txt
  
 treeprint:
 	./uccompiler -t <test.txt >output.txt

@@ -53,9 +53,9 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 
 %%
 
-"/*"			{comline=0; comcol=yyleng; longComment=1; BEGIN COMMENT;}
-"//"			{comline=0; comcol=yyleng; longComment=0; BEGIN COMMENT;}
-<COMMENT>"*/" 	{comcol+=yyleng; if(longComment){ nline+=comline; ncol+=comcol; BEGIN 0;}}
+"/*"			{ comline=0; comcol=yyleng; longComment=1; BEGIN COMMENT;}
+"//"			{ comline=0; comcol=yyleng; longComment=0; BEGIN COMMENT;}
+<COMMENT>"*/" 	{comcol+=yyleng;printf("%d, %d, %d, %d",nline,ncol,comline, comcol); if(longComment){ nline+=comline; ncol+=comcol; BEGIN 0;}}
 <COMMENT>\n		{comline++; comcol=1; if(!longComment){ nline+=comline; ncol=comcol; BEGIN 0;}}
 <COMMENT><<EOF>> {if(longComment){if(LexicalErrors)printf("Line %d, col %d: unterminated comment\n",nline,ncol);}nline+=comline;ncol=comcol;BEGIN 0;}
 <COMMENT>.		{comcol+=yyleng;}
