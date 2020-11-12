@@ -157,16 +157,22 @@ uc2018279700 João Marcelino
                 
             }
             else if(!strcmp(aux->type,"StatList")){
+                
                 if (needsStatList(aux)){
-                    printPontos(nPontos);
-                    printf("%s\n",aux->type);
+                    if (check==1){
+                        check=0;
+                        printPontos(nPontos+=2);
+                        printf("%s\n",aux->type);
+                    }else{
+                        printPontos(nPontos);
+                        printf("%s\n",aux->type);
+                    }
                 }
                 else{
                     if(!check){
                         nPontos -=2;
                         check=1;
                     }
-                    
                 }
             }
             else{
@@ -451,7 +457,7 @@ Statement: Expr SEMI                                                {$$ = $1;}
 
     ;
 
-StatementBrace: Statement RBRACE                                    {$$ = $1;/* Necessário Retirar Nulo quando Statement é apenas isso */}
+StatementBrace: Statement RBRACE                                    { $$=$1;/* Necessário Retirar Nulo quando Statement é apenas isso */}
     | Statement StatementBrace                                      {joinNodes($1,$2);$$ = $1;}
     ;
 
