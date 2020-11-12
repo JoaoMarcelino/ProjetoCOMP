@@ -14,7 +14,7 @@ gdb: generate debug
 
 generate:
 	lex uccompiler.l
-	yacc -d --verbose uccompiler.y
+	yacc -t -d --verbose uccompiler.y
 	cc -o uccompiler y.tab.c lex.yy.c
 
 

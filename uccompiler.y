@@ -13,6 +13,7 @@ uc2018279700 João Marcelino
     int yylex(void);
     int main(void);
     void yyerror (char *s);
+    int yydebug = 0;
     
 
     extern int treePrint;
@@ -24,7 +25,7 @@ uc2018279700 João Marcelino
 
 
     int hasStatementList =0;
-    
+    int comma=0;
 
     typedef struct  node *nodeptr;
 
@@ -152,9 +153,8 @@ uc2018279700 João Marcelino
                 printPontos(nPontos);
                 printf("%s(%s)\n",aux->type, aux->id);
 
-            }
-            else if(!strcmp(aux->type,"Else") ){
-
+            }else if(!strcmp(aux->type,"Else") ){
+                
             }
             else if(!strcmp(aux->type,"StatList")){
                 if (needsStatList(aux)){
@@ -304,6 +304,7 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 %type <node> StatementElse
 %type <node> StatementReturn
 %type <node> Expr
+%type <node> ExprComma
 
 
 
@@ -349,7 +350,7 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 %token RESERVED
 
 
-%right "then" ELSE
+
 
 %left COMMA
 %right ASSIGN
@@ -365,6 +366,7 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 %right NOT 
 %left RPAR LPAR
 
+%right "then" ELSE
 
 
 
@@ -464,7 +466,7 @@ StatementReturn: SEMI                                               {$$ = insert
 
 
 Expr: Expr ASSIGN Expr                                              {joinNodes($1,$3); $$ = insertNode($1,NULL,"Store");}
-    | Expr COMMA Expr                                               {joinNodes($1,$3); $$ = insertNode($1, NULL,"Comma"); /* Retirar Comma as vezes*/}
+    | Expr COMMA Expr                                               {joinNodes($1,$3); $$ = insertNode($1, NULL,"Comma");}
     
     | Expr PLUS Expr                                                {joinNodes($1,$3); $$ = insertNode($1,NULL,"Add");}
     | Expr MINUS Expr                                               {joinNodes($1,$3); $$ = insertNode($1,NULL,"Sub");}
@@ -493,12 +495,16 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
     | INTLIT                                                        {$$ = insertNode(NULL,$1,"IntLit");}
     | CHRLIT                                                        {$$ = insertNode(NULL,$1,"ChrLit");}
     | REALLIT                                                       {$$ = insertNode(NULL,$1,"RealLit");}
-    | ID LPAR Expr RPAR                                             {nodeptr aux = insertNode(NULL,$1,"Id"); joinNodes(aux,$3); $$= insertNode(aux,NULL,"Call");}
+    | ID LPAR ExprComma RPAR                                        {nodeptr aux = insertNode(NULL,$1,"Id"); joinNodes(aux,$3); $$= insertNode(aux,NULL,"Call");}
     | ID LPAR error RPAR                                            {$$ = insertNode(NULL,NULL,NULL); ncol-=1;}
     | LPAR Expr RPAR                                                {$$ = $2;}
     | LPAR error RPAR                                               {$$ = insertNode(NULL,NULL,NULL);ncol-=1;}
     ;
 
+ExprComma: ExprComma COMMA Expr                                     {joinNodes($1,$3);}
+    | Expr %prec "then"                                             {$$=$1;}
+    |                                                               {$$=NULL;}
+    ;
 %%
 
 
