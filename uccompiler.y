@@ -13,7 +13,7 @@ uc2018279700 João Marcelino
     int yylex(void);
     int main(void);
     void yyerror (char *s);
-    int yydebug = 0;
+    int yydebug = 1;
     
 
     extern int treePrint;
@@ -472,6 +472,8 @@ StatementReturn: SEMI                                               {$$ = insert
     ;
 
 
+
+
 Expr: Expr ASSIGN Expr                                              {joinNodes($1,$3); $$ = insertNode($1,NULL,"Store");}
     | Expr COMMA Expr                                               {joinNodes($1,$3); $$ = insertNode($1, NULL,"Comma");}
     
@@ -498,14 +500,16 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
     | MINUS Expr %prec NOT                                          {$$ = insertNode($2,NULL,"Minus");}
     | NOT Expr                                                      {$$ = insertNode($2,NULL,"Not");}
 
-    | ID                                                            {$$ = insertNode(NULL,$1,"Id");}
-    | INTLIT                                                        {$$ = insertNode(NULL,$1,"IntLit");}
-    | CHRLIT                                                        {$$ = insertNode(NULL,$1,"ChrLit");}
-    | REALLIT                                                       {$$ = insertNode(NULL,$1,"RealLit");}
+    
     | ID LPAR ExprComma RPAR                                        {nodeptr aux = insertNode(NULL,$1,"Id"); joinNodes(aux,$3); $$= insertNode(aux,NULL,"Call");}
-    | ID LPAR error RPAR                                            {$$ = insertNode(NULL,NULL,NULL); ncol-=1;}
+    | ID LPAR error RPAR                                            {$$ = insertNode(NULL,NULL,NULL);}
     | LPAR Expr RPAR                                                {$$ = $2;}
-    | LPAR error RPAR                                               {$$ = insertNode(NULL,NULL,NULL);ncol-=1;}
+    | LPAR error RPAR                                               {$$ = insertNode(NULL,NULL,NULL);}
+
+    | REALLIT                                                       {$$ = insertNode(NULL,$1,"RealLit");}
+    | CHRLIT                                                        {$$ = insertNode(NULL,$1,"ChrLit");}
+    | INTLIT                                                        {$$ = insertNode(NULL,$1,"IntLit");}
+    | ID                                                            {$$ = insertNode(NULL,$1,"Id");}
     ;
 
 ExprComma: ExprComma COMMA Expr                                     {joinNodes($1,$3);}
