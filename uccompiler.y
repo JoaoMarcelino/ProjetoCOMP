@@ -448,6 +448,7 @@ Statement: Expr SEMI                                                {$$ = $1;}
 
     | LBRACE StatementBrace                                         {$$ = $2;}
     | LBRACE RBRACE                                                 {$$ = insertNode(NULL,NULL,"Null");}
+    | LBRACE error RBRACE                                           {$$ = insertNode(NULL,NULL,NULL);}
 
     | IF LPAR Expr RPAR StatementList StatementElse                 {joinNodes($3,$5);$3=insertNode($3,NULL,"If");joinNodes($3,$6);$$=$3;}
     

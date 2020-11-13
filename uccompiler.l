@@ -54,12 +54,14 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 
 %%
 
-"/*"			{ comline=0; comcol=yyleng; longComment=1; BEGIN COMMENT;}
-"//"			{ comline=0; comcol=yyleng; longComment=0; BEGIN COMMENT;}
-<COMMENT>"*/" 	{comcol+=yyleng; if(longComment){ nline+=comline; ncol+=comcol; BEGIN 0;}comment=nline;}
-<COMMENT>\n		{comline++; comcol=1; if(!longComment){ nline+=comline; ncol=comcol; BEGIN 0;}}
-<COMMENT><<EOF>> {if(longComment){if(LexicalErrors)printf("Line %d, col %d: unterminated comment\n",nline,ncol);}nline+=comline;ncol=comcol;BEGIN 0;}
-<COMMENT>.		{comcol+=yyleng;}
+
+\/\/.*            {ncol+=yyleng;}
+"/*"              { BEGIN COMMENT;comcol=ncol;comline=nline;ncol+=yyleng;}
+<COMMENT>.        {ncol+=yyleng;}
+<COMMENT>\n       {nline++;ncol=1;}
+<COMMENT>"*/"     { BEGIN 0;ncol+=yyleng;}
+<COMMENT><<EOF>>  {printf("Line %d, col %d: unterminated comment\n",comline,comcol); BEGIN 0;}
+
 
 '({char}|{escape})' {if(willPrint)printf("CHRLIT(%s)\n",&yytext[0]);ncol+=yyleng; yylval.id = strdup(yytext); return CHRLIT;}
 '({char}|(\\.))*' {if(LexicalErrors)printf("Line %d, col %d: invalid char constant (%s)\n",nline,ncol,&yytext[0]);ncol+=yyleng;}
@@ -106,6 +108,7 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 
 \r\n|\n|\r		{nline++;ncol=1;}
 \f|\v|\t|" "	{ncol++;}
+<<EOF>>			{ncol++;return 0;}
 .				{if(LexicalErrors)printf("Line %d, col %d: illegal character (%s)\n",nline,ncol, &yytext[0]);ncol++;}
 %%
 
