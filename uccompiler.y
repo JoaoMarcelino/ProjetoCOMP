@@ -370,14 +370,14 @@ Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
 %left PLUS MINUS
 %left MUL DIV MOD
 %right NOT 
-%left RPAR LPAR
+%left LPAR
 
 %right "then" ELSE
 
 
 
 %%
-FunctionsAndDec: FunctionsAndDeclarations                  {$$ = insertNode($1,NULL,"Program");if(treePrint)printTree($$,0);}
+FunctionsAndDec: FunctionsAndDeclarations                           {$$ = insertNode($1,NULL,"Program");if(treePrint)printTree($$,0);}
     ;
 
 FunctionsAndDeclarations: TypeSpec FunctionDeclarator FuctionsAndDecExtra    {joinNodes($1,$2);$$ = checkFuncHelper($1);joinNodes($$, $3);}
@@ -460,11 +460,13 @@ Statement: Expr SEMI                                                {$$ = $1;}
 
 StatementBrace: Statement RBRACE                                    { $$=$1;/* Necessário Retirar Nulo quando Statement é apenas isso */}
     | Statement StatementBrace                                      {joinNodes($1,$2);$$ = $1;}
+    | error SEMI                                                    {$$ = insertNode(NULL,NULL,NULL);}
     ;
 
 
 StatementElse: ELSE StatementList                                   {$$ = insertNode($2, NULL, "Else");}
     | %prec "then"                                                  {$$ = insertNode(NULL,NULL,"Null");$$= insertNode($$, NULL, "Else");}
+
     ;
 
 StatementReturn: SEMI                                               {$$ = insertNode(NULL,NULL,"Null");}

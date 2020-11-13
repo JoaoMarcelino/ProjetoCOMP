@@ -1,3 +1,4 @@
 Line 2, col 8: syntax error: ;
 Line 4, col 9: syntax error: ;
-Line 13, col 3: syntax error: int
+Line 13, col 9: syntax error: int
+Line 16, col 12: syntax error: z2
