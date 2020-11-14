@@ -13,7 +13,7 @@ uc2018279700 João Marcelino
     int yylex(void);
     int main(void);
     void yyerror (char *s);
-    int yydebug = 1;
+    int yydebug = 0;
     
 
     extern int treePrint;
@@ -443,11 +443,11 @@ StatementList: Statement                                             {$$=insertN
     | error SEMI                                                    {$$ = insertNode(NULL,NULL,NULL);}
     ;
 
-Statement: Expr SEMI                                                {$$ = $1;}
-    | SEMI                                                          {$$ = insertNode(NULL,NULL,"Null");}
-
-    | LBRACE StatementBrace                                         {$$ = $2;}
+Statement:  SEMI                                                    {$$ = insertNode(NULL,NULL,"Null");}
+    | Expr SEMI                                                     {$$ = $1;}
     | LBRACE RBRACE                                                 {$$ = insertNode(NULL,NULL,"Null");}
+
+    | LBRACE StatementBrace RBRACE                                  {$$ = $2;}
     | LBRACE error RBRACE                                           {$$ = insertNode(NULL,NULL,NULL);}
 
     | IF LPAR Expr RPAR StatementList StatementElse                 {joinNodes($3,$5);$3=insertNode($3,NULL,"If");joinNodes($3,$6);$$=$3;}
@@ -458,9 +458,8 @@ Statement: Expr SEMI                                                {$$ = $1;}
 
     ;
 
-StatementBrace: Statement RBRACE                                    { $$=$1;/* Necessário Retirar Nulo quando Statement é apenas isso */}
-    | Statement StatementBrace                                      {joinNodes($1,$2);$$ = $1;}
-    | error SEMI                                                    {$$ = insertNode(NULL,NULL,NULL);}
+StatementBrace: StatementBrace StatementList                         {joinNodes($1,$2);$$ = $1;}
+    | StatementList                                                  {$$ = $1;}
     ;
 
 
