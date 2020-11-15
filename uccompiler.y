@@ -503,6 +503,7 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
 
     
     | ID LPAR ExprComma RPAR                                        {nodeptr aux = insertNode(NULL,$1,"Id"); joinNodes(aux,$3); $$= insertNode(aux,NULL,"Call");}
+    | ID LPAR RPAR                                                  {nodeptr aux = insertNode(NULL,$1,"Id"); $$= insertNode(aux,NULL,"Call");}
     | ID LPAR error RPAR                                            {$$ = insertNode(NULL,NULL,NULL);}
     | LPAR Expr RPAR                                                {$$ = $2;}
     | LPAR error RPAR                                               {$$ = insertNode(NULL,NULL,NULL);}
@@ -515,7 +516,6 @@ Expr: Expr ASSIGN Expr                                              {joinNodes($
 
 ExprComma: ExprComma COMMA Expr                                     {joinNodes($1,$3);}
     | Expr %prec "then"                                             {$$=$1;}
-    |                                                               {$$=NULL;}
     ;
     
 %%
