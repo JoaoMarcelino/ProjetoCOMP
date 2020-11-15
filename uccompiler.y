@@ -418,7 +418,7 @@ FunctionBody: DeclarationsAndStatements                             {$$=$1; }
     |                                                               {$$ = NULL;}
     ;
 
-DeclarationsAndStatements: StatementList DeclarationsAndStatementsRep { joinNodes($1,$2);$$ =  $1;}
+DeclarationsAndStatements: StatementList DeclarationsAndStatementsRep { if($1){ joinNodes($1,$2);$$ =  $1;} else{$$=$2;}}
 	| Declaration DeclarationsAndStatementsRep                      {joinNodes($1,$2);$$=$1;}
     
     ;
@@ -439,32 +439,32 @@ Declarator:ID ASSIGN Expr                                           {nodeptr aux
     | ID                                                            {$$ = insertNode(NULL, $1,"Id");}
     ;
 
-StatementList: Statement                                             {$$=insertNode($1,NULL,"StatList");}
+StatementList: Statement                                            {$$=$1;}
     | error SEMI                                                    {$$ = insertNode(NULL,NULL,NULL);}
     ;
 
-Statement:  SEMI                                                    {$$ = insertNode(NULL,NULL,"Null");}
+Statement:  SEMI                                                    {$$ = NULL;}
     | Expr SEMI                                                     {$$ = $1;}
-    | LBRACE RBRACE                                                 {$$ = insertNode(NULL,NULL,"Null");}
+    | LBRACE RBRACE                                                 {$$ = NULL;}
 
-    | LBRACE StatementBrace RBRACE                                  {$$ = $2;}
+    | LBRACE StatementBrace RBRACE                                  {if($2){$$ = insertNode($2,NULL,"StatList");}else{$$=$2;}}
     | LBRACE error RBRACE                                           {$$ = insertNode(NULL,NULL,NULL);}
 
-    | IF LPAR Expr RPAR StatementList StatementElse                 {joinNodes($3,$5);$3=insertNode($3,NULL,"If");joinNodes($3,$6);$$=$3;}
-    
-    | WHILE LPAR Expr RPAR StatementList                            {joinNodes($3, $5);$$= insertNode($3,NULL,"While");}
+    | IF LPAR Expr RPAR StatementList StatementElse                 {if(!$5){$5=insertNode(NULL,NULL,"Null");} $5=insertNode($5,NULL,"StatList"); if(!$6){$6=insertNode(NULL,NULL,"Null");} $6=insertNode($6,NULL,"StatList"); joinNodes($5,$6);joinNodes($3,$5);$3=insertNode($3,NULL,"If");$$=$3;}
+
+    | WHILE LPAR Expr RPAR StatementList                            {if(!$5){$5=insertNode(NULL,NULL,"Null");} $5=insertNode($5,NULL,"StatList"); joinNodes($3, $5);$$= insertNode($3,NULL,"While");}
 
     | RETURN StatementReturn                                        {$$ = insertNode($2,NULL,"Return");}
 
     ;
 
-StatementBrace: StatementBrace StatementList                         {joinNodes($1,$2);$$ = $1;}
+StatementBrace: StatementBrace StatementList                         {if($1){ joinNodes($1,$2);$$ =  $1;} else{$$=$2;}}
     | StatementList                                                  {$$ = $1;}
     ;
 
 
-StatementElse: ELSE StatementList                                   {$$ = insertNode($2, NULL, "Else");}
-    | %prec "then"                                                  {$$ = insertNode(NULL,NULL,"Null");$$= insertNode($$, NULL, "Else");}
+StatementElse: ELSE StatementList                                   {$$ = $2;}
+    | %prec "then"                                                  {$$ = NULL;}
 
     ;
 
@@ -517,6 +517,7 @@ ExprComma: ExprComma COMMA Expr                                     {joinNodes($
     | Expr %prec "then"                                             {$$=$1;}
     |                                                               {$$=NULL;}
     ;
+    
 %%
 
 
