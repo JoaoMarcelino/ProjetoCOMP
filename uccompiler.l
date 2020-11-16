@@ -127,6 +127,7 @@ int main(int argc, char *argv[ ]){
 		}
 			
 		else if (!strcmp(argv[1],"-t")){
+			LexicalErrors=1;
 			treePrint=1;
 			yyparse();
 		}
