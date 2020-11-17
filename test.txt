@@ -1,59 +1,13 @@
-int main(void){
-    ;;;;;;;;;;;;;;;
-    {{{{{}}}}};
-
-    while(a){
-        ;;;
-        return -1;
-    }
-
-    if (a == 2){
-        ;
-    }
-
-    if (a == 2){
-        return a;
-    }
-    else{
-        return 5;
-    }
-
-    while(b == 3){
-        if (a == 2){
-        return a;
-        }{
-        if (a == 2){
-        return a;
-        }if (a == 2){
-        return a;
-        }
-        else{
-            return 5;
-        }
-        if (a == 2){
-        return a;
-        }
-        if (a == 2){
-        return a;
-        }
-        else{
-            return 5;
-        }
-        if (a == 2){
-        return a;
-        }
-        else{
-            return 5;
-        }
-        }
-//        else{
-//            return 0;
-//        }
-
-        return 90;
-    }
-
-    ;;;;;
-
-
+void f(void) {
+    a = fx)();
+    b = g(xyz)[x][y];
+    c = h()(x,y);
+    c = &h(),*h(&p), !h('c',), **h(*a+5);
+    h(5,2) = z(27,);
+    h(5,2) = z(,);
+    h(5,2) = z(,x);
+    z(f(x(25(a)));
+    r = 0; f(27;5) ;
+    r = 0; f(27[-5]) ;
+    r = 0; f[27](-5) ;
 }

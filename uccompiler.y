@@ -38,17 +38,6 @@ uc2018279700 João Marcelino
     }Node;
 
 
-    nodeptr createNode(){
-        nodeptr aux = (nodeptr )malloc(sizeof(Node));
-
-        if (aux!=NULL){
-            aux->id=malloc(SIZE*sizeof(char));
-            aux->type=malloc(SIZE*sizeof(char));
-            aux->nodeNext=NULL;
-            aux->nodeBrother= NULL;
-        }
-        return aux;
-    }
 
     nodeptr insertNode(nodeptr node, char *id, char *type){
         nodeptr aux = (nodeptr)malloc(sizeof(Node));
@@ -75,49 +64,6 @@ uc2018279700 João Marcelino
         free(aux2);
     }
 
-    /* IF statementlist tiver amis do que 2 statements mostrar esse node especifico*/
-    
-    /*
-    void printTree(nodeptr node){
-        nodeptr aux = node;
-        int i=0;
-        while (aux){
-            if (aux->nodeNext){
-                printf("%d %s %s\nnext->",i++,aux->type, aux->id);
-                printTree(aux->nodeNext);
-            }
-            else if (aux->nodeBrother){
-                printf("%d %s %s\nbrother->",i++,aux->type, aux->id);
-            }
-            else{
-                printf("%d %s %s\n",i++,aux->type, aux->id);
-            }
-            aux=aux->nodeBrother;
-        }
-    }
-
-
-    else if(strcmp(aux->type,"StatList")==0){
-                //print de StatLists
-                if (needsStatList(aux->nodeNext)){
-                     printPontos(nPontos);
-                    printf("%s \n",aux->type);
-
-                }else{
-                    //StatLists Redundantes
-                    nPontos-=2;
-                }
-
-            }else if (strcmp(aux->type,"Statement")==0){
-                //Statements
-                nPontos-=2;
-            }
-
-
-
-
-    
-    */
     
     int needsStatList(nodeptr node){
         nodeptr aux= node->nodeNext;
@@ -242,53 +188,7 @@ uc2018279700 João Marcelino
         }
         return main;
     }
-    /*Declaration:TypeSpec Declarator DeclarationExtra                    {joinNodes($1,$2);$$ = insertNode($1,NULL,"Declaration"); joinNodes($$,$3);} 
-    () normal
-    [] opcional
-    {} zero ou mais repetições
-    FunctionsAndDeclarations −→ (FunctionDefinition | FunctionDeclaration | Declaration) {FunctionDefinition | FunctionDeclaration | Declaration}
-
-
-FunctionDefinition −→ TypeSpec FunctionDeclarator FunctionBody
     
-    FunctionBody −→ LBRACE [DeclarationsAndStatements] RBRACE
-    DeclarationsAndStatements −→ Statement DeclarationsAndStatements | Declaration DeclarationsAndStatements | Statement | Declaration
-FunctionDeclaration −→ TypeSpec FunctionDeclarator SEMI
-    
-    FunctionDeclarator −→ ID LPAR ParameterList RPAR
-    ParameterList −→ ParameterDeclaration {COMMA ParameterDeclaration}
-    ParameterDeclaration −→ TypeSpec [ID]
-
-Declaration −→ TypeSpec Declarator {COMMA Declarator} SEMI
-    TypeSpec −→ CHAR | INT | VOID | SHORT | DOUBLE
-    Declarator −→ ID [ASSIGN Expr]
-    
-    Statement −→ [Expr] SEMI
-    Statement −→ LBRACE {Statement} RBRACE
-    Statement −→ IF LPAR Expr RPAR Statement [ELSE Statement]
-    Statement −→ WHILE LPAR Expr RPAR Statement
-    Statement −→ RETURN [Expr] SEMI
-    
-    Expr −→ Expr (ASSIGN | COMMA) Expr
-    Expr −→ Expr (PLUS | MINUS | MUL | DIV | MOD) Expr
-    Expr −→ Expr (OR | AND | BITWISEAND | BITWISEOR | BITWISEXOR) Expr
-    Expr −→ Expr (EQ | NE | LE | GE | LT | GT) Expr
-    Expr −→ (PLUS | MINUS | NOT) Expr
-    Expr −→ ID LPAR [Expr {COMMA Expr}] RPAR
-    Expr −→ ID | INTLIT | CHRLIT | REALLIT | LPAR Expr RPAR
-
-
-
-        
-    %right ASSIGN
-    %left COMMA
-    %right EQ NE LE GE LT GT
-    %left PLUS MINUS NOT
-    %left MUL DIV MOD
-    %left OR AND BITWISEAND BITWISEOR BITWISEXOR
-    %right LPAR LBRACE
-
-    */
 %}
 
 %union{
