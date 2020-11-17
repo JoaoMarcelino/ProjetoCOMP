@@ -148,8 +148,10 @@ uc2018279700 João Marcelino
         int check =0;
 
          while (aux){
+            //printf("%.2d",nPontos);
             if(aux->id){
                 //print de Ids
+                
                 printPontos(nPontos);
                 printf("%s(%s)\n",aux->type, aux->id);
 
@@ -182,6 +184,11 @@ uc2018279700 João Marcelino
 
             if (aux->nodeNext){
                 printTree(aux->nodeNext, nPontos + 2);
+            }
+            
+            if (check==1){
+                check=0;
+                nPontos+=2;
             }
             aux=aux->nodeBrother;
         }
