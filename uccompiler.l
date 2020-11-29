@@ -42,6 +42,8 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 	int SintaxErrors=0;
 	int yyleng;
 
+	nodeptr tree;
+
 	//sempre que for lida 1 char aumentar ncol,
 	//sempre que for encontrado \n reset ncol add nline
 	int nline=1,ncol=1;
@@ -143,6 +145,9 @@ int main(int argc, char *argv[ ]){
 		SintaxErrors=1;
 		yyparse();
 	}
+
+	globalTable(tree);
+
 	return 0;
 }
 
