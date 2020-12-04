@@ -1,9 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "functions.h"
 
-typedef struct node * tableNode;
-typedef struct node{
+typedef struct nodeTable * tableNode;
+typedef struct nodeTable{
 
     char *name;
     char *type;
@@ -11,13 +12,12 @@ typedef struct node{
 
     tableNode next;
     tableNode child;
-}node;
+}nodet;
 
 
 
 void globalTable(nodeptr);
-tableNode insertNode();
 void analiseTree(nodeptr , tableNode );
-tableNode insertNode(tableNode , char *, char *, char *);
-tableNode printTable(table);
+tableNode insert(tableNode , char *, char *, char *);
+tableNode printTable(tableNode);
 void printParam(char *, int );

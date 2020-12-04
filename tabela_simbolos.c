@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "functions.h"
 #include "tabela_simbolos.h"
 
 
@@ -33,7 +34,7 @@ void analiseTree(nodeptr tree, tableNode table){
 };
 
 
-tableNode insertNode(tableNode node, char *name, char *type, char *array[]){
+tableNode insert(tableNode node, char *name, char *type, char *array[]){
     tableNode aux = (tableNode)malloc(sizeof(node));
     int i;
     aux->name = name;
@@ -50,7 +51,7 @@ tableNode insertNode(tableNode node, char *name, char *type, char *array[]){
 };
 
 
-tableNode printTable(table){
+tableNode printTable(tableNode table){
     tableNode aux = table;
 
     while(aux){

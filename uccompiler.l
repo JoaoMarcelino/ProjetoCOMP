@@ -35,6 +35,8 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 	#include <string.h>
 	#include <stdio.h>
 	#include "y.tab.h"
+	#include "tabela_simbolos.h"
+	#include "functions.h"
 
 	int willPrint=0;
 	int LexicalErrors=0;

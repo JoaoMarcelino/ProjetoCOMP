@@ -25,6 +25,20 @@ nodeptr insertNode(nodeptr node, char *id, char *type){
     return aux;
 };
 
+void joinNodes(nodeptr node1, nodeptr node2){
+    nodeptr aux = node1;
+    if(aux){
+
+        while(aux->nodeBrother){
+            aux=aux->nodeBrother;
+        }
+        aux->nodeBrother = node2;
+    }else if(node2){
+        node1 = node2;
+    }
+
+};
+
 
  nodeptr checkFuncHelper(nodeptr node){
 
@@ -58,18 +72,4 @@ nodeptr DeclarationFunc(nodeptr main,nodeptr typespec, nodeptr declarations){
         aux=aux->nodeBrother;
     }
     return main;
-};
-
-void joinNodes(nodeptr node1, nodeptr node2){
-    nodeptr aux = node1;
-    if(aux){
-
-        while(aux->nodeBrother){
-            aux=aux->nodeBrother;
-        }
-        aux->nodeBrother = node2;
-    }else if(node2){
-        node1 = node2;
-    }
-
 };
