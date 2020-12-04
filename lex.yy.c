@@ -2197,7 +2197,6 @@ int main(int argc, char *argv[ ]){
 		SintaxErrors=1;
 		yyparse();
 	}
-
 	globalTable(tree);
 
 	return 0;

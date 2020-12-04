@@ -15,7 +15,7 @@ gdb: generate debug
 generate:
 	lex uccompiler.l
 	yacc -t -d --verbose uccompiler.y
-	cc -o uccompiler y.tab.c lex.yy.c
+	cc -o uccompiler y.tab.c lex.yy.c tabela_simbolos.c
 
 
 printmeta1:

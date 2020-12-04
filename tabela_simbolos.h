@@ -1,3 +1,6 @@
+#ifndef TABELA_SIMBOLOS_H
+#define TABELA_SIMBOLOS_H
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -18,6 +21,9 @@ typedef struct nodeTable{
 
 void globalTable(nodeptr);
 void analiseTree(nodeptr , tableNode );
-tableNode insert(tableNode , char *, char *, char *);
-tableNode printTable(tableNode);
-void printParam(char *, int );
+tableNode insert(tableNode , char *, char *, char *arr[]);
+void printTable(tableNode);
+void printParam(char *arr[], int );
+
+
+#endif
