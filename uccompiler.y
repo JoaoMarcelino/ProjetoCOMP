@@ -31,7 +31,7 @@ uc2018279700 João Marcelino
     int comma=0;
 
 
-    nodeptr insertNode(nodeptr node, char *id, char *type){
+nodeptr insertNode(nodeptr node, char *id, char *type){
     nodeptr aux = (nodeptr)malloc(sizeof(Node));
     aux->id = id;
     aux->type= type;
@@ -93,100 +93,100 @@ nodeptr DeclarationFunc(nodeptr main,nodeptr typespec, nodeptr declarations){
 
 
 
-    void freeTree(nodeptr first){
-        nodeptr aux=first;
-        nodeptr aux2;
-        while (aux->nodeNext!=NULL){
-            free(aux->id);
-            free(aux->type);
-            freeTree(aux->nodeBrother);
-            aux2=aux->nodeNext;
-            free(aux);
-            aux=aux2;
-        }
-        free(aux2);
+void freeTree(nodeptr first){
+    nodeptr aux=first;
+    nodeptr aux2;
+    while (aux->nodeNext!=NULL){
+        free(aux->id);
+        free(aux->type);
+        freeTree(aux->nodeBrother);
+        aux2=aux->nodeNext;
+        free(aux);
+        aux=aux2;
     }
+    free(aux2);
+}
 
-    
-    int needsStatList(nodeptr node){
-        nodeptr aux= node->nodeNext;
-        int count=0;
-        while(aux){
-            if(strcmp(aux->type,"Else") && strcmp(aux->type,"Null") ){
-                count++;    
-            }
-            if (count==2){
-                return 1;
-            }
-            aux= aux->nodeBrother;
+
+int needsStatList(nodeptr node){
+    nodeptr aux= node->nodeNext;
+    int count=0;
+    while(aux){
+        if(strcmp(aux->type,"Else") && strcmp(aux->type,"Null") ){
+            count++;    
         }
-        return 0;
-    }
-
-
-    void printPontos(int num){
-        int i=0;
-        //printf("%.2d",num);
-        for(;i<num;i++){
-            printf(".");
+        if (count==2){
+            return 1;
         }
+        aux= aux->nodeBrother;
     }
-    
-    void printTree(nodeptr node, int nPontos){
-        nodeptr aux =node;
-        int check =0;
+    return 0;
+}
 
-         while (aux){
-            //printf("%.2d",nPontos);
-            if(aux->id){
-                //print de Ids
-                
-                printPontos(nPontos);
-                printf("%s(%s)\n",aux->type, aux->id);
 
-            }else if(!strcmp(aux->type,"Else") ){
-                
-            }
-            else if(!strcmp(aux->type,"StatList")){
-                
-                if (needsStatList(aux)){
-                    if (check==1){
-                        check=0;
-                        printPontos(nPontos+=2);
-                        printf("%s\n",aux->type);
-                    }else{
-                        printPontos(nPontos);
-                        printf("%s\n",aux->type);
-                    }
-                }
-                else{
-                    if(!check){
-                        nPontos -=2;
-                        check=1;
-                    }
+void printPontos(int num){
+    int i=0;
+    //printf("%.2d",num);
+    for(;i<num;i++){
+        printf(".");
+    }
+}
+
+void printTree(nodeptr node, int nPontos){
+    nodeptr aux =node;
+    int check =0;
+
+        while (aux){
+        //printf("%.2d",nPontos);
+        if(aux->id){
+            //print de Ids
+            
+            printPontos(nPontos);
+            printf("%s(%s)\n",aux->type, aux->id);
+
+        }else if(!strcmp(aux->type,"Else") ){
+            
+        }
+        else if(!strcmp(aux->type,"StatList")){
+            
+            if (needsStatList(aux)){
+                if (check==1){
+                    check=0;
+                    printPontos(nPontos+=2);
+                    printf("%s\n",aux->type);
+                }else{
+                    printPontos(nPontos);
+                    printf("%s\n",aux->type);
                 }
             }
             else{
-                printPontos(nPontos);
-                printf("%s\n",aux->type);
+                if(!check){
+                    nPontos -=2;
+                    check=1;
+                }
             }
-
-            if (aux->nodeNext){
-                printTree(aux->nodeNext, nPontos + 2);
-            }
-            
-            if (check==1){
-                check=0;
-                nPontos+=2;
-            }
-            aux=aux->nodeBrother;
         }
+        else{
+            printPontos(nPontos);
+            printf("%s\n",aux->type);
+        }
+
+        if (aux->nodeNext){
+            printTree(aux->nodeNext, nPontos + 2);
+        }
+        
+        if (check==1){
+            check=0;
+            nPontos+=2;
+        }
+        aux=aux->nodeBrother;
     }
+}
 
 
- 
 
-   
+
+
     
 %}
 
@@ -283,7 +283,7 @@ nodeptr DeclarationFunc(nodeptr main,nodeptr typespec, nodeptr declarations){
 
 
 %%
-FunctionsAndDec: FunctionsAndDeclarations                           {$$ = insertNode($1,NULL,"Program");if(treePrint)printTree($$,0); tree=$$;}
+FunctionsAndDec: FunctionsAndDeclarations                           {$$ = insertNode($1,NULL,"Program");if(treePrint)printTree($$,0);tree=$$;}
     ;
 
 FunctionsAndDeclarations: TypeSpec FunctionDeclarator FuctionsAndDecExtra    {joinNodes($1,$2);$$ = checkFuncHelper($1);joinNodes($$, $3);}

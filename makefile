@@ -28,7 +28,7 @@ sinterrors:
 	./uccompiler -e2 <test.txt >output.txt
  
 treeprint:
-	./uccompiler -t <test.txt >output.txt
+	./uccompiler -t <test.txt
 
 debug:
 	gdb ./uccompiler

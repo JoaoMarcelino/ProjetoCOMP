@@ -7,29 +7,45 @@
 
 
 
-tableNode insert(tableNode node, char *name, char *type, char *array[]){
-    tableNode aux = (tableNode)malloc(sizeof(node));
+tableNode insert(tableNode node, char *name, char *type, paramNode paramlist){
+    tableNode aux = (tableNode)malloc(sizeof(nodet));
     int i;
     aux->name = name;
     aux->type = type;
 
-    aux->params = array;
+    aux->paramList = paramlist;
+
     aux->child = NULL;
     aux->next = node;
 
     return aux;
-};
+}
 
 
-void printParam(char *params[], int num){
-    int i;
+paramNode insertParam(paramNode list, char *str){
+    paramNode new = (paramNode)malloc(sizeof(nodep));
+
+    new->name = str;
+    new->next = list;   
+
+    return new;
+}
+
+
+
+void printParam(paramNode list, int num){
+    paramNode aux = list;
+    int i = 0;
     if(num){
        printf("(");
-        for(i=0;i<num;i++){
-            if(i==num)
-                printf("%s",params[i]);
+        while(aux){
+            if(i== 0){
+                printf("%s",aux->name);
+                i =1;
+            }
             else
-                printf("%s,",params[i]);
+                printf(",%s",aux->name);
+            aux= aux->next;
         }
         printf(")"); 
     }
@@ -40,10 +56,10 @@ void printParam(char *params[], int num){
 void printTable(tableNode table){
     tableNode aux = table;
 
+    printf("===== ## Symbol Table =====\n");
     while(aux){
-        printf("===== %% Symbol Table =====\n");
         printf("%s\t%s",aux->name, aux->type);
-        printParam(aux->params,1);
+        printParam(aux->paramList,1);
         printf("\n");
         aux=aux->next;
     }
@@ -52,10 +68,11 @@ void printTable(tableNode table){
 
 
 void globalTable(nodeptr tree){
-    char * var[] = {"int"};
-    char * var2[] = {"void"};
-    tableNode table = insert(NULL,"putchar","int",var);
-    table = insert(table,"getchar","int",var2);
+
+    paramNode pchar = insertParam(NULL,"int");
+    paramNode gchar = insertParam(NULL,"void");
+    tableNode table = insert(NULL,"putchar","int", pchar);
+    table = insert(table,"getchar","int", gchar);
     //analiseTree(tree, table);
     printTable(table);
 };

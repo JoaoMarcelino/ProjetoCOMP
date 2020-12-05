@@ -6,12 +6,20 @@
 #include <string.h>
 #include "functions.h"
 
+typedef struct nodeParam * paramNode;
+typedef struct nodeParam{
+
+    char *name;
+    paramNode next;
+
+}nodep;
+
 typedef struct nodeTable * tableNode;
 typedef struct nodeTable{
 
     char *name;
     char *type;
-    char *params[4];
+    paramNode paramList;
 
     tableNode next;
     tableNode child;
@@ -19,11 +27,13 @@ typedef struct nodeTable{
 
 
 
+
+
 void globalTable(nodeptr);
 void analiseTree(nodeptr , tableNode );
-tableNode insert(tableNode , char *, char *, char *arr[]);
+tableNode insert(tableNode , char *, char *, paramNode);
 void printTable(tableNode);
-void printParam(char *arr[], int );
+void printParam(paramNode, int );
 
 
 #endif
