@@ -30,10 +30,13 @@ typedef struct nodeTable{
 
 
 void globalTable(nodeptr);
-void analiseTree(nodeptr , tableNode );
+
 tableNode insert(tableNode , char *, char *, paramNode);
 void printTable(tableNode);
 void printParam(paramNode, int );
 
+void analiseTree(nodeptr , tableNode );
+void analiseDeclaration(nodeptr, tableNode );
+void analiseDefinition(nodeptr, tableNode );
 
 #endif

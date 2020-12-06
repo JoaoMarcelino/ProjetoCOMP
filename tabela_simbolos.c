@@ -71,20 +71,66 @@ void globalTable(nodeptr tree){
 
     paramNode pchar = insertParam(NULL,"int");
     paramNode gchar = insertParam(NULL,"void");
+    
     tableNode table = insert(NULL,"putchar","int", pchar);
     table = insert(table,"getchar","int", gchar);
-    //analiseTree(tree, table);
+    analiseTree(tree, table);
     printTable(table);
 };
 
+
+
+
+
+void analiseDefinition(nodeptr tree, tableNode table){
+   nodeptr aux = tree;
+    printf("F_DEFINITION\n");
+   
+    /*  TODO LIST 
+    F_DEFINITION
+        Int
+        Id
+        ParamList
+        FuncBody
+    */
+
+    while(aux){
+        printf("\t%s\n",aux->type);
+        aux = aux->nodeBrother;
+    }
+}
+
+void analiseDeclaration(nodeptr tree, tableNode table){
+   nodeptr aux = tree;
+    printf("F_DECLARATION\n");
+
+     /* TODO LIST 
+    F_DECLARATION
+        Char
+        Id
+        ParamList
+    */
+
+    while(aux){
+        printf("\t%s\n",aux->type);
+        aux = aux->nodeBrother;
+    }
+}
 
 void analiseTree(nodeptr tree, tableNode table){
 
     nodeptr aux = tree;
 
+
+
     while(aux){
-        
-        //todo things
+                
+        if (!strcmp(aux->type, "FuncDefinition")){
+            analiseDefinition(aux->nodeNext, table);
+        }
+        else if (!strcmp(aux->type, "FuncDeclaration")){
+            analiseDeclaration(aux->nodeNext, table);
+        }
 
         if (aux->nodeNext){
             analiseTree(aux->nodeNext, table);
@@ -95,4 +141,3 @@ void analiseTree(nodeptr tree, tableNode table){
     }
 
 };
-
