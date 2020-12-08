@@ -11,10 +11,12 @@
 
     TODO:
         alterar tableNode insert de modo a que insira no final da LinkedList        (CHECK)
-        Analisar ParamList e inserir na LinkedList      
+           
         Alterar insertParam de modo a que insira no final da LinkedList             (CHECK)
 
-        PrintTable receber o nome da table quando estiver a ser criada
+        PrintTable receber o nome da table quando estiver a ser criada              (CHECK)
+        
+        Analisar ParamList e inserir na LinkedList   
 
 */
 
