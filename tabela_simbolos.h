@@ -27,12 +27,12 @@ typedef struct nodeTable{
 
 
 
-
+char * fuckC(char *);
 
 void globalTable(nodeptr);
 
 tableNode insert(tableNode , char *, char *, paramNode);
-void printTable(tableNode);
+void printTable(tableNode, char *);
 void printParam(paramNode, int );
 
 tableNode analiseTree(nodeptr , tableNode );

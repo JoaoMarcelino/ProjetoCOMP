@@ -132,6 +132,7 @@ void printPontos(int num){
     }
 }
 
+
 void printTree(nodeptr node, int nPontos){
     nodeptr aux =node;
     int check =0;

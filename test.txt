@@ -1,4 +1,4 @@
-char function(int, char);
+char func(int, char);
 
 int main(void) {
     int a;
