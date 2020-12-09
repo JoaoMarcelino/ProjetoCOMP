@@ -171,6 +171,7 @@ char *fuckC(char *str){
 
 tableNode analiseDeclaration(nodeptr tree, tableNode table){
     nodeptr aux = tree;
+    nodeptr helper = tree;
     tableNode placeholder = (tableNode)malloc(sizeof(nodet));
     int i = 0;
     printf("F_DECLARATION\n");
@@ -191,7 +192,14 @@ tableNode analiseDeclaration(nodeptr tree, tableNode table){
         }else if (i == 3){
 
             //Analise ParamList Falta Fazer Ainda
-            placeholder->paramList = insertParam(NULL,"void");
+            //placeholder->paramList = insertParam(NULL,"void");
+
+            helper = aux->nodeNext;
+
+            while(helper){
+                printf("\t %s\n",helper->nodeNext->type);
+                helper = helper->nodeBrother;
+            }
 
         }
         
