@@ -1,6 +1,6 @@
 char func(int, char);
 
-int main(void) {
+int main(void, int, char) {
     int a;
     return a;
 }

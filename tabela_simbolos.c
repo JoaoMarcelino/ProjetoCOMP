@@ -51,7 +51,7 @@ tableNode insert(tableNode node, char *name, char *type, paramNode paramlist){
 paramNode insertParam(paramNode list, char *str){
     paramNode new = (paramNode)malloc(sizeof(nodep));
     paramNode aux = list;
-
+    
     new->name = str;
     new->next = NULL;   
 
@@ -132,10 +132,17 @@ char *fuckC(char *str){
 
 }
 
+char *analiseParam(nodeptr tree){
+    nodeptr aux = tree;
+    return fuckC(tree->type);
+}
+
+
 
 
  tableNode analiseDefinition(nodeptr tree, tableNode table){
     nodeptr aux = tree;
+    nodeptr helper = tree;
     tableNode placeholder = (tableNode)malloc(sizeof(nodet));
     char str[50];
     int i = 0, j = 0;
@@ -157,8 +164,12 @@ char *fuckC(char *str){
             placeholder->name = aux->id;
         }else if (i == 3){
             //Anlise ParamList Falta Fazer Ainda
-            placeholder->paramList = insertParam(NULL,"void");
-
+            helper = aux->nodeNext;
+            while(helper){
+                strcpy(str,analiseParam(helper->nodeNext));
+                helper = helper->nodeBrother;
+                placeholder->paramList = insertParam(NULL,str);
+            }
         }
         
         printf("\t%s\n",aux->type);
@@ -169,11 +180,14 @@ char *fuckC(char *str){
     return table;
 }
 
+
+
 tableNode analiseDeclaration(nodeptr tree, tableNode table){
     nodeptr aux = tree;
     nodeptr helper = tree;
     tableNode placeholder = (tableNode)malloc(sizeof(nodet));
     int i = 0;
+    char str[50];
     printf("F_DECLARATION\n");
 
      /* TODO LIST 
@@ -198,7 +212,9 @@ tableNode analiseDeclaration(nodeptr tree, tableNode table){
 
             while(helper){
                 printf("\t %s\n",helper->nodeNext->type);
+                strcpy(str,analiseParam(helper->nodeNext));
                 helper = helper->nodeBrother;
+                placeholder->paramList = insertParam(NULL,str);
             }
 
         }

@@ -1,0 +1,16 @@
+F_DECLARATION
+	Char
+	Id
+	 Int
+	 Char
+	ParamList
+F_DEFINITION
+	Int
+	Id
+	ParamList
+	FuncBody
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+func	char(char)
+main	int(char)
