@@ -16,7 +16,6 @@
 tableNode insert(tableNode node, char *name, char *type, paramNode paramlist, tableNode child){
     tableNode new = (tableNode)malloc(sizeof(nodet));
     tableNode aux = node;
-    int i;
 
     new->name = name;
     new->type = type;
@@ -166,11 +165,9 @@ paramNode analiseParam(nodeptr tree){
 
  tableNode analiseDefinition(nodeptr tree, tableNode table){
     nodeptr aux = tree;
-    nodeptr helper = tree;
     tableNode placeholder = (tableNode)malloc(sizeof(nodet));
 
-    char str[50];
-    int i = 0, j = 0;
+    int i = 0;
    
     /*  TODO LIST 
     F_DEFINITION
@@ -203,10 +200,9 @@ paramNode analiseParam(nodeptr tree){
 
 tableNode analiseDeclaration(nodeptr tree, tableNode table){
     nodeptr aux = tree;
-    nodeptr helper = tree;
     tableNode placeholder = (tableNode)malloc(sizeof(nodet));
     int i = 0;
-    char str[50];
+
      /* TODO LIST 
     F_DECLARATION
         Char
