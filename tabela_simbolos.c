@@ -66,27 +66,25 @@ paramNode insertParam(paramNode list, char *str){
         list = new;
     }
 
-    return new;
+    return list;
 }
 
 
 
-void printParam(paramNode list, int num){
+void printParam(paramNode list){
     paramNode aux = list;
     int i = 0;
-    if(num){
-       printf("(");
-        while(aux){
-            if(i== 0){
-                printf("%s",aux->name);
-                i =1;
-            }
-            else
-                printf(",%s",aux->name);
-            aux= aux->next;
+    printf("(");
+    while(aux){
+        if(i== 0){
+            printf("%s",aux->name);
+            i =1;
         }
-        printf(")"); 
+        else
+            printf(",%s",aux->name);
+        aux= aux->next;
     }
+    printf(")"); 
     
 }
 
@@ -97,7 +95,7 @@ void printTable(tableNode table, char * name){
     printf("===== %s Symbol Table =====\n", name);
     while(aux){
         printf("%s\t%s",aux->name, aux->type);
-        printParam(aux->paramList,1);
+        printParam(aux->paramList);
         printf("\n");
         aux=aux->next;
     }
@@ -113,8 +111,10 @@ void globalTable(nodeptr tree){
     tableNode table = insert(NULL,"putchar","int", pchar);
     table = insert(table,"getchar","int", gchar);
     table = analiseTree(tree, table);
+
     printTable(table, "Global");
-};
+
+}
 
 
 char *fuckC(char *str){
@@ -130,11 +130,23 @@ char *fuckC(char *str){
     if (!strcmp(str,"Short"))
         return "short";
 
+    return "NULL";
 }
 
-char *analiseParam(nodeptr tree){
+paramNode analiseParam(nodeptr tree){
     nodeptr aux = tree;
-    return fuckC(tree->type);
+    nodeptr helper;
+    paramNode paramlist = NULL;
+
+    while(aux){
+
+        helper = aux ->nodeNext;
+
+        paramlist = insertParam(paramlist, fuckC(helper->type));
+        aux = aux->nodeBrother;
+    }
+
+    return paramlist;
 }
 
 
@@ -144,6 +156,7 @@ char *analiseParam(nodeptr tree){
     nodeptr aux = tree;
     nodeptr helper = tree;
     tableNode placeholder = (tableNode)malloc(sizeof(nodet));
+
     char str[50];
     int i = 0, j = 0;
     printf("F_DEFINITION\n");
@@ -162,20 +175,17 @@ char *analiseParam(nodeptr tree){
 
         }else if (i == 2){
             placeholder->name = aux->id;
+
         }else if (i == 3){
-            //Anlise ParamList Falta Fazer Ainda
-            helper = aux->nodeNext;
-            while(helper){
-                strcpy(str,analiseParam(helper->nodeNext));
-                helper = helper->nodeBrother;
-                placeholder->paramList = insertParam(NULL,str);
-            }
+            placeholder->paramList = analiseParam(aux->nodeNext);
+
+        }else if (i == 4){
+            ;
         }
         
         printf("\t%s\n",aux->type);
         aux = aux->nodeBrother;
     }
-   
     table = insert(table, placeholder->name, placeholder->type, placeholder->paramList);
     return table;
 }
@@ -201,21 +211,12 @@ tableNode analiseDeclaration(nodeptr tree, tableNode table){
         i++;
         if (i==1){
             placeholder->type = fuckC(aux->type);
+
         }else if (i == 2){
             placeholder->name = aux->id;
+
         }else if (i == 3){
-
-            //Analise ParamList Falta Fazer Ainda
-            //placeholder->paramList = insertParam(NULL,"void");
-
-            helper = aux->nodeNext;
-
-            while(helper){
-                printf("\t %s\n",helper->nodeNext->type);
-                strcpy(str,analiseParam(helper->nodeNext));
-                helper = helper->nodeBrother;
-                placeholder->paramList = insertParam(NULL,str);
-            }
+            placeholder->paramList = analiseParam(aux->nodeNext);
 
         }
         

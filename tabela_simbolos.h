@@ -33,7 +33,7 @@ void globalTable(nodeptr);
 
 tableNode insert(tableNode , char *, char *, paramNode);
 void printTable(tableNode, char *);
-void printParam(paramNode, int );
+void printParam(paramNode);
 
 tableNode analiseTree(nodeptr , tableNode );
 tableNode analiseDefinition(nodeptr, tableNode );
