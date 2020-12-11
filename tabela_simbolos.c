@@ -10,7 +10,7 @@
 /*
 
     TODO:
-
+        ANALISE DE DECLARACOES
 */
 
 tableNode insert(tableNode node, char *name, char *type, paramNode paramlist, tableNode child){
@@ -163,7 +163,7 @@ paramNode analiseParam(nodeptr tree){
 
 
 
- tableNode analiseDefinition(nodeptr tree, tableNode table){
+ tableNode analiseFunctionDefinition(nodeptr tree, tableNode table){
     nodeptr aux = tree;
     tableNode placeholder = (tableNode)malloc(sizeof(nodet));
 
@@ -198,7 +198,7 @@ paramNode analiseParam(nodeptr tree){
 
 
 
-tableNode analiseDeclaration(nodeptr tree, tableNode table){
+tableNode analiseFunctionDeclaration(nodeptr tree, tableNode table){
     nodeptr aux = tree;
     tableNode placeholder = (tableNode)malloc(sizeof(nodet));
     int i = 0;
@@ -229,6 +229,14 @@ tableNode analiseDeclaration(nodeptr tree, tableNode table){
     return table;
 }
 
+
+ tableNode analiseDeclaration(nodeptr tree, tableNode table){
+    nodeptr aux = tree;
+
+    return table;
+ }
+
+
 tableNode analiseTree(nodeptr tree, tableNode table){
 
     nodeptr aux = tree;
@@ -238,12 +246,14 @@ tableNode analiseTree(nodeptr tree, tableNode table){
     while(aux){
                 
         if (!strcmp(aux->type, "FuncDefinition")){
-            table = analiseDefinition(aux->nodeNext, table);
+            table = analiseFunctionDefinition(aux->nodeNext, table);
         }
         else if (!strcmp(aux->type, "FuncDeclaration")){
+            table = analiseFunctionDeclaration(aux->nodeNext, table);
+        }
+        else if (!strcmp(aux->type, "Declaration")){
             table = analiseDeclaration(aux->nodeNext, table);
         }
-
         if (aux->nodeNext){
             table = analiseTree(aux->nodeNext, table);
         }

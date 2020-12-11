@@ -1,5 +1,7 @@
 char func(int, char);
 
+int b;
+
 int main(void, int, char) {
     int a;
     return a;

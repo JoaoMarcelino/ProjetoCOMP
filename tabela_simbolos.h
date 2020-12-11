@@ -36,6 +36,7 @@ void printTable(tableNode, char *);
 void printParam(paramNode);
 
 tableNode analiseTree(nodeptr , tableNode );
-tableNode analiseDefinition(nodeptr, tableNode );
-tableNode analiseDeclaration(nodeptr, tableNode );
+tableNode analiseFunctionDefinition(nodeptr, tableNode );
+tableNode analiseFunctionDeclaration(nodeptr, tableNode );
+tableNode analiseDefinition(nodeptr , tableNode );
 #endif
