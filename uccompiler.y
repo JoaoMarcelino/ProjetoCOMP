@@ -284,7 +284,7 @@ void printTree(nodeptr node, int nPontos){
 
 
 %%
-FunctionsAndDec: FunctionsAndDeclarations                           {$$ = insertNode($1,NULL,"Program");if(treePrint)printTree($$,0);tree=$$;}
+FunctionsAndDec: FunctionsAndDeclarations                           {$$ = insertNode($1,NULL,"Program");tree=$$;}
     ;
 
 FunctionsAndDeclarations: TypeSpec FunctionDeclarator FuctionsAndDecExtra    {joinNodes($1,$2);$$ = checkFuncHelper($1);joinNodes($$, $3);}

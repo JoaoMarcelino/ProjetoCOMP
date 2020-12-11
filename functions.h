@@ -16,4 +16,6 @@ typedef struct node{
 }Node;
 
 
+void printTree(nodeptr , int );
+
 #endif

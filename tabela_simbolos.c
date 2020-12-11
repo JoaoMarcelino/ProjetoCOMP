@@ -10,17 +10,10 @@
 /*
 
     TODO:
-        alterar tableNode insert de modo a que insira no final da LinkedList        (CHECK)
-           
-        Alterar insertParam de modo a que insira no final da LinkedList             (CHECK)
-
-        PrintTable receber o nome da table quando estiver a ser criada              (CHECK)
-        
-        Analisar ParamList e inserir na LinkedList   
 
 */
 
-tableNode insert(tableNode node, char *name, char *type, paramNode paramlist){
+tableNode insert(tableNode node, char *name, char *type, paramNode paramlist, tableNode child){
     tableNode new = (tableNode)malloc(sizeof(nodet));
     tableNode aux = node;
     int i;
@@ -30,7 +23,7 @@ tableNode insert(tableNode node, char *name, char *type, paramNode paramlist){
 
     new->paramList = paramlist;
 
-    new->child = NULL;
+    new->child = child;
     new->next = NULL;
 
     if(aux){
@@ -91,28 +84,47 @@ void printParam(paramNode list){
 
 void printTable(tableNode table, char * name){
     tableNode aux = table;
-
-    printf("===== %s Symbol Table =====\n", name);
+    if (strcmp(name, "Global"))
+        printf("===== Function %s Symbol Table =====\n", name);
+    else
+        printf("===== %s Symbol Table =====\n", name);
     while(aux){
         printf("%s\t%s",aux->name, aux->type);
-        printParam(aux->paramList);
+        if (aux->paramList)
+            printParam(aux->paramList);
         printf("\n");
         aux=aux->next;
     }
+
+    printf("\n");
 }
 
 
 
 void globalTable(nodeptr tree){
-
     paramNode pchar = insertParam(NULL,"int");
     paramNode gchar = insertParam(NULL,"void");
     
-    tableNode table = insert(NULL,"putchar","int", pchar);
-    table = insert(table,"getchar","int", gchar);
+    tableNode table = insert(NULL,"putchar","int", pchar, NULL);
+    table = insert(table,"getchar","int", gchar, NULL);
     table = analiseTree(tree, table);
 
     printTable(table, "Global");
+
+    tableNode aux = table;
+    tableNode helper = table;
+    while(aux){
+        if (aux ->child){
+
+            helper = aux->child;
+            while(helper){
+                printTable(helper, aux->name);
+                helper = helper->child;
+            }
+
+        }
+        aux = aux->next;
+    }
 
 }
 
@@ -159,7 +171,6 @@ paramNode analiseParam(nodeptr tree){
 
     char str[50];
     int i = 0, j = 0;
-    printf("F_DEFINITION\n");
    
     /*  TODO LIST 
     F_DEFINITION
@@ -172,21 +183,19 @@ paramNode analiseParam(nodeptr tree){
         i++;
         if (i==1){
             placeholder->type = fuckC(aux->type);
-
+            placeholder->child = insert(placeholder->child, "return", placeholder->type, NULL, NULL);
         }else if (i == 2){
             placeholder->name = aux->id;
-
+            
         }else if (i == 3){
             placeholder->paramList = analiseParam(aux->nodeNext);
-
         }else if (i == 4){
             ;
         }
-        
-        printf("\t%s\n",aux->type);
+
         aux = aux->nodeBrother;
     }
-    table = insert(table, placeholder->name, placeholder->type, placeholder->paramList);
+    table = insert(table, placeholder->name, placeholder->type, placeholder->paramList, placeholder->child);
     return table;
 }
 
@@ -198,8 +207,6 @@ tableNode analiseDeclaration(nodeptr tree, tableNode table){
     tableNode placeholder = (tableNode)malloc(sizeof(nodet));
     int i = 0;
     char str[50];
-    printf("F_DECLARATION\n");
-
      /* TODO LIST 
     F_DECLARATION
         Char
@@ -219,11 +226,10 @@ tableNode analiseDeclaration(nodeptr tree, tableNode table){
             placeholder->paramList = analiseParam(aux->nodeNext);
 
         }
-        
-        printf("\t%s\n",aux->type);
+
         aux = aux->nodeBrother;
     }
-    table = insert(table, placeholder->name, placeholder->type, placeholder->paramList);
+    table = insert(table, placeholder->name, placeholder->type, placeholder->paramList, NULL);
     return table;
 }
 

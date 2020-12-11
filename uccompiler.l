@@ -42,6 +42,7 @@ reserved	"["|"]"|"--"|"++"|{words}|{moreWords}
 	int LexicalErrors=0;
 	int treePrint=0;
 	int SintaxErrors=0;
+	int Table=0;
 	int yyleng;
 
 	nodeptr tree;
@@ -141,13 +142,27 @@ int main(int argc, char *argv[ ]){
 			SintaxErrors=1;
 			yyparse();
 		}
+
+		else if (!strcmp(argv[1],"-s")){
+			LexicalErrors=1;
+			SintaxErrors=1;
+			Table = 1;
+			yyparse();
+		}
 			
 	}else{
 		LexicalErrors=1;
 		SintaxErrors=1;
 		yyparse();
 	}
-	globalTable(tree);
+	if (Table){
+		globalTable(tree);
+		printTree(tree,0);
+	} 
+	if (treePrint){
+		printTree(tree,0);
+	}
+	
 
 	return 0;
 }

@@ -10,6 +10,8 @@ sint: generate sinterrors
 
 tree: generate treeprint
 
+table: generate tableprint
+
 gdb: generate debug
 
 generate:
@@ -29,6 +31,9 @@ sinterrors:
  
 treeprint:
 	./uccompiler -t <test.txt
+
+tableprint:
+	./uccompiler -s <test.txt
 
 debug:
 	gdb ./uccompiler

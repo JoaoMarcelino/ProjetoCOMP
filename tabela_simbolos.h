@@ -31,7 +31,7 @@ char * fuckC(char *);
 
 void globalTable(nodeptr);
 
-tableNode insert(tableNode , char *, char *, paramNode);
+tableNode insert(tableNode , char *, char *, paramNode , tableNode);
 void printTable(tableNode, char *);
 void printParam(paramNode);
 

@@ -1644,7 +1644,7 @@ yyreduce:
     {
         case 2:
 #line 287 "uccompiler.y" /* yacc.c:1646  */
-    {(yyval.node) = insertNode((yyvsp[0].node),NULL,"Program");if(treePrint)printTree((yyval.node),0);tree=(yyval.node);}
+    {(yyval.node) = insertNode((yyvsp[0].node),NULL,"Program");tree=(yyval.node);}
 #line 1649 "y.tab.c" /* yacc.c:1646  */
     break;
 
