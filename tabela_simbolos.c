@@ -17,6 +17,8 @@ tableNode insert(tableNode node, char *name, char *type, paramNode paramlist, ta
     tableNode new = (tableNode)malloc(sizeof(nodet));
     tableNode aux = node;
 
+    
+
     new->name = name;
     new->type = type;
 
@@ -108,10 +110,12 @@ void globalTable(nodeptr tree){
     table = insert(table,"getchar","int", gchar, NULL);
     table = analiseTree(tree, table);
 
-    printTable(table, "Global");
-
     tableNode aux = table;
     tableNode helper = table;
+
+
+    printTable(table, "Global");
+    
     while(aux){
         if (aux ->child){
 
@@ -164,21 +168,19 @@ paramNode analiseParam(nodeptr tree){
  tableNode analiseDeclaration(nodeptr tree, tableNode table){
     nodeptr aux = tree;
 
+    table = insert(table, aux->nodeBrother->id, fuckC(aux->type), NULL, NULL);
+    
     return table;
  }
 
 tableNode analiseFunctionBody(nodeptr tree, tableNode table){
     nodeptr aux = tree;
-    nodeptr helper;
+    tableNode tableAux = table;
     while(aux){
-        helper = aux->nodeNext;
-        while(helper->nodeBrother){
-            if(strcmp(helper->type, "Declaration")==0){
-                table->child = insert(table->child, helper->nodeNext->nodeBrother->id, fuckC(helper->nodeNext->type), NULL, NULL);
-                table = insert(table, table->name, table->type, table->paramList, table->child);
-            }
-            helper = helper -> nodeBrother;
-        }
+
+        if(strcmp(aux->type, "Declaration") == 0)
+                tableAux = analiseDeclaration(aux->nodeNext,tableAux);
+
         aux = aux->nodeBrother;
     }
     return table;
@@ -209,7 +211,7 @@ tableNode analiseFunctionBody(nodeptr tree, tableNode table){
         }else if (i == 3){
             placeholder->paramList = analiseParam(aux->nodeNext);
         }else if (i == 4){
-            analiseFunctionBody(aux, placeholder);
+            analiseFunctionBody(aux->nodeNext, placeholder->child);
         }
 
         aux = aux->nodeBrother;
@@ -254,7 +256,7 @@ tableNode analiseFunctionDeclaration(nodeptr tree, tableNode table){
 
 tableNode analiseTree(nodeptr tree, tableNode table){
 
-    nodeptr aux = tree;
+    nodeptr aux = tree->nodeNext;
 
 
 
@@ -268,9 +270,6 @@ tableNode analiseTree(nodeptr tree, tableNode table){
         }
         else if (!strcmp(aux->type, "Declaration")){
             table = analiseDeclaration(aux->nodeNext, table);
-        }
-        if (aux->nodeNext){
-            table = analiseTree(aux->nodeNext, table);
         }
 
         aux = aux->nodeBrother;
