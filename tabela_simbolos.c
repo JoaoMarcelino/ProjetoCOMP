@@ -161,6 +161,31 @@ paramNode analiseParam(nodeptr tree){
 }
 
 
+ tableNode analiseDeclaration(nodeptr tree, tableNode table){
+    nodeptr aux = tree;
+
+    return table;
+ }
+
+tableNode analiseFunctionBody(nodeptr tree, tableNode table){
+    nodeptr aux = tree;
+    nodeptr helper;
+    tableNode placeholder = (tableNode)malloc(sizeof(nodet));
+    while(aux){
+        helper = aux->nodeNext;
+        while(helper->nodeBrother){
+            if(strcmp(helper->type, "Declaration")==0 && helper->nodeBrother!=NULL){
+                printf("%s    %s\n", helper->nodeNext->nodeBrother->id,fuckC(helper->nodeNext->type));
+                placeholder->child = insert(placeholder->child, fuckC(helper->nodeNext->type), helper->nodeNext->nodeBrother->id, NULL, NULL);
+                table = insert(table, placeholder->name, placeholder->type, placeholder->paramList, placeholder->child);
+                printf("PLACEHOLDER %s\n", placeholder->child->type);
+            }
+            helper = helper -> nodeBrother;
+        }
+        aux = aux->nodeBrother;
+    }
+    return table;
+}
 
 
  tableNode analiseFunctionDefinition(nodeptr tree, tableNode table){
@@ -187,7 +212,7 @@ paramNode analiseParam(nodeptr tree){
         }else if (i == 3){
             placeholder->paramList = analiseParam(aux->nodeNext);
         }else if (i == 4){
-            ;
+            analiseFunctionBody(aux, placeholder);
         }
 
         aux = aux->nodeBrother;
@@ -228,13 +253,6 @@ tableNode analiseFunctionDeclaration(nodeptr tree, tableNode table){
     table = insert(table, placeholder->name, placeholder->type, placeholder->paramList, NULL);
     return table;
 }
-
-
- tableNode analiseDeclaration(nodeptr tree, tableNode table){
-    nodeptr aux = tree;
-
-    return table;
- }
 
 
 tableNode analiseTree(nodeptr tree, tableNode table){
