@@ -170,15 +170,14 @@ paramNode analiseParam(nodeptr tree){
 tableNode analiseFunctionBody(nodeptr tree, tableNode table){
     nodeptr aux = tree;
     nodeptr helper;
-    tableNode placeholder = (tableNode)malloc(sizeof(nodet));
     while(aux){
         helper = aux->nodeNext;
         while(helper->nodeBrother){
             if(strcmp(helper->type, "Declaration")==0 && helper->nodeBrother!=NULL){
                 printf("%s    %s\n", helper->nodeNext->nodeBrother->id,fuckC(helper->nodeNext->type));
-                placeholder->child = insert(placeholder->child, fuckC(helper->nodeNext->type), helper->nodeNext->nodeBrother->id, NULL, NULL);
-                table = insert(table, placeholder->name, placeholder->type, placeholder->paramList, placeholder->child);
-                printf("PLACEHOLDER %s\n", placeholder->child->type);
+                table->child = insert(table->child, fuckC(helper->nodeNext->type), helper->nodeNext->nodeBrother->id, NULL, NULL);
+                table = insert(table, table->name, table->type, table->paramList, table->child);
+                printf("PLACEHOLDER %s\n", table->child->type);
             }
             helper = helper -> nodeBrother;
         }
