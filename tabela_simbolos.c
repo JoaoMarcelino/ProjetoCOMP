@@ -173,11 +173,9 @@ tableNode analiseFunctionBody(nodeptr tree, tableNode table){
     while(aux){
         helper = aux->nodeNext;
         while(helper->nodeBrother){
-            if(strcmp(helper->type, "Declaration")==0 && helper->nodeBrother!=NULL){
-                printf("%s    %s\n", helper->nodeNext->nodeBrother->id,fuckC(helper->nodeNext->type));
+            if(strcmp(helper->type, "Declaration")==0){
                 table->child = insert(table->child, helper->nodeNext->nodeBrother->id, fuckC(helper->nodeNext->type), NULL, NULL);
                 table = insert(table, table->name, table->type, table->paramList, table->child);
-                printf("PLACEHOLDER %s\n", table->child->type);
             }
             helper = helper -> nodeBrother;
         }
