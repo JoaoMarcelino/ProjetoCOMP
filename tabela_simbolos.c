@@ -31,12 +31,14 @@ tableNode insert(tableNode node, char *name, char *type, paramNode paramlist, ta
     
     while(aux){
         if (!strcmp(aux->name,new->name)){
-            
-            new->next = aux->next;
-            aux->type = new->type;
-            aux->paramList = new->paramList;
-            aux->child = new->child;
-            break;
+
+            if(!aux->child){
+                new->next = aux->next;
+                aux->type = new->type;
+                aux->paramList = new->paramList;
+                aux->child = new->child;
+                 break;
+            }
         }
         else if (!aux->next){
             aux->next = new;

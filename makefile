@@ -33,7 +33,7 @@ treeprint:
 	./uccompiler -t <test.txt
 
 tableprint:
-	./uccompiler -s <test.txt
+	./uccompiler -s <test.txt >output.txt
 
 debug:
 	gdb ./uccompiler 
