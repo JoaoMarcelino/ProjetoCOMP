@@ -51,11 +51,12 @@ tableNode insert(tableNode node, char *name, char *type, paramNode paramlist, ta
 }
 
 
-paramNode insertParam(paramNode list, char *str){
+paramNode insertParam(paramNode list, char *str, char *str2){
     paramNode new = (paramNode)malloc(sizeof(nodep));
     paramNode aux = list;
     
     new->name = str;
+    new->var = str2;
     new->next = NULL;   
 
     
@@ -77,7 +78,13 @@ paramNode insertParam(paramNode list, char *str){
 void printParam(paramNode list){
     paramNode aux = list;
     int i = 0;
-    printf("(");
+    int var = strcmp(list->name,"param");
+    if(var){
+        printf("(");
+    }
+    else
+        printf("\t");
+        
     while(aux){
         if(i== 0){
             printf("%s",aux->name);
@@ -87,7 +94,9 @@ void printParam(paramNode list){
             printf(",%s",aux->name);
         aux= aux->next;
     }
-    printf(")"); 
+    if(var){
+        printf(")");
+    }
     
 }
 
@@ -134,12 +143,18 @@ paramNode analiseParam(nodeptr tree){
     nodeptr aux = tree;
     nodeptr helper;
     paramNode paramlist = NULL;
+    
 
     while(aux){
 
         helper = aux ->nodeNext;
+        if (helper->nodeBrother){
+            paramlist = insertParam(paramlist, fuckC(helper->type), helper->nodeBrother->id);
+        }
+        else
+            paramlist = insertParam(paramlist, fuckC(helper->type), NULL);
 
-        paramlist = insertParam(paramlist, fuckC(helper->type));
+        
         aux = aux->nodeBrother;
     }
 
@@ -173,6 +188,9 @@ tableNode analiseFunctionBody(nodeptr tree, tableNode table){
     nodeptr aux = tree;
     tableNode placeholder = (tableNode)malloc(sizeof(nodet));
 
+    paramNode auxParam;
+    paramNode param = insertParam(NULL, "param", NULL);
+    
     int i = 0;
    
     /*  TODO LIST 
@@ -192,6 +210,15 @@ tableNode analiseFunctionBody(nodeptr tree, tableNode table){
             
         }else if (i == 3){
             placeholder->paramList = analiseParam(aux->nodeNext);
+            auxParam = placeholder->paramList;
+            while(auxParam){
+
+                if(auxParam->var)
+                    placeholder->child = insert(placeholder->child, auxParam->var, auxParam->name, param, NULL);
+                auxParam = auxParam->next;
+            }
+
+
         }else if (i == 4){
             placeholder->child = analiseFunctionBody(aux->nodeNext, placeholder->child);
         }
@@ -265,8 +292,8 @@ tableNode analiseTree(nodeptr tree, tableNode table){
 
 
 void globalTable(nodeptr tree){
-    paramNode pchar = insertParam(NULL,"int");
-    paramNode gchar = insertParam(NULL,"void");
+    paramNode pchar = insertParam(NULL,"int", NULL);
+    paramNode gchar = insertParam(NULL,"void", NULL);
     
     tableNode table = insert(NULL,"putchar","int", pchar, NULL);
     table = insert(table,"getchar","int", gchar, NULL);

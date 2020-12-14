@@ -10,6 +10,7 @@ typedef struct nodeParam * paramNode;
 typedef struct nodeParam{
 
     char *name;
+    char *var;
     paramNode next;
 
 }nodep;

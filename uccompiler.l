@@ -163,7 +163,6 @@ int main(int argc, char *argv[ ]){
 		printTree(tree,0);
 	}
 	
-
 	return 0;
 }
 

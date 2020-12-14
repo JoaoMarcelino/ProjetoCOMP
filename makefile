@@ -36,7 +36,7 @@ tableprint:
 	./uccompiler -s <test.txt
 
 debug:
-	gdb ./uccompiler
+	gdb ./uccompiler 
 
 clean:
 	@echo "Cleaning up..."
