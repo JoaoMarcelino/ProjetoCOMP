@@ -16,9 +16,7 @@
 tableNode insert(tableNode node, char *name, char *type, paramNode paramlist, tableNode child){
     tableNode new = (tableNode)malloc(sizeof(nodet));
     tableNode aux = node;
-
     
-
     new->name = name;
     new->type = type;
 
@@ -26,18 +24,29 @@ tableNode insert(tableNode node, char *name, char *type, paramNode paramlist, ta
 
     new->child = child;
     new->next = NULL;
-
-    if(aux){
-        while(aux->next){
-            aux=aux->next;
+    
+    if (!aux){
+        return new;
+    }
+    
+    while(aux){
+        if (!strcmp(aux->name,new->name)){
+            
+            new->next = aux->next;
+            aux->type = new->type;
+            aux->paramList = new->paramList;
+            aux->child = new->child;
+            break;
         }
-        aux->next = new;
+        else if (!aux->next){
+            aux->next = new;
+            break;
+        }
+            
+        
+        aux = aux->next;
     }
-    else{
-        node = new;
-    }
-   
-
+    
     return node;
 }
 
@@ -102,34 +111,7 @@ void printTable(tableNode table, char * name){
 
 
 
-void globalTable(nodeptr tree){
-    paramNode pchar = insertParam(NULL,"int");
-    paramNode gchar = insertParam(NULL,"void");
-    
-    tableNode table = insert(NULL,"putchar","int", pchar, NULL);
-    table = insert(table,"getchar","int", gchar, NULL);
-    table = analiseTree(tree, table);
 
-    tableNode aux = table;
-    tableNode helper = table;
-
-
-    printTable(table, "Global");
-    
-    while(aux){
-        if (aux ->child){
-
-            helper = aux->child;
-            while(helper){
-                printTable(helper, aux->name);
-                helper = helper->child;
-            }
-
-        }
-        aux = aux->next;
-    }
-
-}
 
 
 char *fuckC(char *str){
@@ -211,12 +193,13 @@ tableNode analiseFunctionBody(nodeptr tree, tableNode table){
         }else if (i == 3){
             placeholder->paramList = analiseParam(aux->nodeNext);
         }else if (i == 4){
-            analiseFunctionBody(aux->nodeNext, placeholder->child);
+            placeholder->child = analiseFunctionBody(aux->nodeNext, placeholder->child);
         }
 
         aux = aux->nodeBrother;
     }
     table = insert(table, placeholder->name, placeholder->type, placeholder->paramList, placeholder->child);
+    
     return table;
 }
 
@@ -277,3 +260,35 @@ tableNode analiseTree(nodeptr tree, tableNode table){
     }
     return table;
 };
+
+
+
+
+void globalTable(nodeptr tree){
+    paramNode pchar = insertParam(NULL,"int");
+    paramNode gchar = insertParam(NULL,"void");
+    
+    tableNode table = insert(NULL,"putchar","int", pchar, NULL);
+    table = insert(table,"getchar","int", gchar, NULL);
+    table = analiseTree(tree, table);
+
+    tableNode aux = table;
+    tableNode helper = table;
+
+
+    printTable(table, "Global");
+
+    while(aux){
+        if (aux ->child){
+            helper = aux->child;
+            while(helper){
+                
+                printTable(helper, aux->name);
+                helper = helper->child;
+            }
+
+        }
+        aux = aux->next;
+    }
+
+}
