@@ -293,7 +293,7 @@ tableNode analiseTree(nodeptr tree, tableNode table){
 
 
 
-void globalTable(nodeptr tree){
+tableNode globalTable(nodeptr tree){
     paramNode pchar = insertParam(NULL,"int", NULL);
     paramNode gchar = insertParam(NULL,"void", NULL);
     
@@ -320,4 +320,72 @@ void globalTable(nodeptr tree){
         aux = aux->next;
     }
 
+    return table;
+
+}
+
+
+
+void printAST(nodeptr node, int nPontos, tableNode table){
+    nodeptr aux =node;
+    tableNode auxTable = table;
+    int check =0;
+
+        while (aux){
+        //printf("%.2d",nPontos);
+        if(aux->id){
+            
+            /*
+                IR BUSCAR OS VALORES A TABELA
+            */
+            
+            printPontos(nPontos);
+            printf("%s(%s)\n",aux->type, aux->id);
+
+        }else if(!strcmp(aux->type,"Else") ){
+            
+        }
+        else if(!strcmp(aux->type,"StatList")){
+            
+            if (needsStatList(aux)){
+                if (check==1){
+                    check=0;
+                    printPontos(nPontos+=2);
+                    printf("%s\n",aux->type);
+                }else{
+                    printPontos(nPontos);
+                    printf("%s\n",aux->type);
+                }
+            }
+            else{
+                if(!check){
+                    nPontos -=2;
+                    check=1;
+                }
+            }
+        }
+        else{
+            printPontos(nPontos);
+            printf("%s\n",aux->type);
+        }
+
+
+        /*
+        CASO AUX->TYPE SEJA FUNCTION DECLARATION IDK 
+        CASO SEJA FUNCTION DEFINITION DAR A TABELA DESSA FUNCAO
+            A TABELA GLOBAL PODERA VIR A SER IMPORTANTE PARA A FUNCTION DEFINITION NAS CALLS
+        CASO SEJA DECLARATION DAR A TABELA GLOBAL
+
+         */
+
+        if (aux->nodeNext){
+            printAST(aux->nodeNext, nPontos + 2, auxTable);
+        }
+        
+        if (check==1){
+            check=0;
+            nPontos+=2;
+        }
+        aux=aux->nodeBrother;
+    }
 }

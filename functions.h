@@ -17,5 +17,7 @@ typedef struct node{
 
 
 void printTree(nodeptr , int );
+void printPontos(int );
+int needsStatList(nodeptr );
 
 #endif

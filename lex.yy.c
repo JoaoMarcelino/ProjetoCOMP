@@ -2206,8 +2206,8 @@ int main(int argc, char *argv[ ]){
 		yyparse();
 	}
 	if (Table){
-		globalTable(tree);
-		printTree(tree,0);
+		tableNode table = globalTable(tree);
+		printAST(tree,0, table);
 	} 
 	if (treePrint){
 		printTree(tree,0);
