@@ -37,8 +37,8 @@ tableNode insert(tableNode node, char *name, char *type, paramNode paramlist, ta
                 aux->type = new->type;
                 aux->paramList = new->paramList;
                 aux->child = new->child;
-                 break;
             }
+            break;
         }
         else if (!aux->next){
             aux->next = new;

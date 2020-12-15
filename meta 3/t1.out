@@ -1,22 +1,35 @@
+Line 4, col 5: Symbol ze already defined
+Line 5, col 6: Conflicting types (got int(void), expected void(int))
+Line 8, col 5: Symbol calhau already defined
+Line 32, col 5: Symbol g already defined
+Line 38, col 7: Conflicting types (got short(short), expected char(int))
+Line 41, col 5: Symbol k already defined
+Line 47, col 5: Symbol z already defined
+Line 50, col 5: Conflicting types (got int(void), expected short(void))
+Line 53, col 8: Conflicting types (got double(void), expected int(int))
+Line 57, col 5: Symbol n already defined
+Line 65, col 5: Symbol hello already defined
+Line 67, col 5: Symbol hello already defined
+Line 72, col 5: Symbol main already defined
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)
 ola	int(int,int)
-a	int(void)
+a	void(int)
 ze	int(int)
-calhau	int
+calhau	int(void)
 main	int(int)
 opa	int(int)
-e	double
+e	int
 f	int(void)
-g	int
+g	int(void)
 h	int(void)
-j	short(short)
+j	char(int)
 k	void(void)
 l	short(int)
 z	int(int)
 x	short(void)
-v	double(void)
+v	int(int)
 n	int(double)
 hello	int(void)
 
@@ -41,9 +54,6 @@ a	int	param
 
 ===== Function x Symbol Table =====
 return	short
-
-===== Function v Symbol Table =====
-return	double
 
 ===== Function n Symbol Table =====
 return	int
@@ -75,7 +85,7 @@ Program
 ........Id(a)
 ....FuncBody
 ......Return
-........IntLit(1)
+........IntLit(1) - int
 ..Declaration
 ....Int
 ....Id(ze)
@@ -103,7 +113,7 @@ Program
 ........Id(a)
 ....FuncBody
 ......Return
-........IntLit(0)
+........IntLit(0) - int
 ..Declaration
 ....Int
 ....Id(opa)
@@ -253,7 +263,7 @@ Program
 ........Void
 ....FuncBody
 ......Return
-........IntLit(1)
+........IntLit(1) - int
 ..Declaration
 ....Int
 ....Id(hello)
