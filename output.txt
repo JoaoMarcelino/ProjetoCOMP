@@ -11,8 +11,10 @@ main	int(void)
 ===== Function main Symbol Table =====
 return	int
 
+/int/ 
 Program
 ..FuncDeclaration
+/int/ 
 ....Int
 ....Id(ola)
 ....ParamList
@@ -21,24 +23,29 @@ Program
 ......ParamDeclaration
 ........Int
 ..FuncDeclaration
+/void/ 
 ....Void
 ....Id(abs)
 ....ParamList
 ......ParamDeclaration
 ........Int
 ..Declaration
+/int/ 
 ....Int
 ....Id(a)
 ....ChrLit('a') - int
 ..Declaration
+/int/ 
 ....Int
 ....Id(b)
 ....IntLit(1) - int
 ..Declaration
+/double/ 
 ....Double
 ....Id(c)
 ....RealLit(1e1) - double
 ..FuncDefinition
+/int/ 
 ....Int
 ....Id(main)
 ....ParamList
@@ -46,10 +53,15 @@ Program
 ........Void
 ....FuncBody
 ......Store - helper
-........Id(b) - int
-........Id(a) - int
+........Id(b)
+ - int
+........Id(a)
+ - int
 ......Store - helper
-........Id(b) - int
+........Id(b)
+ - int
 ........Add - helper
-..........Id(a) - int
-..........Id(c) - double
+..........Id(a)
+ - int
+..........Id(c)
+ - double

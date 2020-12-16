@@ -8,7 +8,7 @@ uc2018279700 João Marcelino
     #include <stdio.h>
     #include <string.h>
     #include "y.tab.h"
-    #include "functions.h"
+    #include "tabela_simbolos.h"
     #define SIZE 100
 
     int yylex(void);
@@ -36,6 +36,7 @@ nodeptr insertNode(nodeptr node, char *id, char *type){
     aux->id = id;
     aux->type= type;
     /* Adicionar no inicio */
+
     aux->nodeBrother= NULL;
     aux->nodeNext= node;
 
