@@ -326,21 +326,63 @@ tableNode globalTable(nodeptr tree){
 
 
 
-void printAST(nodeptr node, int nPontos, tableNode table){
+void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNode local){
     nodeptr aux =node;
-    tableNode auxTable = table;
+    tableNode auxTable = main;
     int check =0;
 
         while (aux){
+        
+        auxTable = main;
+
         //printf("%.2d",nPontos);
-        if(aux->id){
-            
-            /*
-                IR BUSCAR OS VALORES A TABELA
-            */
-            
+
+        if(!strcmp(aux->type,"Store")){
             printPontos(nPontos);
-            printf("%s(%s)\n",aux->type, aux->id);
+            printf("%s - helper\n",aux->type);
+
+
+
+        }else if(!strcmp(aux->type,"Add")){
+            printPontos(nPontos);
+            printf("%s - helper\n",aux->type);
+
+        }
+
+        else if(aux->id){
+            
+            if (!strcmp(aux->type, "IntLit")){
+                printPontos(nPontos);
+                printf("%s(%s) - int\n",aux->type, aux->id);
+
+            }else if (!strcmp(aux->type, "ChrLit")){
+                printPontos(nPontos);
+                printf("%s(%s) - int\n",aux->type, aux->id);
+
+            }else if (!strcmp(aux->type, "RealLit")){
+                printPontos(nPontos);
+                printf("%s(%s) - double\n",aux->type, aux->id);
+            } 
+
+            else if (!helper){
+                printPontos(nPontos);
+                printf("%s(%s)",aux->type, aux->id); 
+                
+                /* TODO: buscar valores a tabela */
+                
+                while(auxTable){
+                    if (!strcmp(auxTable -> name, aux->id)){
+                        printf(" - %s\n", auxTable -> type);
+                        break;
+                    }
+                    auxTable = auxTable -> next;
+                }  
+            }
+            else {
+                printPontos(nPontos);
+                printf("%s(%s)\n",aux->type, aux->id); 
+            }
+            
 
         }else if(!strcmp(aux->type,"Else") ){
             
@@ -379,7 +421,12 @@ void printAST(nodeptr node, int nPontos, tableNode table){
          */
 
         if (aux->nodeNext){
-            printAST(aux->nodeNext, nPontos + 2, auxTable);
+            if (!strcmp(aux->type,"FuncDeclaration")  | !strcmp(aux->type,"FuncDefinition") | !strcmp(aux->type,"Declaration") | !strcmp(aux->type,"ParamDeclaration") ){
+                printAST(aux->nodeNext, aux, nPontos + 2, main, local);
+            }else{
+                printAST(aux->nodeNext, NULL, nPontos + 2, main, local);
+            }
+            
         }
         
         if (check==1){

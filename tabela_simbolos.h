@@ -31,7 +31,7 @@ typedef struct nodeTable{
 char * fuckC(char *);
 
 tableNode globalTable(nodeptr);
-void printAST(nodeptr node, int nPontos, tableNode table);
+void printAST(nodeptr , nodeptr,  int , tableNode , tableNode );
 
 tableNode insert(tableNode , char *, char *, paramNode , tableNode);
 void printTable(tableNode, char *);

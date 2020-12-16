@@ -2,53 +2,13 @@
 putchar	int(int)
 getchar	int(void)
 ola	int(int,int)
-a	int(void)
-ze	int(int)
-calhau	int
-main	int(int)
-opa	int(int)
-e	double
-f	int(void)
-g	int
-h	int(void)
-j	short(short)
-k	void(void)
-l	short(int)
-z	int(int)
-x	short(void)
-v	double(void)
-n	int(double)
-hello	int(void)
-
-===== Function ze Symbol Table =====
-return	int
-a	int	param
+abs	void(int)
+a	int
+b	int
+c	double
+main	int(void)
 
 ===== Function main Symbol Table =====
-return	int
-a	int	param
-
-===== Function k Symbol Table =====
-return	void
-
-===== Function l Symbol Table =====
-return	short
-a	int	param
-
-===== Function z Symbol Table =====
-return	int
-a	int	param
-
-===== Function x Symbol Table =====
-return	short
-
-===== Function v Symbol Table =====
-return	double
-
-===== Function n Symbol Table =====
-return	int
-
-===== Function hello Symbol Table =====
 return	int
 
 Program
@@ -62,219 +22,34 @@ Program
 ........Int
 ..FuncDeclaration
 ....Void
-....Id(a)
+....Id(abs)
 ....ParamList
 ......ParamDeclaration
 ........Int
-..FuncDefinition
-....Int
-....Id(ze)
-....ParamList
-......ParamDeclaration
-........Int
-........Id(a)
-....FuncBody
-......Return
-........IntLit(1)
 ..Declaration
-....Int
-....Id(ze)
-..FuncDeclaration
 ....Int
 ....Id(a)
-....ParamList
-......ParamDeclaration
-........Void
-..FuncDeclaration
-....Int
-....Id(calhau)
-....ParamList
-......ParamDeclaration
-........Void
+....ChrLit('a') - int
 ..Declaration
 ....Int
-....Id(calhau)
+....Id(b)
+....IntLit(1) - int
+..Declaration
+....Double
+....Id(c)
+....RealLit(1e1) - double
 ..FuncDefinition
 ....Int
 ....Id(main)
 ....ParamList
 ......ParamDeclaration
-........Int
-........Id(a)
-....FuncBody
-......Return
-........IntLit(0)
-..Declaration
-....Int
-....Id(opa)
-..FuncDeclaration
-....Int
-....Id(opa)
-....ParamList
-......ParamDeclaration
-........Int
-..Declaration
-....Int
-....Id(e)
-..Declaration
-....Int
-....Id(e)
-..Declaration
-....Double
-....Id(e)
-..Declaration
-....Int
-....Id(f)
-..FuncDeclaration
-....Int
-....Id(f)
-....ParamList
-......ParamDeclaration
-........Void
-..FuncDeclaration
-....Int
-....Id(g)
-....ParamList
-......ParamDeclaration
-........Void
-..Declaration
-....Int
-....Id(g)
-..FuncDeclaration
-....Int
-....Id(h)
-....ParamList
-......ParamDeclaration
-........Void
-..FuncDeclaration
-....Int
-....Id(h)
-....ParamList
-......ParamDeclaration
-........Void
-..FuncDeclaration
-....Char
-....Id(j)
-....ParamList
-......ParamDeclaration
-........Int
-..FuncDeclaration
-....Short
-....Id(j)
-....ParamList
-......ParamDeclaration
-........Short
-..FuncDefinition
-....Void
-....Id(k)
-....ParamList
-......ParamDeclaration
 ........Void
 ....FuncBody
-......Return
-........Null
-..FuncDefinition
-....Int
-....Id(k)
-....ParamList
-......ParamDeclaration
-........Short
-........Id(a)
-....FuncBody
-......Return
-........IntLit(1)
-..Declaration
-....Short
-....Id(l)
-..FuncDefinition
-....Short
-....Id(l)
-....ParamList
-......ParamDeclaration
-........Int
-........Id(a)
-....FuncBody
-..FuncDefinition
-....Int
-....Id(z)
-....ParamList
-......ParamDeclaration
-........Int
-........Id(a)
-....FuncBody
-..Declaration
-....Int
-....Id(z)
-..FuncDefinition
-....Short
-....Id(x)
-....ParamList
-......ParamDeclaration
-........Void
-....FuncBody
-..FuncDeclaration
-....Int
-....Id(x)
-....ParamList
-......ParamDeclaration
-........Void
-..FuncDeclaration
-....Int
-....Id(v)
-....ParamList
-......ParamDeclaration
-........Int
-..FuncDefinition
-....Double
-....Id(v)
-....ParamList
-......ParamDeclaration
-........Void
-....FuncBody
-..FuncDefinition
-....Int
-....Id(n)
-....ParamList
-......ParamDeclaration
-........Double
-....FuncBody
-..FuncDefinition
-....Int
-....Id(n)
-....ParamList
-......ParamDeclaration
-........Double
-....FuncBody
-..FuncDefinition
-....Int
-....Id(hello)
-....ParamList
-......ParamDeclaration
-........Void
-....FuncBody
-......Return
-........IntLit(1)
-..Declaration
-....Int
-....Id(hello)
-..FuncDefinition
-....Int
-....Id(hello)
-....ParamList
-......ParamDeclaration
-........Int
-........Id(a)
-....FuncBody
-......Return
-........IntLit(1)
-..FuncDefinition
-....Int
-....Id(main)
-....ParamList
-......ParamDeclaration
-........Int
-........Id(a)
-....FuncBody
-......Store
-........IntLit(2)
-........IntLit(2)
+......Store - helper
+........Id(b) - int
+........Id(a) - int
+......Store - helper
+........Id(b) - int
+........Add - helper
+..........Id(a) - int
+..........Id(c) - double

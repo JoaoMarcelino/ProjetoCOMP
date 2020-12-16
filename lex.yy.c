@@ -2207,7 +2207,7 @@ int main(int argc, char *argv[ ]){
 	}
 	if (Table){
 		tableNode table = globalTable(tree);
-		printAST(tree,0, table);
+		printAST(tree, NULL, 0, table, NULL);
 	} 
 	if (treePrint){
 		printTree(tree,0);
