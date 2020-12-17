@@ -17,6 +17,10 @@ return	int
 
 Program
 ..FuncDefinition
+===== Function Local Symbol Table =====
+return	int
+a	double	param
+
 ....Int
 ....Id(f1)
 ....ParamList
@@ -43,6 +47,9 @@ Program
 ....Id(d)
 ....RealLit(3.0) - double
 ..FuncDefinition
+===== Function Local Symbol Table =====
+return	int
+
 ....Int
 ....Id(main)
 ....ParamList

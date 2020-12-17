@@ -328,7 +328,6 @@ tableNode globalTable(nodeptr tree){
 void findFirstParam(nodeptr tree, tableNode main, tableNode local){
     nodeptr aux = tree;
     tableNode auxTable = main;
-
     //Percorre a funçao local, como nao encontra procura na Main, se o PRIMEIRO filho for um store, etc chamar outra vez a mesma funçao
     if (strcmp(aux->type,"Store")){
         while(auxTable){
@@ -461,8 +460,20 @@ void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNo
          */
 
         if (aux->nodeNext){
-            if (!strcmp(aux->type,"FuncDeclaration")  | !strcmp(aux->type,"FuncDefinition") | !strcmp(aux->type,"Declaration") | !strcmp(aux->type,"ParamDeclaration") ){
+            if (!strcmp(aux->type,"FuncDeclaration") | !strcmp(aux->type,"Declaration") | !strcmp(aux->type,"ParamDeclaration") ){
                 printAST(aux->nodeNext, aux, nPontos + 2, main, local);
+                
+            }else if (!strcmp(aux->type,"FuncDefinition")) {
+                auxTable = main;
+               
+                while(auxTable){
+                    if (!strcmp(aux->nodeNext->nodeBrother->id, auxTable->name)){
+                        local = auxTable;
+                        break;
+                    }
+                    auxTable = auxTable ->next;
+                }
+                printAST(aux->nodeNext, aux, nPontos + 2, main, local->child);
             }else{
                 printAST(aux->nodeNext, NULL, nPontos + 2, main, local);
             }
