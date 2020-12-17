@@ -5,7 +5,7 @@ ola	int(int,int)
 abs	void(int)
 a	int
 b	int
-c	double
+c	void
 main	int(void)
 
 ===== Function main Symbol Table =====
@@ -35,7 +35,7 @@ Program
 ....Id(b)
 ....IntLit(1) - int
 ..Declaration
-....Double
+....Void
 ....Id(c)
 ....RealLit(1e1) - double
 ..FuncDefinition
@@ -45,11 +45,11 @@ Program
 ......ParamDeclaration
 ........Void
 ....FuncBody
-......Store - helper
+......Store - int
 ........Id(b) - int
 ........Id(a) - int
-......Store - helper
+......Store - int
 ........Id(b) - int
 ........Add - helper
 ..........Id(a) - int
-..........Id(c) - double
+..........Id(c) - void

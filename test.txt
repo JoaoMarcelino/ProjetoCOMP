@@ -3,7 +3,7 @@ void abs(int);
 
 int a = 'a';
 int b = 1;
-double c = 1e1;
+void c = 1e1;
 
 int main(void){
     b = a;

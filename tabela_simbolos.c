@@ -339,9 +339,18 @@ void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNo
 
         if(!strcmp(aux->type,"Store")){
             printPontos(nPontos);
-            printf("%s - helper\n",aux->type);
-
-
+            printf("%s - ",aux->type);
+            //printf("%s",aux->nodeNext->nodeBrother->type);
+             if (strcmp(aux->nodeNext->type,"Add")){
+                while(auxTable){
+                    if (!strcmp(auxTable-> name, aux->nodeNext->id)){
+                        printf("%s", auxTable -> type);
+                        break;
+                    }
+                    auxTable = auxTable -> next;
+                }
+            }
+            printf("\n");
 
         }else if(!strcmp(aux->type,"Add")){
             printPontos(nPontos);
