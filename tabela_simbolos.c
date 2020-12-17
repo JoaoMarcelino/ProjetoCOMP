@@ -325,6 +325,40 @@ tableNode globalTable(nodeptr tree){
 }
 
 
+void findFirstParam(nodeptr tree, tableNode main, tableNode local){
+    nodeptr aux = tree;
+    tableNode auxTable = main;
+
+    //Percorre a funçao local, como nao encontra procura na Main, se o PRIMEIRO filho for um store, etc chamar outra vez a mesma funçao
+    if (strcmp(aux->type,"Store")){
+        while(auxTable){
+            if (!strcmp(auxTable-> name, aux->id)){
+                printf("%s", auxTable -> type);
+                break;
+            }
+            auxTable = auxTable -> next;
+        }
+    }
+}
+
+void findSecondParam(nodeptr tree,tableNode main,tableNode local){
+    nodeptr aux = tree;
+    tableNode auxTable = main;
+
+    
+    //Percorre a funçao local, como nao encontra procura na Main, se o SEGUNDO filho for um store, etc chamar outra vez a mesma funçao
+    if (strcmp(aux->nodeBrother->type,"Store")){
+        while(auxTable){
+            if (!strcmp(auxTable-> name, aux->nodeBrother->id)){
+                printf("%s", auxTable -> type);
+                break;
+            }
+            auxTable = auxTable -> next;
+        }
+    }
+}
+
+
 
 void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNode local){
     nodeptr aux =node;
@@ -336,29 +370,25 @@ void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNo
         auxTable = main;
 
         //printf("%.2d",nPontos);
+        
 
-        if(!strcmp(aux->type,"Store")){
+        if(!strcmp(aux->type,"Store") || !strcmp(aux->type,"Add")){
             printPontos(nPontos);
             printf("%s - ",aux->type);
-            //printf("%s",aux->nodeNext->nodeBrother->type);
-             if (strcmp(aux->nodeNext->type,"Add")){
-                while(auxTable){
-                    if (!strcmp(auxTable-> name, aux->nodeNext->id)){
-                        printf("%s", auxTable -> type);
-                        break;
-                    }
-                    auxTable = auxTable -> next;
-                }
-            }
+
+            findFirstParam(aux ->nodeNext, auxTable, local);
+
             printf("\n");
 
-        }else if(!strcmp(aux->type,"Add")){
+        }else if( !strcmp(aux->type,"Comma")){
             printPontos(nPontos);
-            printf("%s - helper\n",aux->type);
+            printf("%s - ",aux->type);
 
-        }
+            findSecondParam(aux ->nodeNext, auxTable, local);
 
-        else if(aux->id){
+            printf("\n");
+
+        }else if(aux->id){
             
             if (!strcmp(aux->type, "IntLit")){
                 printPontos(nPontos);
@@ -381,11 +411,12 @@ void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNo
                 
                 while(auxTable){
                     if (!strcmp(auxTable -> name, aux->id)){
-                        printf(" - %s\n", auxTable -> type);
+                        printf(" - %s", auxTable -> type);
                         break;
                     }
                     auxTable = auxTable -> next;
-                }  
+                }
+                printf("\n");
             }
             else {
                 printPontos(nPontos);
