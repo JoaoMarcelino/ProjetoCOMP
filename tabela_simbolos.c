@@ -429,6 +429,7 @@ void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNo
     nodeptr aux =node;
     tableNode auxTable = main;
     int check =0;
+    int flag = 0;
 
         while (aux){
         
@@ -475,11 +476,25 @@ void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNo
             else if (!helper){
                 printPontos(nPontos);
                 printf("%s(%s)",aux->type, aux->id); 
-                
+                while(auxTable){
+                    if(strcmp(aux->id,auxTable->name)==0){
+                        printf(" - %s", auxTable->type);
+                        if (auxTable->paramList){
+                            printParam(auxTable->paramList);
+                            printf("\n");
+                            flag =1 ;
+                        }
+                    }
+                    auxTable = auxTable->next;
+                    
+                }
+                               
                 /* TODO: buscar valores a tabela */
-                
-                findFirstParam(aux , main, local);
-                printf("\n");
+                if(flag == 0){
+                    findFirstParam(aux , main, local);
+                    printf("\n");
+                }
+                flag = 0;
             }
             else {
                 printPontos(nPontos);

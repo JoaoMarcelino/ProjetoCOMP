@@ -1,66 +1,36 @@
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)
-f1	int(double)
-a	char
-b	short
-c	int
-d	double
-main	void(void)
-
-===== Function f1 Symbol Table =====
-return	int
-a	double	param
-adcds	short
+main	int(void)
 
 ===== Function main Symbol Table =====
-return	void
+return	int
+i	char
 
 Program
 ..FuncDefinition
 ....Int
-....Id(f1)
-....ParamList
-......ParamDeclaration
-........Double
-........Id(a)
-....FuncBody
-......Return
-........IntLit(0) - int
-......Declaration
-........Short
-........Id(adcds)
-........IntLit(2) - int
-..Declaration
-....Char
-....Id(a)
-....ChrLit('a') - int
-..Declaration
-....Short
-....Id(b)
-....IntLit(2) - int
-..Declaration
-....Int
-....Id(c)
-....IntLit(3) - int
-..Declaration
-....Double
-....Id(d)
-....RealLit(3.0) - double
-..FuncDefinition
-....Void
 ....Id(main)
 ....ParamList
 ......ParamDeclaration
 ........Void
 ....FuncBody
-......Store - char
-........Id(a) - char
-........Id(a) - char
-......Store
-........Sub
-..........Id(b) - short
-..........IntLit(2) - int
-........Add - double
-..........Id(a) - char
-..........Id(d) - double
+......Declaration
+........Char
+........Id(i)
+........ChrLit('A') - int
+......While
+........Le - int
+..........Id(i) - char
+..........ChrLit('Z') - int
+........StatList
+..........Call - int
+............Id(putchar) - int(int)
+............Id(i) - char
+..........Store - char
+............Id(i) - char
+............Add
+..............Id(i) - char
+..............IntLit(1) - int
+......Return
+........IntLit(0) - int
