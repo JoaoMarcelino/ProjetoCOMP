@@ -1,5 +1,6 @@
 int f1(double a){
     return 0;
+    short adcds = 2;
 }
 char a = 'a';
 short b = 2;
@@ -7,6 +8,6 @@ int c = 3;
 double d = 3.0;
 void main(void){
 
-  a =a;
-  a = a + a;
+  a = a;
+  (b - 2) =(a + d) ;
 }

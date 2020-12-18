@@ -11,6 +11,7 @@ main	void(void)
 ===== Function f1 Symbol Table =====
 return	int
 a	double	param
+adcds	short
 
 ===== Function main Symbol Table =====
 return	void
@@ -26,6 +27,10 @@ Program
 ....FuncBody
 ......Return
 ........IntLit(0) - int
+......Declaration
+........Short
+........Id(adcds)
+........IntLit(2) - int
 ..Declaration
 ....Char
 ....Id(a)
@@ -52,8 +57,10 @@ Program
 ......Store - char
 ........Id(a) - char
 ........Id(a) - char
-......Store - char
-........Id(a) - char
-........Add - char
+......Store
+........Sub
+..........Id(b) - short
+..........IntLit(2) - int
+........Add - double
 ..........Id(a) - char
-..........Id(a) - char
+..........Id(d) - double
