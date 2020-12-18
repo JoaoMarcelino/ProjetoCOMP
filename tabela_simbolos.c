@@ -375,6 +375,7 @@ void findSecondParam(nodeptr tree,tableNode main,tableNode local){
         while(auxMain){
             if (!strcmp(auxMain-> name, aux->nodeBrother->id)){
                 printf(" - %s", auxMain -> type);
+                didPrint = 1;
                 break;
             }
             auxMain = auxMain -> next;
