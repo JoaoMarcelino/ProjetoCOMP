@@ -1,66 +1,133 @@
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)
-f1	int(double)
-a	char
-b	short
-c	int
+r	void(double,void)
+s	void(int)
 d	double
-main	void(void)
+f	int(short)
+x	double
+dbl	double(int,double)
+ret	void(void)
 
-===== Function f1 Symbol Table =====
+===== Function f Symbol Table =====
 return	int
-a	double	param
-adcds	short
+i	short	param
 
-===== Function main Symbol Table =====
+===== Function dbl Symbol Table =====
+return	double
+i	int	param
+d	double	param
+
+===== Function ret Symbol Table =====
 return	void
 
 Program
-..FuncDefinition
-....Int
-....Id(f1)
+..FuncDeclaration
+....Void
+....Id(r)
 ....ParamList
 ......ParamDeclaration
 ........Double
-........Id(a)
-....FuncBody
-......Return
-........IntLit(0) - int
-......Declaration
-........Short
-........Id(adcds)
-........IntLit(2) - int
-..Declaration
-....Char
-....Id(a)
-....ChrLit('a') - int
-..Declaration
-....Short
-....Id(b)
-....IntLit(2) - int
-..Declaration
-....Int
-....Id(c)
-....IntLit(3) - int
+......ParamDeclaration
+........Void
+..FuncDeclaration
+....Void
+....Id(s)
+....ParamList
+......ParamDeclaration
+........Int
 ..Declaration
 ....Double
 ....Id(d)
-....RealLit(3.0) - double
+..FuncDefinition
+....Int
+....Id(f)
+....ParamList
+......ParamDeclaration
+........Short
+........Id(i)
+....FuncBody
+......Call - int
+........Id(f) - int
+........Id(d) - double
+......Store - int - undef
+........IntLit(1) - int
+........IntLit(2) - int
+......Minus - void
+........Call - void
+..........Id(s) - void
+..........IntLit(1) - int
+......Store - double
+........Id(d) - double
+........And - int
+..........Call - int
+............Id(f) - int
+............IntLit(1) - int
+..........Id(d) - double
 ..FuncDefinition
 ....Void
-....Id(main)
+....Id(f)
 ....ParamList
 ......ParamDeclaration
 ........Void
 ....FuncBody
-......Store - char
-........Id(a) - char
-........Id(a) - char
-......Store - int
-........Sub - int
-..........Id(b) - short
-..........IntLit(2) - int
-........Add - double
-..........Id(a) - char
-..........Id(d) - double
+..Declaration
+....Double
+....Id(x)
+....Id(y)
+..FuncDefinition
+....Double
+....Id(dbl)
+....ParamList
+......ParamDeclaration
+........Int
+........Id(i)
+......ParamDeclaration
+........Double
+........Id(d)
+....FuncBody
+......Call - void
+........Id(s) - void
+........Id(i) - int
+........Id(d) - double
+......Call - double
+........Id(dbl) - double
+........Call - void
+..........Id(s) - void
+..........Id(i) - int
+........Id(d) - double
+......Call - double
+........Id(dbl) - double
+........Id(i) - int
+......And - int
+........BitWiseOr - int
+..........Ge - int
+............Id(d) - double
+............Id(und3f) - undef
+..........Id(und3f) - undef
+........Mod - int
+..........Id(und3f) - undef
+..........Id(und3f) - undef
+......Add - undef
+........Id(und3f) - undef
+........Id(und3f) - undef
+......Store - double
+........Id(x) - double
+........Add - int - undef
+..........Call - void
+............Id(s) - void
+............Id(i) - int
+..........IntLit(1) - int
+......If
+........Id(x) - double
+........Null
+........Null
+..FuncDefinition
+....Void
+....Id(ret)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+......Return
+........Id(d) - double

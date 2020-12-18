@@ -1,0 +1,117 @@
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+a	int
+main	void(double)
+main2	void(void)
+
+===== Function main Symbol Table =====
+return	void
+v	double	param
+a	int
+b	void
+
+===== Function main2 Symbol Table =====
+return	void
+x	double
+
+Program
+..Declaration
+....Int
+....Id(a)
+..FuncDefinition
+....Void
+....Id(main)
+....ParamList
+......ParamDeclaration
+........Double
+........Id(v)
+....FuncBody
+......Id(v) - double
+......Declaration
+........Int
+........Id(a)
+......Declaration
+........Void
+........Id(b)
+......Store - int
+........Id(a) - int
+........IntLit(1) - int
+......Store - void
+........Id(b) - void
+........IntLit(2) - int
+......Comma - void
+........Id(a) - int
+........Id(b) - void
+......Add - undef
+........Id(a) - int
+........Id(b) - void
+......Sub - undef
+........Id(a) - int
+........Id(b) - void
+......Mul - undef
+........Id(a) - int
+........Id(b) - void
+......Div - undef
+........Id(a) - int
+........Id(b) - void
+......Mod - int
+........Id(a) - int
+........Id(b) - void
+......Or - int
+........Id(a) - int
+........Id(b) - void
+......And - int
+........Id(a) - int
+........Id(b) - void
+......BitWiseAnd - undef
+........Id(a) - int
+........Id(b) - void
+......BitWiseOr - undef
+........Id(a) - int
+........Id(b) - void
+......BitWiseXor - undef
+........Id(a) - int
+........Id(b) - void
+......Eq - int
+........Id(a) - int
+........Id(b) - void
+......Ne - int
+........Id(a) - int
+........Id(b) - void
+......Le - int
+........Id(a) - int
+........Id(b) - void
+......Ge - int
+........Id(a) - int
+........Id(b) - void
+......Lt - int
+........Id(a) - int
+........Id(b) - void
+......Gt - int
+........Id(a) - int
+........Id(b) - void
+......Plus - int
+........Id(a) - int
+......Minus - int
+........Id(a) - int
+......Not - int
+........Id(a) - int
+..FuncDefinition
+....Void
+....Id(main2)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+......Declaration
+........Double
+........Id(x)
+........RealLit(2.0) - double
+......Store - double
+........Id(x) - double
+........Add - undef
+..........Call - void
+............Id(main) - void(double)
+............Id(x) - double
+..........IntLit(1) - int

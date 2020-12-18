@@ -381,6 +381,9 @@ void findFirstParam(nodeptr tree, tableNode main, tableNode local){
             auxMain = auxMain -> next;
         }
     }
+    if (!didPrint){
+        printf(" - undef");
+    }
     
 }
 
@@ -443,6 +446,9 @@ void findSecondParam(nodeptr tree,tableNode main,tableNode local){
             }
             auxMain = auxMain -> next;
         }
+    }
+    if (!didPrint){
+        printf(" - undef");
     }
 
 }
