@@ -351,12 +351,15 @@ void findFirstParam(nodeptr tree, tableNode main, tableNode local){
         
         if (!strcmp(aux->type, "IntLit")){
             printf(" - int");
+            didPrint = 1;
 
         }else if (!strcmp(aux->type, "ChrLit")){
             printf(" - int");
+            didPrint = 1;
 
         }else if (!strcmp(aux->type, "RealLit")){
             printf(" - double");
+            didPrint = 1;
         }
     } 
 
@@ -417,12 +420,15 @@ void findSecondParam(nodeptr tree,tableNode main,tableNode local){
             
             if (!strcmp(auxTree->type, "IntLit")){
                 printf(" - int");
+                didPrint = 1;
 
             }else if (!strcmp(auxTree->type, "ChrLit")){
                 printf(" - int");
+                didPrint = 1;
 
             }else if (!strcmp(auxTree->type, "RealLit")){
                 printf(" - double");
+                didPrint = 1;
             }
         } 
     }
