@@ -57,8 +57,8 @@ Program
 ......Store - char
 ........Id(a) - char
 ........Id(a) - char
-......Store
-........Sub
+......Store - int
+........Sub - int
 ..........Id(b) - short
 ..........IntLit(2) - int
 ........Add - double
