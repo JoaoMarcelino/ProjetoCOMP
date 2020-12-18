@@ -508,8 +508,9 @@ void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNo
                 printf("%s(%s)",aux->type, aux->id); 
                 while(auxTable){
                     if(strcmp(aux->id,auxTable->name)==0){
-                        printf(" - %s", auxTable->type);
+                        
                         if (auxTable->paramList){
+                            printf(" - %s", auxTable->type);
                             printParam(auxTable->paramList);
                             printf("\n");
                             flag =1 ;
@@ -595,4 +596,4 @@ void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNo
         }
         aux=aux->nodeBrother;
     }
-}
+}   
