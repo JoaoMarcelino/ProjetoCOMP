@@ -1,5 +1,5 @@
 int f1(double a){
-return 0;
+    return 0;
 }
 char a = 'a';
 short b = 2;
@@ -189,8 +189,8 @@ if(c^c){}
 if(c^d){}
 if(d^d){}
 if(+a){}
-//if(+b){}
-//if(+c){}
-//if(+d){}
+if(+b){}
+if(+c){}
+if(+d){}
 
 }

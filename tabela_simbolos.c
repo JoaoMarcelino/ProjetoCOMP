@@ -24,14 +24,12 @@ tableNode insert(tableNode node, char *name, char *type, paramNode paramlist, ta
 
     new->child = child;
     new->next = NULL;
-    
     if (!aux){
         return new;
     }
     
     while(aux){
         if (!strcmp(aux->name,new->name)){
-
             if(!aux->child){
                 new->next = aux->next;
                 aux->type = new->type;
@@ -45,10 +43,8 @@ tableNode insert(tableNode node, char *name, char *type, paramNode paramlist, ta
             break;
         }
             
-        
         aux = aux->next;
     }
-    
     return node;
 }
 
@@ -189,6 +185,7 @@ tableNode analiseFunctionBody(nodeptr tree, tableNode table){
  tableNode analiseFunctionDefinition(nodeptr tree, tableNode table){
     nodeptr aux = tree;
     tableNode placeholder = (tableNode)malloc(sizeof(nodet));
+    placeholder->child = NULL;
 
     paramNode auxParam;
     paramNode param = insertParam(NULL, "param", NULL);
