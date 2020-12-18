@@ -17,10 +17,6 @@ return	int
 
 Program
 ..FuncDefinition
-===== Function Local Symbol Table =====
-return	int
-a	double	param
-
 ....Int
 ....Id(f1)
 ....ParamList
@@ -47,9 +43,6 @@ a	double	param
 ....Id(d)
 ....RealLit(3.0) - double
 ..FuncDefinition
-===== Function Local Symbol Table =====
-return	int
-
 ....Int
 ....Id(main)
 ....ParamList
@@ -183,19 +176,19 @@ return	int
 ........Null
 ........Null
 ......If
-........Add - char
+........Add - short
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Add - char
+........Add - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Add - char
+........Add - double
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
@@ -207,13 +200,13 @@ return	int
 ........Null
 ........Null
 ......If
-........Add - short
+........Add - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Add - short
+........Add - double
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
@@ -225,7 +218,7 @@ return	int
 ........Null
 ........Null
 ......If
-........Add - int
+........Add - double
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
@@ -237,907 +230,983 @@ return	int
 ........Null
 ........Null
 ......If
-........Mul
+........Mul - char
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........Mul
+........Mul - short
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Mul
+........Mul - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Mul
+........Mul - double
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Mul
+........Mul - short
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Mul
+........Mul - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Mul
+........Mul - double
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Mul
+........Mul - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Mul
+........Mul - double
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Mul
+........Mul - double
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Sub
+........Sub - char
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........Sub
+........Sub - short
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Sub
+........Sub - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Sub
+........Sub - double
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Sub
+........Sub - short
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Sub
+........Sub - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Sub
+........Sub - double
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Sub
+........Sub - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Sub
+........Sub - double
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Sub
+........Sub - double
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Mod
+........Mod - int
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........Mod
+........Mod - int
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Mod
+........Mod - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Mod
+........Mod - int
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Mod
+........Mod - int
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Mod
+........Mod - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Mod
+........Mod - int
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Mod
+........Mod - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Mod
+........Mod - int
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Mod
+........Mod - int
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Div
+........Div - char
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........Div
+........Div - short
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Div
+........Div - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Div
+........Div - double
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Div
+........Div - short
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Div
+........Div - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Div
+........Div - double
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Div
+........Div - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Div
+........Div - double
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Div
+........Div - double
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Or
+........Or - int
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........Or
+........Or - int
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Or
+........Or - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Or
+........Or - int
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Or
+........Or - int
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Or
+........Or - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Or
+........Or - int
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Or
+........Or - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Or
+........Or - int
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Or
+........Or - int
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........And
+........And - int
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........And
+........And - int
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........And
+........And - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........And
+........And - int
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........And
+........And - int
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........And
+........And - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........And
+........And - int
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........And
+........And - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........And
+........And - int
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........And
+........And - int
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Le
+........Le - int
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........Le
+........Le - int
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Le
+........Le - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Le
+........Le - int
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Le
+........Le - int
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Le
+........Le - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Le
+........Le - int
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Le
+........Le - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Le
+........Le - int
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Le
+........Le - int
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Lt
+........Lt - int
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........Lt
+........Lt - int
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Lt
+........Lt - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Lt
+........Lt - int
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Lt
+........Lt - int
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Lt
+........Lt - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Lt
+........Lt - int
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Lt
+........Lt - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Lt
+........Lt - int
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Lt
+........Lt - int
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Ge
+........Ge - int
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........Ge
+........Ge - int
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Ge
+........Ge - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Ge
+........Ge - int
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Ge
+........Ge - int
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Ge
+........Ge - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Ge
+........Ge - int
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Ge
+........Ge - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Ge
+........Ge - int
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Ge
+........Ge - int
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Gt
+........Gt - int
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........Gt
+........Gt - int
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Gt
+........Gt - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Gt
+........Gt - int
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Gt
+........Gt - int
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Gt
+........Gt - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Gt
+........Gt - int
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Gt
+........Gt - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Gt
+........Gt - int
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Gt
+........Gt - int
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Eq
+........Eq - int
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........Eq
+........Eq - int
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Eq
+........Eq - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Eq
+........Eq - int
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Eq
+........Eq - int
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Eq
+........Eq - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Eq
+........Eq - int
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Eq
+........Eq - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Eq
+........Eq - int
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Eq
+........Eq - int
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Ne
+........Ne - int
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........Ne
+........Ne - int
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Ne
+........Ne - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Ne
+........Ne - int
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Ne
+........Ne - int
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........Ne
+........Ne - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Ne
+........Ne - int
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Ne
+........Ne - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........Ne
+........Ne - int
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Ne
+........Ne - int
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........BitWiseAnd
+........BitWiseAnd - int
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........BitWiseAnd
+........BitWiseAnd - int
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........BitWiseAnd
+........BitWiseAnd - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........BitWiseAnd
+........BitWiseAnd - int
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........BitWiseAnd
+........BitWiseAnd - int
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........BitWiseAnd
+........BitWiseAnd - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........BitWiseAnd
+........BitWiseAnd - int
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........BitWiseAnd
+........BitWiseAnd - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........BitWiseAnd
+........BitWiseAnd - int
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........BitWiseAnd
+........BitWiseAnd - int
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........BitWiseOr
+........BitWiseOr - int
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........BitWiseOr
+........BitWiseOr - int
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........BitWiseOr
+........BitWiseOr - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........BitWiseOr
+........BitWiseOr - int
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........BitWiseOr
+........BitWiseOr - int
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........BitWiseOr
+........BitWiseOr - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........BitWiseOr
+........BitWiseOr - int
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........BitWiseOr
+........BitWiseOr - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........BitWiseOr
+........BitWiseOr - int
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........BitWiseOr
+........BitWiseOr - int
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........BitWiseXor
+........BitWiseXor - int
 ..........Id(a) - char
 ..........Id(a) - char
 ........Null
 ........Null
 ......If
-........BitWiseXor
+........BitWiseXor - int
 ..........Id(a) - char
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........BitWiseXor
+........BitWiseXor - int
 ..........Id(a) - char
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........BitWiseXor
+........BitWiseXor - int
 ..........Id(a) - char
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........BitWiseXor
+........BitWiseXor - int
 ..........Id(b) - short
 ..........Id(b) - short
 ........Null
 ........Null
 ......If
-........BitWiseXor
+........BitWiseXor - int
 ..........Id(b) - short
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........BitWiseXor
+........BitWiseXor - int
 ..........Id(b) - short
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........BitWiseXor
+........BitWiseXor - int
 ..........Id(c) - int
 ..........Id(c) - int
 ........Null
 ........Null
 ......If
-........BitWiseXor
+........BitWiseXor - int
 ..........Id(c) - int
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........BitWiseXor
+........BitWiseXor - int
 ..........Id(d) - double
 ..........Id(d) - double
 ........Null
 ........Null
 ......If
-........Plus
+........Plus - char
 ..........Id(a) - char
 ........Null
 ........Null
+......If
+........Plus - short
+..........Id(b) - short
+........Null
+........Null
+......If
+........Plus - int
+..........Id(c) - int
+........Null
+........Null
+......If
+........Plus - double
+..........Id(d) - double
+........Null
+........Null
+......If
+........Minus - char
+..........Id(a) - char
+........Null
+........Null
+......If
+........Minus - short
+..........Id(b) - short
+........Null
+........Null
+......If
+........Minus - int
+..........Id(c) - int
+........Null
+........Null
+......If
+........Minus - double
+..........Id(d) - double
+........Null
+........Null
+......If
+........Not - int
+..........Id(a) - char
+........Null
+........Null
+......If
+........Not - int
+..........Id(b) - short
+........Null
+........Null
+......If
+........Not - int
+..........Id(c) - int
+........Null
+........Null
+......If
+........Call - int
+..........Id(f1) - int
+........Null
+........Null
+......If
+........Call - int
+..........Id(f1) - int
+..........Id(a) - char
+........Null
+........Null
+......If
+........Call - int
+..........Id(f1) - int
+..........Id(b) - short
+........Null
+........Null
+......If
+........Call - int
+..........Id(f1) - int
+..........Id(a) - char
+..........Id(b) - short
+........Null
+........Null
+......Return
+........IntLit(0) - int

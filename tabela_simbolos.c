@@ -193,6 +193,8 @@ tableNode analiseFunctionBody(nodeptr tree, tableNode table){
     paramNode auxParam;
     paramNode param = insertParam(NULL, "param", NULL);
     
+    placeholder->child = NULL;
+
     int i = 0;
    
     /*  TODO LIST 
@@ -355,6 +357,7 @@ void findSecondParam(nodeptr tree,tableNode main,tableNode local){
             auxTable = auxTable -> next;
         }
     }
+
 }
 
 
@@ -371,7 +374,7 @@ void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNo
         //printf("%.2d",nPontos);
         
 
-        if(!strcmp(aux->type,"Store") || !strcmp(aux->type,"Add")){
+        if(!strcmp(aux->type,"Store")|| !strcmp(aux->type,"Plus")|| !strcmp(aux->type,"Minus")|| !strcmp(aux->type,"Call")){
             printPontos(nPontos);
             printf("%s - ",aux->type);
 
@@ -379,7 +382,7 @@ void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNo
 
             printf("\n");
 
-        }else if( !strcmp(aux->type,"Comma")){
+        }else if( !strcmp(aux->type,"Comma")|| !strcmp(aux->type,"Add") || !strcmp(aux->type,"Mul")|| !strcmp(aux->type,"Sub")|| !strcmp(aux->type,"Div")){
             printPontos(nPontos);
             printf("%s - ",aux->type);
 
@@ -387,7 +390,11 @@ void printAST(nodeptr node, nodeptr helper, int nPontos, tableNode main, tableNo
 
             printf("\n");
 
-        }else if(aux->id){
+        }else if (!strcmp(aux->type, "Mod")|| !strcmp(aux->type,"Or")|| !strcmp(aux->type,"And")|| !strcmp(aux->type,"Le")|| !strcmp(aux->type,"Lt")|| !strcmp(aux->type,"Ge")|| !strcmp(aux->type,"Gt")|| !strcmp(aux->type,"Eq")|| !strcmp(aux->type,"Ne")|| !strcmp(aux->type,"BitWiseAnd")|| !strcmp(aux->type,"BitWiseOr")|| !strcmp(aux->type,"BitWiseXor")|| !strcmp(aux->type,"Not")){
+                printPontos(nPontos);
+                printf("%s - int\n", aux->type);
+            } 
+        else if(aux->id){
             
             if (!strcmp(aux->type, "IntLit")){
                 printPontos(nPontos);
