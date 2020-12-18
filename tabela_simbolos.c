@@ -347,7 +347,20 @@ void findFirstParam(nodeptr tree, tableNode main, tableNode local){
     }else if (!strcmp(aux->type, "Mod")|| !strcmp(aux->type,"Or")|| !strcmp(aux->type,"And")|| !strcmp(aux->type,"Le")|| !strcmp(aux->type,"Lt")|| !strcmp(aux->type,"Ge")|| !strcmp(aux->type,"Gt")|| !strcmp(aux->type,"Eq")|| !strcmp(aux->type,"Ne")|| !strcmp(aux->type,"BitWiseAnd")|| !strcmp(aux->type,"BitWiseOr")|| !strcmp(aux->type,"BitWiseXor")|| !strcmp(aux->type,"Not")){
          printf(" - int");
          didPrint = 1;
-    }
+    }else if(aux->id){
+        
+        if (!strcmp(aux->type, "IntLit")){
+            printf(" - int");
+
+        }else if (!strcmp(aux->type, "ChrLit")){
+            printf(" - int");
+
+        }else if (!strcmp(aux->type, "RealLit")){
+            printf(" - double");
+        }
+    } 
+
+
     if (!didPrint){
         while(auxLocal){
             if (!strcmp(auxLocal-> name, aux->id)){
@@ -367,6 +380,9 @@ void findFirstParam(nodeptr tree, tableNode main, tableNode local){
             }
             auxMain = auxMain -> next;
         }
+    }
+    if (!didPrint){
+        printf(" - undef");
     }
     
 }
@@ -397,7 +413,18 @@ void findSecondParam(nodeptr tree,tableNode main,tableNode local){
         }else if (!strcmp(auxTree->type, "Mod")|| !strcmp(auxTree->type,"Or")|| !strcmp(auxTree->type,"And")|| !strcmp(auxTree->type,"Le")|| !strcmp(auxTree->type,"Lt")|| !strcmp(auxTree->type,"Ge")|| !strcmp(auxTree->type,"Gt")|| !strcmp(auxTree->type,"Eq")|| !strcmp(auxTree->type,"Ne")|| !strcmp(auxTree->type,"BitWiseAnd")|| !strcmp(auxTree->type,"BitWiseOr")|| !strcmp(auxTree->type,"BitWiseXor")|| !strcmp(auxTree->type,"Not")){
             printf(" - int");
             didPrint = 1;
-        }
+        }else if(auxTree->id){
+            
+            if (!strcmp(auxTree->type, "IntLit")){
+                printf(" - int");
+
+            }else if (!strcmp(auxTree->type, "ChrLit")){
+                printf(" - int");
+
+            }else if (!strcmp(auxTree->type, "RealLit")){
+                printf(" - double");
+            }
+        } 
     }
      
     if (!didPrint){
@@ -419,6 +446,9 @@ void findSecondParam(nodeptr tree,tableNode main,tableNode local){
             }
             auxMain = auxMain -> next;
         }
+    }
+    if (!didPrint){
+        printf(" - undef");
     }
 
 }
