@@ -328,9 +328,23 @@ void findFirstParam(nodeptr tree, tableNode main, tableNode local){
     nodeptr aux = tree;
     tableNode auxMain = main;
     tableNode auxLocal = local;
-
-    int didPrint = 0;
     //Percorre a funçao local, como nao encontra procura na Main, se o PRIMEIRO filho for um store, etc chamar outra vez a mesma funçao
+    int didPrint = 0;
+
+    /*
+    if(!strcmp(aux->type,"Store")|| !strcmp(aux->type,"Plus")|| !strcmp(aux->type,"Minus")|| !strcmp(aux->type,"Call")){
+
+        findFirstParam(aux ->nodeNext, auxMain, auxLocal);
+
+    }else if( !strcmp(aux->type,"Comma")|| !strcmp(aux->type,"Add") || !strcmp(aux->type,"Mul")|| !strcmp(aux->type,"Sub")|| !strcmp(aux->type,"Div")){
+
+        findSecondParam(aux ->nodeNext, auxMain, auxLocal);
+
+    }else if (!strcmp(aux->type, "Mod")|| !strcmp(aux->type,"Or")|| !strcmp(aux->type,"And")|| !strcmp(aux->type,"Le")|| !strcmp(aux->type,"Lt")|| !strcmp(aux->type,"Ge")|| !strcmp(aux->type,"Gt")|| !strcmp(aux->type,"Eq")|| !strcmp(aux->type,"Ne")|| !strcmp(aux->type,"BitWiseAnd")|| !strcmp(aux->type,"BitWiseOr")|| !strcmp(aux->type,"BitWiseXor")|| !strcmp(aux->type,"Not")){
+         printf("int");
+    }
+    */
+    
     while(auxLocal){
         if (!strcmp(auxLocal-> name, aux->id)){
             printf(" - %s", auxLocal -> type);
@@ -349,9 +363,6 @@ void findFirstParam(nodeptr tree, tableNode main, tableNode local){
             auxMain = auxMain -> next;
         }
     }
-    if (!didPrint){
-        printf("Todo");
-    }
     
 }
 
@@ -359,12 +370,26 @@ void findSecondParam(nodeptr tree,tableNode main,tableNode local){
     nodeptr aux = tree;
     tableNode auxMain = main;
     tableNode auxLocal = local;
+     //Percorre a funçao local, como nao encontra procura na Main, se o SEGUNDO filho for um store, etc chamar outra vez a mesma funçao
+     /*
+        if (aux->nodeBrother){
+        printf("%s\n", aux->nodeBrother->type);
+        if(!strcmp(aux->nodeBrother->type,"Store")|| !strcmp(aux->nodeBrother->type,"Plus")|| !strcmp(aux->nodeBrother->type,"Minus")|| !strcmp(aux->nodeBrother->type,"Call")){
 
+            findFirstParam(aux ->nodeBrother, auxMain, auxLocal);
+
+        }else if( !strcmp(aux->nodeBrother->type,"Comma")|| !strcmp(aux->nodeBrother->type,"Add") || !strcmp(aux->nodeBrother->type,"Mul")|| !strcmp(aux->nodeBrother->type,"Sub")|| !strcmp(aux->nodeBrother->type,"Div")){
+
+            findSecondParam(aux ->nodeBrother, auxMain, auxLocal);
+
+        }else if (!strcmp(aux->nodeBrother->type, "Mod")|| !strcmp(aux->nodeBrother->type,"Or")|| !strcmp(aux->nodeBrother->type,"And")|| !strcmp(aux->nodeBrother->type,"Le")|| !strcmp(aux->nodeBrother->type,"Lt")|| !strcmp(aux->nodeBrother->type,"Ge")|| !strcmp(aux->nodeBrother->type,"Gt")|| !strcmp(aux->nodeBrother->type,"Eq")|| !strcmp(aux->nodeBrother->type,"Ne")|| !strcmp(aux->nodeBrother->type,"BitWiseAnd")|| !strcmp(aux->nodeBrother->type,"BitWiseOr")|| !strcmp(aux->nodeBrother->type,"BitWiseXor")|| !strcmp(aux->nodeBrother->type,"Not")){
+            printf("int");
+        }
+   
+     */
     int didPrint = 0;
-    
-    //Percorre a funçao local, como nao encontra procura na Main, se o SEGUNDO filho for um store, etc chamar outra vez a mesma funçao
     while(auxLocal){
-        if (!strcmp(auxLocal-> name, aux->id)){
+        if (!strcmp(auxLocal-> name, aux->nodeBrother->id)){
             printf(" - %s", auxLocal -> type);
             didPrint = 1;
             break;
@@ -381,9 +406,8 @@ void findSecondParam(nodeptr tree,tableNode main,tableNode local){
             auxMain = auxMain -> next;
         }
     }
-    if (!didPrint){
-        printf("Todo");
-    }
+
+    
 }
 
 

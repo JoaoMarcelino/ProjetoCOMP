@@ -41,4 +41,8 @@ tableNode analiseTree(nodeptr , tableNode );
 tableNode analiseFunctionDefinition(nodeptr, tableNode );
 tableNode analiseFunctionDeclaration(nodeptr, tableNode );
 tableNode analiseDefinition(nodeptr , tableNode );
+
+void findFirstParam(nodeptr , tableNode , tableNode );
+void findSecondParam(nodeptr , tableNode , tableNode );
+
 #endif
