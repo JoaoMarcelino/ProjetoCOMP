@@ -1,3 +1,32 @@
+Line 14, col 6: Conflicting types (got char(void), expected int)
+Line 15, col 4: Operator = cannot be applied to types int, double
+Line 16, col 4: Operator = cannot be applied to types int, char(void)
+Line 17, col 2: Symbol f is not a function
+Line 18, col 2: Wrong number of arguments to function ola (got 1, required 0)
+Line 19, col 6: Unknown symbol j
+Line 19, col 2: Wrong number of arguments to function ola (got 1, required 0)
+Line 22, col 9: Unknown symbol e
+Line 22, col 11: Operator || cannot be applied to types undef, char
+Line 22, col 25: Operator || cannot be applied to types int, double
+Line 24, col 10: Operator = cannot be applied to types void(void), void
+Line 28, col 2: Unknown symbol q
+Line 28, col 6: Unknown symbol r
+Line 28, col 4: Operator = cannot be applied to types undef, undef
+Line 29, col 6: Unknown symbol r
+Line 29, col 4: Operator = cannot be applied to types int, undef
+Line 29, col 2: Lvalue required
+Line 30, col 4: Operator = cannot be applied to types int, int(void)
+Line 41, col 4: Operator = cannot be applied to types short, double
+Line 44, col 3: Operator + cannot be applied to types short, int(void)
+Line 45, col 4: Operator % cannot be applied to types short, int(void)
+Line 47, col 19: Operator * cannot be applied to types int(void), int
+Line 47, col 12: Operator - cannot be applied to types short, undef
+Line 47, col 4: Operator = cannot be applied to types short, undef
+Line 50, col 8: Operator | cannot be applied to types double, int
+Line 51, col 4: Operator & cannot be applied to types double, int
+Line 52, col 4: Operator | cannot be applied to types double, int
+Line 53, col 4: Operator | cannot be applied to types double, void
+Line 57, col 8: Operator > cannot be applied to types void(void), int
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)
@@ -64,11 +93,11 @@ Program
 ......Declaration
 ........Int
 ........Id(d)
-........Id(ola)
+........Id(ola) - char(void)
 ......Store - int
 ........Id(f) - int
 ........RealLit(4.5) - double
-......Store - int
+......Store - undef
 ........Id(f) - int
 ........Id(ola) - char(void)
 ......Call - int
@@ -94,7 +123,7 @@ Program
 ..........StatList
 ............Call - int
 ..............Id(main) - int(void)
-............Store - void
+............Store - undef
 ..............Id(adeus) - void(void)
 ..............Call - void
 ................Id(adeus) - void(void)
@@ -105,7 +134,7 @@ Program
 ......Store - int
 ........IntLit(2) - int
 ........Id(r) - undef
-......Store - int
+......Store - undef
 ........Id(a) - int
 ........Id(v) - int(void)
 ......Store - int
@@ -140,27 +169,24 @@ Program
 ........Id(t) - short
 ........RealLit(3.4) - double
 ......Add - double
-........Add - double
-..........Sub - double
-............Add - double
-..............Id(t) - short
-..............RealLit(2.3) - double
-............Id(t) - short
-..........Mod - int
-............Mul - int
-..............Id(main) - int(void)
-..............Id(t) - short
-............Id(main) - int(void)
-........Div - double
-..........Id(t) - short
-..........RealLit(0.0) - double
+........Id(t) - short
+........RealLit(2.3) - double
+......Add - undef
+........Id(t) - short
+........Id(main) - int(void)
+......Mod - int
+........Id(t) - short
+........Id(main) - int(void)
+......Div - double
+........Id(t) - short
+........RealLit(0.0) - double
 ......Store - short
 ........Id(t) - short
-........Sub - int
+........Sub - undef
 ..........Add - short
 ............Id(t) - short
 ............Id(t) - short
-..........Mul - int
+..........Mul - undef
 ............Id(main) - int(void)
 ............ChrLit('3') - int
 ......Mul - int

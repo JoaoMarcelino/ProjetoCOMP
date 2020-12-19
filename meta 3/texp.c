@@ -40,7 +40,10 @@ int main(void){
  short t;
  t = 3.4;
  //t = '\987';
- t + 2.3 - t+main * t % main + t / 0.0;
+ t + 2.3;
+ t+main;
+ t % main;
+ t / 0.0;
  t = t + t - main * '3';
  '3' * 4;
  double p;

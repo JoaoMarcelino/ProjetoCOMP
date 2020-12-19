@@ -42,7 +42,7 @@ tableNode analiseFunctionDefinition(nodeptr, tableNode );
 tableNode analiseFunctionDeclaration(nodeptr, tableNode );
 tableNode analiseDefinition(nodeptr , tableNode );
 
-void findFirstParam(nodeptr , tableNode , tableNode );
-void findSecondParam(nodeptr , tableNode , tableNode );
+char *findFirstParam(nodeptr , tableNode , tableNode );
+char *findSecondParam(nodeptr , tableNode , tableNode );
 
 #endif
