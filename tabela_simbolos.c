@@ -437,7 +437,7 @@ char *findSecondParam(nodeptr tree,tableNode main,tableNode local){
         
         }else if( !strcmp(auxTree->type,"Comma")){
 
-            return findSecondParam(aux ->nodeNext, auxMain, auxLocal);
+            return findSecondParam(auxTree ->nodeNext, auxMain, auxLocal);
             //printf("int4 %s",auxTree->nodeNext->type);
             
 
