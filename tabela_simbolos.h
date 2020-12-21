@@ -28,7 +28,7 @@ typedef struct nodeTable{
 
 
 
-char * fuckC(char *);
+char * changeChars(char *);
 
 tableNode globalTable(nodeptr);
 void printAST(nodeptr , nodeptr,  int , tableNode , tableNode );

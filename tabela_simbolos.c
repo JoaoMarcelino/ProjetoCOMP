@@ -121,7 +121,7 @@ void printTable(tableNode table, char * name){
 
 
 
-char *fuckC(char *str){
+char *changeChars(char *str){
 
     if (!strcmp(str,"Char"))
         return "char";
@@ -147,10 +147,10 @@ paramNode analiseParam(nodeptr tree){
 
         helper = aux ->nodeNext;
         if (helper->nodeBrother){
-            paramlist = insertParam(paramlist, fuckC(helper->type), helper->nodeBrother->id);
+            paramlist = insertParam(paramlist, changeChars(helper->type), helper->nodeBrother->id);
         }
         else
-            paramlist = insertParam(paramlist, fuckC(helper->type), NULL);
+            paramlist = insertParam(paramlist, changeChars(helper->type), NULL);
 
         
         aux = aux->nodeBrother;
@@ -163,7 +163,7 @@ paramNode analiseParam(nodeptr tree){
  tableNode analiseDeclaration(nodeptr tree, tableNode table){
     nodeptr aux = tree;
 
-    table = insert(table, aux->nodeBrother->id, fuckC(aux->type), NULL, NULL);
+    table = insert(table, aux->nodeBrother->id, changeChars(aux->type), NULL, NULL);
     
     return table;
  }
@@ -204,7 +204,7 @@ tableNode analiseFunctionBody(nodeptr tree, tableNode table){
     while(aux){
         i++;
         if (i==1){
-            placeholder->type = fuckC(aux->type);
+            placeholder->type = changeChars(aux->type);
             placeholder->child = insert(placeholder->child, "return", placeholder->type, NULL, NULL);
         }else if (i == 2){
             placeholder->name = aux->id;
@@ -248,7 +248,7 @@ tableNode analiseFunctionDeclaration(nodeptr tree, tableNode table){
      while(aux){
         i++;
         if (i==1){
-            placeholder->type = fuckC(aux->type);
+            placeholder->type = changeChars(aux->type);
 
         }else if (i == 2){
             placeholder->name = aux->id;
