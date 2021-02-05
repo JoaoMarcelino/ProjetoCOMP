@@ -1,0 +1,59 @@
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+global	int
+f	int(int,int)
+main	int(void)
+
+===== Function f Symbol Table =====
+return	int
+a	int	param
+b	int	param
+y	int
+
+===== Function main Symbol Table =====
+return	int
+x	int
+
+Program
+..Declaration
+....Int
+....Id(global)
+..FuncDeclaration
+....Int
+....Id(f)
+....ParamList
+......ParamDeclaration
+........Int
+......ParamDeclaration
+........Int
+..FuncDefinition
+....Int
+....Id(main)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+......Declaration
+........Int
+........Id(x)
+........Call - int
+..........Id(f) - int(int,int)
+..........IntLit(5) - int
+..........IntLit(6) - int
+..FuncDefinition
+....Int
+....Id(f)
+....ParamList
+......ParamDeclaration
+........Int
+........Id(a)
+......ParamDeclaration
+........Int
+........Id(b)
+....FuncBody
+......Declaration
+........Int
+........Id(y)
+......Return
+........Id(global) - int
